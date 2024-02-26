@@ -1,4 +1,3 @@
-![Okuna](https://i.ibb.co/x6kTB7W/communities-snapshot-rounded.png "Okuna")
 
 # okuna-web
 
