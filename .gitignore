@@ -1,0 +1,18 @@
+# dependencies
+node_modules
+
+# logs
+npm-debug.log
+
+# Nuxt build
+.nuxt
+
+# Nuxt generate
+dist
+/.idea/vcs.xml
+/.idea/workspace.xml
+.DS_Store
+/.env
+/.prod.env
+/.dev.env
+/.idea/compiler.xml

@@ -1,0 +1,60 @@
+$normalSize: 0.75em;
+
+.material-design-icon.is-icon-2x {
+  height: $normalSize * 2 !important;
+  width: $normalSize * 2 !important;
+}
+
+.material-design-icon.is-icon-2x > .material-design-icon__svg {
+  height: $normalSize * 2 !important;
+  width: $normalSize * 2 !important;
+}
+
+
+.is-icon-2x{
+  position: relative;
+  top: -2px;
+}
+
+.material-design-icon.is-icon-2n5x {
+  height: $normalSize * 2.5 !important;
+  width: $normalSize * 2.5 !important;
+}
+
+.material-design-icon.is-icon-2n5x > .material-design-icon__svg {
+  height: $normalSize * 2.5 !important;
+  width: $normalSize * 2.5 !important;
+}
+
+
+.material-design-icon.is-icon-3x {
+  height: $normalSize * 3 !important;
+  width: $normalSize * 3 !important;
+}
+
+.material-design-icon.is-icon-3x > .material-design-icon__svg {
+  height: $normalSize * 3 !important;
+  width: $normalSize * 3 !important;
+}
+
+
+.is-icon-3x{
+  position: relative;
+  top: -2px;
+}
+
+.material-design-icon.is-icon-5x {
+    height: $normalSize * 5 !important;
+    width: $normalSize * 5 !important;
+}
+
+.material-design-icon.is-icon-5x > .material-design-icon__svg {
+    height: $normalSize * 5 !important;
+    width: $normalSize * 5 !important;
+}
+
+
+.is-icon-5x{
+    position: relative;
+    top: -2px;
+}

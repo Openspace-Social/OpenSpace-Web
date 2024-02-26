@@ -1,0 +1,133 @@
+@import "~bulma/sass/utilities/initial-variables";
+@import "~bulma/sass/utilities/functions";
+
+$primary: $black-bis;
+$primary-invert: white;
+$link: $black;
+$link-visited: $black-ter;
+$card-shadow: 'none';
+$family-primary: 'Nunito Sans', sans-serif;
+
+$navbar-height: 4.25rem !default$box-shadow: 0 12px 15px rgba(0, 0, 0, 0.1), 0 17px 50px rgba(0, 0, 0, 0.1);
+
+$box-shadow: 0 12px 15px rgba(0, 0, 0, 0.1), 0 17px 50px rgba(0, 0, 0, 0.1);
+
+
+.has-navbar-fixed-top-desktop {
+  @include for-size(desktop-up) {
+    padding-top: $navbar-height;
+  }
+
+}
+
+.has-navbar-fixed-top-tablet {
+  @include for-size(tablet-portrait-up) {
+    padding-top: $navbar-height;
+  }
+
+}
+
+.has-navbar-fixed-bottom-mobile {
+  @include for-size(phone-only) {
+    padding-bottom: $navbar-height;
+  }
+}
+
+@import "~bulma/bulma";
+@import "~bulma-helpers/bulma-helpers";
+
+.card {
+  border-radius: 10px;
+  background: none;
+  box-shadow: none;
+}
+
+.card-footer {
+  border-top: none;
+}
+
+.card-header {
+  box-shadow: none;
+}
+
+.input {
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.navbar-item {
+  &:hover, &:focus {
+    background-color: transparent !important;
+  }
+}
+
+.card-content {
+  padding: 1rem !important;
+}
+
+.dropdown-content {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+.menu-list a:hover {
+  background-color: inherit;
+  color: inherit;
+}
+
+// BULMA OVERRIDES
+
+.card-header {
+  box-shadow: 0 1px 2px var(--primary-highlight-color-color) !important;
+}
+
+.card-footer {
+  //box-shadow: 0 1px 2px var(--primary-highlight-color) !important;
+}
+
+.dropdown-content {
+  background-color: var(--primary-color) !important;
+}
+
+.dropdown-item {
+  background-color: var(--primary-highlight-color) !important;
+  color: var(--primary-invert-color) !important;
+}
+
+.b-checkbox.checkbox input[type="checkbox"] + .check {
+  border: 2px solid var(--primary-invert-color)  !important;
+}
+
+.b-checkbox.checkbox:hover input[type="checkbox"]:not(:disabled) + .check {
+  border: 2px solid var(--primary-invert-color)  !important;
+}
+
+.b-checkbox.checkbox input[type="checkbox"]:checked + .check {
+  border-color: var(--accent-gradient-begin) !important;
+  background: var(--accent-gradient-begin)  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3Cpath style='fill:white' d='M 0.04038059,0.6267767 0.14644661,0.52071068 0.42928932,0.80355339 0.3232233,0.90961941 z M 0.21715729,0.80355339 0.85355339,0.16715729 0.95961941,0.2732233 0.3232233,0.90961941 z'%3E%3C/path%3E%3C/svg%3E") no-repeat center center !important;
+}
+
+.button.is-text{
+  color: var(--primary-invert-color) !important;
+
+  &:hover{
+    background: var(--primary-highlight-color) !important;
+    color: var(--primary-invert-color) !important;
+  }
+}
+
+
+strong, h1, h2, h3, h4, h5{
+  color: inherit !important;
+}
+
+.content blockquote{
+  background: var(--primary-highlight-color);
+  color: var(--primary-invert-color)
+}
+
+a {
+  &:hover{
+    color: inherit;
+  }
+}

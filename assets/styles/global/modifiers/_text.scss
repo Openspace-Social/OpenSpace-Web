@@ -1,0 +1,45 @@
+.has-line-height-120 {
+  line-height: 120% !important;
+}
+
+.has-text-overflow-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.has-text-underline {
+  text-decoration: underline;
+}
+
+.has-no-text-decoration{
+  text-decoration: unset !important;
+}
+
+
+.has-text-logo {
+  font-family: CocogooseProSemilight, sans-serif !important
+}
+
+.has-text-rounded {
+  font-family: VisbyRoundCF, sans-serif;
+}
+
+.has-no-hover-text-decoration {
+  &:hover {
+    text-decoration: none !important;
+  }
+}
+
+.has-no-hover-text-color {
+  &:hover {
+    color: inherit !important;
+  }
+}
+
+.has-preserved-whitespace {
+  white-space: pre-wrap;
+}
+
+.is-size-8 {
+  font-size: 0.50rem;
+}

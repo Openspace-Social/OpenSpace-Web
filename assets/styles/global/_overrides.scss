@@ -1,0 +1,54 @@
+a {
+  color: inherit;
+
+  &:hover, &:focus {
+    text-decoration: none !important;
+  }
+}
+
+html {
+  height: 100%;
+  display: flex;
+}
+
+body {
+  margin: 0;
+  flex: 1;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+}
+
+.tooltip{
+  z-index: 999;
+}
+
+.tabs ul, .tabs a{
+  border-bottom: none !important;
+}
+
+.tabs li.is-active a{
+  // Border color bottom primary invert
+}
+
+.tabs a {
+  padding: 0;
+  &:hover{
+    text-decoration: none !important;
+  }
+}
+
+.popper{
+  box-shadow: none !important;
+}
