@@ -1,7 +1,7 @@
 
-# okuna-web
+# Openspace-web
 
-Okuna is coming to the web.
+Openspace is coming to the web.
 
 ## Table of contents
 
@@ -22,7 +22,7 @@ Okuna is coming to the web.
 
 The project is a [Nuxt](https://nuxtjs.org/) application.
  
-It's dependent on the [okuna-api](https://github.com/OkunaOrg/okuna-api) backend, be it whether you host your own or use the Okuna backend at https://api.openbook.social/
+It's dependent on the [Openspace-API](https://github.com/Openspace-Social/OpenSpace-API) backend, be it whether you host your own or use the Openspace backend at https://api.openbook.social/
 
 ## Contributing
 
@@ -38,22 +38,22 @@ Examples of contributions we love include:
 
 #### Code of Conduct
 
-Please read and follow our [Code of Conduct](https://github.com/OkunaOrg/okuna-app/blob/master/CODE_OF_CONDUCT.md).
+Please read and follow our [Code of Conduct].
 
 #### License
 
 Every contribution accepted is licensed under [MIT](https://opensource.org/licenses/MIT) or any later version.
 You must be careful to not include any code that can not be licensed under this license.
 
-Please read carefully [our license](https://github.com/OkunaOrg/okuna-app/blob/master/LICENSE.txt) and ask us if you have any questions.
+Please read carefully [our license]and ask us if you have any questions.
 
 #### Responsible disclosure
 
-Cyber-hero? Check out our [Vulnerability Disclosure page](https://www.okuna.io/en/vulnerability-report).
+Cyber-hero? Check out our [Vulnerability Disclosure page].
 
 #### Other issues
 
-We're available almost 24/7 in the Okuna slack channel. [Join us!](https://join.slack.com/t/okuna/shared_invite/enQtNDI2NjI3MDM0MzA2LTYwM2E1Y2NhYWRmNTMzZjFhYWZlYmM2YTQ0MWEwYjYyMzcxMGI0MTFhNTIwYjU2ZDI1YjllYzlhOWZjZDc4ZWY)
+email admin@openspacelive.com for any issues
 
 #### Git commit message conventions
 
