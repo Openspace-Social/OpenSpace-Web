@@ -1,6 +1,6 @@
 {
-  "name": "okuna-web",
-  "description": "The Okuna social network web version",
+  "name": "openspace-web",
+  "description": "The Openspace social network web version",
   "version": "2.10.0",
   "private": true,
   "dependencies": {
