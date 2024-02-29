@@ -12,7 +12,9 @@ dist
 /.idea/vcs.xml
 /.idea/workspace.xml
 .DS_Store
-/.env
+# /.env
 /.prod.env
 /.dev.env
 /.idea/compiler.xml
+
+dist/

@@ -118,12 +118,12 @@ export default {
         '~/plugins/v-clipboard'
     ],
     router: {
-        base: '/app/',
+        base: '/',
         middleware: ['post-redirect'],
         //mode: 'hash',
     },
     i18n: {
-        baseUrl: 'https://okuna.io',
+        baseUrl: 'https://openspace.social',
 
         lazy: true,
 
@@ -192,7 +192,7 @@ export default {
     },
     generate: {
         routes: [
-            '/app/'
+            '/'
         ],
     }
 }
