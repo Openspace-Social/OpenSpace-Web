@@ -123,7 +123,7 @@ export default {
         //mode: 'hash',
     },
     i18n: {
-        baseUrl: 'https://okuna.io',
+        baseUrl: 'https://web.openspace.social/',
 
         lazy: true,
 
@@ -169,7 +169,7 @@ export default {
     },
     proxy: {
         '/local/': {target: 'https://api.openspace.social', pathRewrite: {'^/local/': ''}},
-        '/contentproxy': {target: 'http://api.openspace.social/api', pathRewrite: {'^/contentproxy': ''}},
+        '/contentproxy': {target: 'https://api.openspace.social/api', pathRewrite: {'^/contentproxy': ''}},
         '/www/': {target: 'https://www.openspace.social', pathRewrite: {'^/www/': ''}},
     },
     styleResources: {

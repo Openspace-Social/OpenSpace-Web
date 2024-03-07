@@ -2,7 +2,7 @@ export default {
     "name": "Openspace",
     "pages": {
         "auth": {
-            "title": "Social networking, done ethically.",
+            "title": "Community drive social media, done ethically.",
             "usps": {
                 "friends": "Meet new friends and discover interests by joining or hosting communities.",
                 "privacy": "Browse your social feed with ease, knowing that we don't track or monitor what you do.",

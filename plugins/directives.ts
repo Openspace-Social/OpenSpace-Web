@@ -7,7 +7,7 @@ Vue.directive('twemoji', {
         element.innerHTML = twemoji.parse(element.innerText, {
             folder: 'twemoji',
             ext: '.svg',
-            base: '/app/'
+            base: '/'
         });
     }
 });
