@@ -39,7 +39,7 @@ export default {
     mode: 'spa',
     env: frontendEnvVars,
     head: {
-        title: 'Openspace',
+        title: 'Web.Openspace.Social',
         script: [
           {
             src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
@@ -118,7 +118,7 @@ export default {
         '~/plugins/v-clipboard'
     ],
     router: {
-        base: '/app/',
+        base: '/',
         middleware: ['post-redirect'],
         //mode: 'hash',
     },
