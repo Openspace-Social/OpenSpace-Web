@@ -118,12 +118,12 @@ export default {
         '~/plugins/v-clipboard'
     ],
     router: {
-        base: '/app/',
+        base: '/',
         middleware: ['post-redirect'],
         //mode: 'hash',
     },
     i18n: {
-        baseUrl: 'https://okuna.io',
+        baseUrl: 'https://web.openspace.socail',
 
         lazy: true,
 
@@ -169,7 +169,7 @@ export default {
     },
     proxy: {
         '/local/': {target: 'https://api.openspace.social', pathRewrite: {'^/local/': ''}},
-        '/contentproxy': {target: 'http://api.openspace.social/api', pathRewrite: {'^/contentproxy': ''}},
+        '/contentproxy': {target: 'https://api.openspace.social/api', pathRewrite: {'^/contentproxy': ''}},
         '/www/': {target: 'https://www.openspace.social', pathRewrite: {'^/www/': ''}},
     },
     styleResources: {
