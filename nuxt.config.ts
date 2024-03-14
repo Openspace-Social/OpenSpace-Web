@@ -41,11 +41,11 @@ export default {
     head: {
         title: 'Web.Openspace.Social',
         script: [
-          {
-            src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
-            'data-ad-client': 'ca-pub-7857527391137735',
-            async: true,
-          },
+            {
+                src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
+                'data-ad-client': 'ca-pub-7857527391137735',
+                async: true,
+            },
         ],
         meta: [
             {charset: 'utf-8'},
@@ -123,7 +123,7 @@ export default {
         //mode: 'hash',
     },
     i18n: {
-        baseUrl: 'https://web.openspace.socail',
+        baseUrl: 'https://web.openspace.social',
 
         lazy: true,
 
@@ -169,7 +169,7 @@ export default {
     },
     proxy: {
         '/local/': {target: 'https://api.openspace.social', pathRewrite: {'^/local/': ''}},
-        '/contentproxy': {target: 'https://api.openspace.social/api', pathRewrite: {'^/contentproxy': ''}},
+        '/contentproxy': {target: 'http://api.openspace.social/proxy', pathRewrite: {'^/contentproxy': ''}},
         '/www/': {target: 'https://www.openspace.social', pathRewrite: {'^/www/': ''}},
     },
     styleResources: {
