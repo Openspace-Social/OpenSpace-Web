@@ -118,7 +118,7 @@ export default {
         '~/plugins/v-clipboard'
     ],
     router: {
-        base: '/app/',
+        base: '/',
         middleware: ['post-redirect'],
         //mode: 'hash',
     },
@@ -192,7 +192,7 @@ export default {
     },
     generate: {
         routes: [
-            '/app/'
+            '/'
         ],
     }
 }
