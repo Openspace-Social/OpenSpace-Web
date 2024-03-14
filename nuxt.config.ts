@@ -39,7 +39,7 @@ export default {
     mode: 'spa',
     env: frontendEnvVars,
     head: {
-        title: 'Openspace',
+        title: 'Web.Openspace.Social',
         script: [
           {
             src: 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js',
@@ -118,12 +118,12 @@ export default {
         '~/plugins/v-clipboard'
     ],
     router: {
-        base: '/',
+        base: '/app/',
         middleware: ['post-redirect'],
         //mode: 'hash',
     },
     i18n: {
-        baseUrl: 'https://openspace.social',
+        baseUrl: 'https://okuna.io',
 
         lazy: true,
 
@@ -192,7 +192,7 @@ export default {
     },
     generate: {
         routes: [
-            '/'
+            '/app/'
         ],
     }
 }
