@@ -212,7 +212,8 @@ export default class OkPostLinkPreview extends Vue {
     }
 
     private async refreshPreviewIcon() {
-        this.refreshPreviewIconOperation = CancelableOperation.fromPromise(this.getLinkPreviewImageData(this.preview.icon.url))
+        const url = `https://${this.preview.domain}${this.preview.icon.url}`;
+        this.refreshPreviewIconOperation = CancelableOperation.fromPromise(this.getLinkPreviewImageData(url))
         const {data, contentType} = await this.refreshPreviewIconOperation.value;
         this.iconUrl = 'data:' + contentType + ';base64,' + data;
     }

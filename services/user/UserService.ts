@@ -279,6 +279,7 @@ export class UserService implements IUserService {
             // This cache stays for as long as the user session is active
             storeInSessionCache: true
         });
+        console.log(this.loggedInUser);
 
         if (!this.loggedInUser.value || this.loggedInUser.value.username !== user.username) {
             this.setLoggedInUser(user);
@@ -298,7 +299,7 @@ export class UserService implements IUserService {
     }
 
     private setLoggedInUser(user: IUser): void {
-        this.loggedInUser.next(user);
+        this.loggedInUser?.next(user);
     }
 
     storeAuthToken(token: string) {

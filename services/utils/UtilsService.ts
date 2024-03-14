@@ -207,8 +207,9 @@ export class UtilsService implements IUtilsService {
 
     makeProxiedUrl(url: string): string {
         if (!this.environmentService.contentProxyUrl)
-            throw new Error('No content proxy url for LinkPreviews. Wont preview');
-
-        return `${this.environmentService.contentProxyUrl}/?${url}`;
+            return url;
+            // throw new Error('No content proxy url for LinkPreviews. Wont preview');
+        let encodedUrl = encodeURIComponent(url);
+        return `${this.environmentService.contentProxyUrl}/${encodedUrl}`;
     }
 }

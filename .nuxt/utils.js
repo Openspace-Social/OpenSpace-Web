@@ -143,14 +143,14 @@ export async function setContext (app, context) {
   if (!app.context) {
     app.context = {
       isStatic: process.static,
-      isDev: false,
+      isDev: true,
       isHMR: false,
       app,
 
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"LOGGING":"true","SENTRY_DSN":"https://c39e7ae67bf90aba5eade713519787a4@o4505669431197696.ingest.sentry.io/4505669435850752","ENVIRONMENT":"development","API_URL":"http://api.openspace.social","CONTENT_PROXY_URL":"http://api.openspace.social/api","TERMS_OF_USE_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/tos.md","PRIVACY_POLICY_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/PrivacyPolicy.md","COMMUNITY_GUIDELINES_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/Guidelines.md"}
+      env: {"LOGGING":"true","SENTRY_DSN":"https://c39e7ae67bf90aba5eade713519787a4@o4505669431197696.ingest.sentry.io/4505669435850752","ENVIRONMENT":"development","API_URL":"https://api.openspace.social","CONTENT_PROXY_URL":"https://api.openspace.social/proxy","TERMS_OF_USE_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/tos.md","PRIVACY_POLICY_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/PrivacyPolicy.md","COMMUNITY_GUIDELINES_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/Guidelines.md"}
     }
     // Only set once
     if (!process.static && context.req) {
@@ -227,7 +227,7 @@ export async function setContext (app, context) {
   app.context.next = context.next
   app.context._redirected = false
   app.context._errored = false
-  app.context.isHMR = false
+  app.context.isHMR = Boolean(context.isHMR)
   app.context.params = app.context.route.params || {}
   app.context.query = app.context.route.query || {}
 }
@@ -245,6 +245,9 @@ export function middlewareSeries (promises, appContext) {
 export function promisify (fn, context) {
   let promise
   if (fn.length === 2) {
+      console.warn('Callback-based asyncData, fetch or middleware calls are deprecated. ' +
+        'Please switch to promises or async/await syntax')
+
     // fn(context, callback)
     promise = new Promise((resolve) => {
       fn(context, function (err, data) {
