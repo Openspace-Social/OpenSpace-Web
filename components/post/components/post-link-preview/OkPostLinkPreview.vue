@@ -206,9 +206,17 @@ export default class OkPostLinkPreview extends Vue {
     }
 
     private async refreshPreviewImage() {
-        this.refreshPreviewImageOperation = CancelableOperation.fromPromise(this.getLinkPreviewImageData(this.preview.image.url))
-        const {data, contentType} = await this.refreshPreviewImageOperation.value;
-        this.imageUrl = 'data:' + contentType + ';base64,' + data;
+        let url = `https://${this.preview.domain}${this.preview.image.url}`;
+        if(this.preview.image.url.indexOf('http') === 0) {
+            url = this.preview.image.url;
+        }
+        try {
+            this.refreshPreviewImageOperation = CancelableOperation.fromPromise(this.getLinkPreviewImageData(url))
+            const {data, contentType} = await this.refreshPreviewImageOperation.value;
+            this.imageUrl = 'data:' + contentType + ';base64,' + data;
+        } catch (e) {
+
+        }
     }
 
     private async refreshPreviewIcon() {
@@ -216,9 +224,13 @@ export default class OkPostLinkPreview extends Vue {
         if(this.preview.icon.url.indexOf('http') === 0) {
             url = this.preview.icon.url;
         }
-        this.refreshPreviewIconOperation = CancelableOperation.fromPromise(this.getLinkPreviewImageData(url))
-        const {data, contentType} = await this.refreshPreviewIconOperation.value;
-        this.iconUrl = 'data:' + contentType + ';base64,' + data;
+        try {
+            this.refreshPreviewIconOperation = CancelableOperation.fromPromise(this.getLinkPreviewImageData(url))
+            const {data, contentType} = await this.refreshPreviewIconOperation.value;
+            this.iconUrl = 'data:' + contentType + ';base64,' + data;
+        } catch (e) {
+
+        }
     }
 
     private async getLinkPreviewImageData(imageUrl: string): Promise<{data: string, contentType: string} | undefined> {
