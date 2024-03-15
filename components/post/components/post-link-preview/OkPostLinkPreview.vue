@@ -212,7 +212,10 @@ export default class OkPostLinkPreview extends Vue {
     }
 
     private async refreshPreviewIcon() {
-        const url = `https://${this.preview.domain}${this.preview.icon.url}`;
+        let url = `https://${this.preview.domain}${this.preview.icon.url}`;
+        if(this.preview.icon.url.indexOf('http') === 0) {
+            url = this.preview.icon.url;
+        }
         this.refreshPreviewIconOperation = CancelableOperation.fromPromise(this.getLinkPreviewImageData(url))
         const {data, contentType} = await this.refreshPreviewIconOperation.value;
         this.iconUrl = 'data:' + contentType + ';base64,' + data;
