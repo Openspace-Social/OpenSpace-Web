@@ -42,7 +42,7 @@
 
         @Prop({
             type: Object,
-            required: false
+            required: true
         }) readonly category: ICategory;
 
         $refs: {
