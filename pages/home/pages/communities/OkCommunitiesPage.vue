@@ -2,10 +2,13 @@
     <div v-if="environmentResolution">
         <ok-desktop-communities-page
                 :communities-uuid="communitiesUuid"
-                v-if="environmentResolution === EnvironmentResolution.desktop"></ok-desktop-communities-page>
+                v-if="environmentResolution === EnvironmentResolution.desktop">
+        </ok-desktop-communities-page>
+
         <ok-mobile-communities-page
                 :communities-uuid="communitiesUuid"
-                v-else></ok-mobile-communities-page>
+                v-else>
+        </ok-mobile-communities-page>
         <ok-new-community-action />
     </div>
 </template>
