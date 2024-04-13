@@ -11,12 +11,20 @@
                     :post-display-context="postsDisplayContext"
                     @onPostDeleted="removePost"
                     @onPostReported="removePost"></ok-post>
-                <div class="" v-if="props.index == 0">
+                <div class="" v-if="props.index == 1">
                     <adsbygoogle
                         style="display:block"
                         data-ad-client="ca-pub-5544049773367307"
                         data-ad-slot="1659574095"
                         data-ad-format="autorelaxed"
+                        data-full-width-responsive="true"></adsbygoogle>
+                </div>
+                <div class="" v-if="props.index == 0">
+                    <adsbygoogle
+                        style="display:block"
+                        data-ad-client="ca-pub-5544049773367307"
+                        data-ad-slot="3212328916"
+                        data-ad-format="auto"
                         data-full-width-responsive="true"></adsbygoogle>
                 </div>
 
