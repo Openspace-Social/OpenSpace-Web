@@ -26,9 +26,9 @@
                 <ok-loading-indicator></ok-loading-indicator>
             </div>
             <div v-else-if="searchItems.length > 0">
-                <div v-for="item in searchItems" :key="item.id" :class="itemClass"
+                <div v-for="(item, index) in searchItems" :key="item.id" :class="itemClass"
                      @click="onListItemClicked(item)">
-                    <slot name="default" :item="item"></slot>
+                    <slot name="default" :item="item" :index="index"></slot>
                 </div>
             </div>
             <div v-else class="has-padding-20 ok-has-text-primary-invert">
@@ -42,8 +42,8 @@
                     <ok-loading-indicator style="position: relative;"></ok-loading-indicator>
                 </div>
             </transition>
-            <div v-for="item in items" :key="listKey + '-' + item.id" :class="itemClass">
-                <slot name="default" :item="item"></slot>
+            <div v-for="(item, index) in items" :key="listKey + '-' + item.id" :class="itemClass">
+                <slot name="default" :item="item" :index="index"></slot>
             </div>
             <infinite-loading
                     ref="infiniteLoading"

@@ -13,6 +13,8 @@ const environmentVariables = {
     TERMS_OF_USE_MD_URL: undefined,
     PRIVACY_POLICY_MD_URL: undefined,
     COMMUNITY_GUIDELINES_MD_URL: undefined,
+    GOOGLE_ADSENSE_ID: undefined,
+    GOOGLE_ADSENSE_TEST_MODE: undefined
 };
 
 Object.keys(environmentVariables).forEach((envVar) => {
@@ -33,7 +35,6 @@ Object.keys(environmentVariables).forEach((environmentVariable) => {
         }
     }
 });
-
 
 export default {
     mode: 'spa',
@@ -90,6 +91,7 @@ export default {
         'localforage-nuxt',
         'nuxt-i18n',
         '@nuxtjs/style-resources',
+        '@nuxtjs/google-adsense',
     ],
     sentry: {
         dsn: process.env.SENTRY_DSN,
@@ -154,7 +156,7 @@ export default {
         detectBrowserLanguage: {
             // If enabled, a cookie is set once a user has been redirected to his
             // preferred language to prevent subsequent redirections
-            // Set to false to redirect every time
+            // Set too false to redirect every time
             useCookie: true,
             // Cookie name
             cookieKey: 'i18n',
@@ -194,5 +196,15 @@ export default {
         routes: [
             '/'
         ],
+    },
+    "google-adsense": {
+        onPageLoad: false,
+        pageLevelAds: false,
+    },
+    publicRuntimeConfig: {
+        "google-adsense": {
+            id: process.env.GOOGLE_ADSENSE_ID,
+            test: process.env.GOOGLE_ADSENSE_TEST_MODE === 'true',
+        },
     }
 }

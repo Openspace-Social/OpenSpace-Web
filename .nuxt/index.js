@@ -12,13 +12,15 @@ import { setContext, getLocation, getRouteData, normalizeError } from './utils'
 
 /* Plugins */
 
-import nuxt_plugin_pluginrouting_7e895e53 from 'nuxt_plugin_pluginrouting_7e895e53' // Source: ./nuxt-i18n/plugin.routing.js (mode: 'all')
-import nuxt_plugin_pluginmain_8c953408 from 'nuxt_plugin_pluginmain_8c953408' // Source: ./nuxt-i18n/plugin.main.js (mode: 'all')
-import nuxt_plugin_localforage_53d6c3e8 from 'nuxt_plugin_localforage_53d6c3e8' // Source: ./localforage.js (mode: 'client')
-import nuxt_plugin_axios_038398da from 'nuxt_plugin_axios_038398da' // Source: ./axios.js (mode: 'all')
-import nuxt_plugin_sentryserver_cfce9f52 from 'nuxt_plugin_sentryserver_cfce9f52' // Source: ./sentry.server.js (mode: 'server')
-import nuxt_plugin_sentryclient_325f3ecf from 'nuxt_plugin_sentryclient_325f3ecf' // Source: ./sentry.client.js (mode: 'client')
-import nuxt_plugin_router_7dd4ca7c from 'nuxt_plugin_router_7dd4ca7c' // Source: ./router.js (mode: 'all')
+import nuxt_plugin_adsbygoogle_eb64ad54 from 'nuxt_plugin_adsbygoogle_eb64ad54' // Source: ./adsbygoogle.js (mode: 'all')
+import nuxt_plugin_pluginutils_19b3204a from 'nuxt_plugin_pluginutils_19b3204a' // Source: ./nuxt-i18n/plugin.utils.js (mode: 'all')
+import nuxt_plugin_pluginrouting_794a7266 from 'nuxt_plugin_pluginrouting_794a7266' // Source: ./nuxt-i18n/plugin.routing.js (mode: 'all')
+import nuxt_plugin_pluginmain_487c02c9 from 'nuxt_plugin_pluginmain_487c02c9' // Source: ./nuxt-i18n/plugin.main.js (mode: 'all')
+import nuxt_plugin_localforage_06a78cf5 from 'nuxt_plugin_localforage_06a78cf5' // Source: ./localforage.js (mode: 'client')
+import nuxt_plugin_axios_a92beb40 from 'nuxt_plugin_axios_a92beb40' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_sentryserver_4c492bb8 from 'nuxt_plugin_sentryserver_4c492bb8' // Source: ./sentry.server.js (mode: 'server')
+import nuxt_plugin_sentryclient_7421f89c from 'nuxt_plugin_sentryclient_7421f89c' // Source: ./sentry.client.js (mode: 'client')
+import nuxt_plugin_router_7623cd4f from 'nuxt_plugin_router_7623cd4f' // Source: ./router.js (mode: 'all')
 import nuxt_plugin_buefy_354d55e2 from 'nuxt_plugin_buefy_354d55e2' // Source: ../plugins/buefy (mode: 'all')
 import nuxt_plugin_lineclamp_3d6f6598 from 'nuxt_plugin_lineclamp_3d6f6598' // Source: ../plugins/line-clamp (mode: 'client')
 import nuxt_plugin_directives_d0867c0c from 'nuxt_plugin_directives_d0867c0c' // Source: ../plugins/directives (mode: 'all')
@@ -63,19 +65,31 @@ Vue.component('NChild', NuxtChild)
 // Component: <Nuxt>
 Vue.component(Nuxt.name, Nuxt)
 
+Object.defineProperty(Vue.prototype, '$nuxt', {
+  get() {
+    const globalNuxt = this.$root ? this.$root.$options.$nuxt : null
+    if (process.client && !globalNuxt && typeof window !== 'undefined') {
+      return window.$nuxt
+    }
+    return globalNuxt
+  },
+  configurable: true
+})
+
 Vue.use(Meta, {"keyName":"head","attribute":"data-n-head","ssrAttribute":"data-n-head-ssr","tagIDKeyName":"hid"})
 
 const defaultTransition = {"name":"page","mode":"out-in","appear":true,"appearClass":"appear","appearActiveClass":"appear-active","appearToClass":"appear-to"}
 
 async function createApp(ssrContext, config = {}) {
-  const router = await createRouter(ssrContext)
+  const store = null
+  const router = await createRouter(ssrContext, config, { store })
 
   // Create Root instance
 
   // here we inject the router and store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    head: {"title":"Web.Openspace.Social","script":[{"src":"https:\u002F\u002Fpagead2.googlesyndication.com\u002Fpagead\u002Fjs\u002Fadsbygoogle.js","data-ad-client":"ca-pub-7857527391137735","async":true}],"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1.0"},{"hid":"description","name":"description","content":"Ethical social network."},{"name":"theme-color","content":"#ffffff"},{"name":"msapplication-TileColor","content":"#000000"},{"property":"og:title","content":"Openspace"},{"property":"og:description","content":"Ethical Social Network."},{"property":"og:image","content":"https:\u002F\u002Fokuna.io\u002Fog-image.png"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"favicon.ico"},{"rel":"icon","type":"image\u002Fpng","href":"favicon.ico"},{"rel":"icon","type":"image\u002Fpng","sizes":"32x32","href":"favicon-32x32.png"},{"rel":"icon","type":"image\u002Fpng","sizes":"16x16","href":"favicon-16x16.png"},{"rel":"apple-touch-icon","sizes":"180x180","href":"apple-touch-icon.png"},{"rel":"mask-icon","href":"\u002Fsafari-pinned-tab.svg","color":"#ffffff"}],"style":[]},
+    head: {"title":"Web.Openspace.Social","script":[{"src":"https:\u002F\u002Fpagead2.googlesyndication.com\u002Fpagead\u002Fjs\u002Fadsbygoogle.js","data-ad-client":"ca-pub-7857527391137735","async":true},{"hid":"adsbygoogle-script","defer":true,"crossorigin":"anonymous","src":"\u002F\u002Fpagead2.googlesyndication.com\u002Fpagead\u002Fjs\u002Fadsbygoogle.js?client=ca-google"},{"hid":"adsbygoogle","innerHTML":"if (!window.__abg_called){ (window.adsbygoogle = window.adsbygoogle || []); adsbygoogle.pauseAdRequests=0;\n          adsbygoogle.push({\n      google_ad_client: \"ca-google\",\n      overlays: {bottom: false},\n      \n    }); window.__abg_called = true;}"}],"meta":[{"name":"robots","content":"noindex,noarchive,nofollow"},{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1.0"},{"hid":"description","name":"description","content":"Ethical social network."},{"name":"theme-color","content":"#ffffff"},{"name":"msapplication-TileColor","content":"#000000"},{"property":"og:title","content":"Openspace"},{"property":"og:description","content":"Ethical Social Network."},{"property":"og:image","content":"https:\u002F\u002Fokuna.io\u002Fog-image.png"}],"link":[{"rel":"icon","type":"image\u002Fx-icon","href":"favicon.ico"},{"rel":"icon","type":"image\u002Fpng","href":"favicon.ico"},{"rel":"icon","type":"image\u002Fpng","sizes":"32x32","href":"favicon-32x32.png"},{"rel":"icon","type":"image\u002Fpng","sizes":"16x16","href":"favicon-16x16.png"},{"rel":"apple-touch-icon","sizes":"180x180","href":"apple-touch-icon.png"},{"rel":"mask-icon","href":"\u002Fsafari-pinned-tab.svg","color":"#ffffff"}],"style":[],"__dangerouslyDisableSanitizersByTagID":{"adsbygoogle":["innerHTML"]}},
 
     router,
     nuxt: {
@@ -140,6 +154,7 @@ async function createApp(ssrContext, config = {}) {
     req: ssrContext ? ssrContext.req : undefined,
     res: ssrContext ? ssrContext.res : undefined,
     beforeRenderFns: ssrContext ? ssrContext.beforeRenderFns : undefined,
+    beforeSerializeFns: ssrContext ? ssrContext.beforeSerializeFns : undefined,
     ssrContext
   })
 
@@ -189,32 +204,40 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_pluginrouting_7e895e53 === 'function') {
-    await nuxt_plugin_pluginrouting_7e895e53(app.context, inject)
+  if (typeof nuxt_plugin_adsbygoogle_eb64ad54 === 'function') {
+    await nuxt_plugin_adsbygoogle_eb64ad54(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_pluginmain_8c953408 === 'function') {
-    await nuxt_plugin_pluginmain_8c953408(app.context, inject)
+  if (typeof nuxt_plugin_pluginutils_19b3204a === 'function') {
+    await nuxt_plugin_pluginutils_19b3204a(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_localforage_53d6c3e8 === 'function') {
-    await nuxt_plugin_localforage_53d6c3e8(app.context, inject)
+  if (typeof nuxt_plugin_pluginrouting_794a7266 === 'function') {
+    await nuxt_plugin_pluginrouting_794a7266(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_038398da === 'function') {
-    await nuxt_plugin_axios_038398da(app.context, inject)
+  if (typeof nuxt_plugin_pluginmain_487c02c9 === 'function') {
+    await nuxt_plugin_pluginmain_487c02c9(app.context, inject)
   }
 
-  if (process.server && typeof nuxt_plugin_sentryserver_cfce9f52 === 'function') {
-    await nuxt_plugin_sentryserver_cfce9f52(app.context, inject)
+  if (process.client && typeof nuxt_plugin_localforage_06a78cf5 === 'function') {
+    await nuxt_plugin_localforage_06a78cf5(app.context, inject)
   }
 
-  if (process.client && typeof nuxt_plugin_sentryclient_325f3ecf === 'function') {
-    await nuxt_plugin_sentryclient_325f3ecf(app.context, inject)
+  if (typeof nuxt_plugin_axios_a92beb40 === 'function') {
+    await nuxt_plugin_axios_a92beb40(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_router_7dd4ca7c === 'function') {
-    await nuxt_plugin_router_7dd4ca7c(app.context, inject)
+  if (process.server && typeof nuxt_plugin_sentryserver_4c492bb8 === 'function') {
+    await nuxt_plugin_sentryserver_4c492bb8(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_sentryclient_7421f89c === 'function') {
+    await nuxt_plugin_sentryclient_7421f89c(app.context, inject)
+  }
+
+  if (typeof nuxt_plugin_router_7623cd4f === 'function') {
+    await nuxt_plugin_router_7623cd4f(app.context, inject)
   }
 
   if (typeof nuxt_plugin_buefy_354d55e2 === 'function') {
@@ -296,26 +319,33 @@ async function createApp(ssrContext, config = {}) {
     }
   }
 
-  // If server-side, wait for async component to be resolved first
-  if (process.server && ssrContext && ssrContext.url) {
-    await new Promise((resolve, reject) => {
-      router.push(ssrContext.url, resolve, (err) => {
-        // https://github.com/vuejs/vue-router/blob/v3.4.3/src/util/errors.js
-        if (!err._isRouter) return reject(err)
-        if (err.type !== 2 /* NavigationFailureType.redirected */) return resolve()
+  // Wait for async component to be resolved first
+  await new Promise((resolve, reject) => {
+    // Ignore 404s rather than blindly replacing URL in browser
+    if (process.client) {
+      const { route } = router.resolve(app.context.route.fullPath)
+      if (!route.matched.length) {
+        return resolve()
+      }
+    }
+    router.replace(app.context.route.fullPath, resolve, (err) => {
+      // https://github.com/vuejs/vue-router/blob/v3.4.3/src/util/errors.js
+      if (!err._isRouter) return reject(err)
+      if (err.type !== 2 /* NavigationFailureType.redirected */) return resolve()
 
-        // navigated to a different route in router guard
-        const unregister = router.afterEach(async (to, from) => {
+      // navigated to a different route in router guard
+      const unregister = router.afterEach(async (to, from) => {
+        if (process.server && ssrContext && ssrContext.url) {
           ssrContext.url = to.fullPath
-          app.context.route = await getRouteData(to)
-          app.context.params = to.params || {}
-          app.context.query = to.query || {}
-          unregister()
-          resolve()
-        })
+        }
+        app.context.route = await getRouteData(to)
+        app.context.params = to.params || {}
+        app.context.query = to.query || {}
+        unregister()
+        resolve()
       })
     })
-  }
+  })
 
   return {
     app,

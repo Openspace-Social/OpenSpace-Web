@@ -1,29 +1,40 @@
-export const vueI18n = {}
-export const vueI18nLoader = false
-export const locales = [{"code":"en","iso":"en-US","file":"en.js","name":"English"},{"code":"es","iso":"es-ES","file":"es.js","name":"Spanish"}]
-export const defaultLocale = 'en'
-export const routesNameSeparator = '___'
-export const defaultLocaleRouteNameSuffix = 'default'
-export const strategy = 'no_prefix'
-export const lazy = true
-export const langDir = 'static/i18n/'
-export const rootRedirect = null
-export const detectBrowserLanguage = {"useCookie":true,"cookieDomain":null,"cookieKey":"i18n","alwaysRedirect":false,"fallbackLocale":"en"}
-export const differentDomains = false
-export const seo = false
-export const baseUrl = 'https://web.openspace.social'
-export const vuex = {"moduleName":"i18n","syncLocale":false,"syncMessages":false,"syncRouteParams":true}
-export const parsePages = true
-export const pages = {}
-export const beforeLanguageSwitch = () => null
-export const onLanguageSwitched = () => null
-export const IS_UNIVERSAL_MODE = false
-export const MODULE_NAME = 'nuxt-i18n'
-export const LOCALE_CODE_KEY = 'code'
-export const LOCALE_ISO_KEY = 'iso'
-export const LOCALE_DOMAIN_KEY = 'domain'
-export const LOCALE_FILE_KEY = 'file'
-export const STRATEGIES = {"PREFIX":"prefix","PREFIX_EXCEPT_DEFAULT":"prefix_except_default","PREFIX_AND_DEFAULT":"prefix_and_default","NO_PREFIX":"no_prefix"}
-export const COMPONENT_OPTIONS_KEY = 'nuxtI18n'
-export const localeCodes = ["en","es"]
-export const trailingSlash = undefined
+export const Constants = {
+  COMPONENT_OPTIONS_KEY: "nuxtI18n",
+  STRATEGIES: {"PREFIX":"prefix","PREFIX_EXCEPT_DEFAULT":"prefix_except_default","PREFIX_AND_DEFAULT":"prefix_and_default","NO_PREFIX":"no_prefix"},
+}
+export const nuxtOptions = {
+  isUniversalMode: false,
+  trailingSlash: undefined,
+}
+export const options = {
+  vueI18n: {},
+  vueI18nLoader: false,
+  locales: [{"code":"en","iso":"en-US","file":"en.js","name":"English"},{"code":"es","iso":"es-ES","file":"es.js","name":"Spanish"}],
+  defaultLocale: "en",
+  defaultDirection: "ltr",
+  routesNameSeparator: "___",
+  defaultLocaleRouteNameSuffix: "default",
+  sortRoutes: true,
+  strategy: "no_prefix",
+  lazy: true,
+  langDir: "/Users/karthikponnam/Desktop/code/massimo/OpenSpace-Web/static/i18n",
+  rootRedirect: null,
+  detectBrowserLanguage: {"alwaysRedirect":false,"cookieCrossOrigin":false,"cookieDomain":null,"cookieKey":"i18n","cookieSecure":false,"fallbackLocale":"en","onlyOnNoPrefix":false,"onlyOnRoot":false,"useCookie":true},
+  differentDomains: false,
+  seo: false,
+  baseUrl: "https://web.openspace.social",
+  vuex: {"moduleName":"i18n","syncLocale":false,"syncMessages":false,"syncRouteParams":true},
+  parsePages: true,
+  pages: {},
+  skipSettingLocaleOnNavigate: false,
+  beforeLanguageSwitch: () => null,
+  onBeforeLanguageSwitch: () => {},
+  onLanguageSwitched: () => null,
+  normalizedLocales: [{"code":"en","iso":"en-US","file":"en.js","name":"English"},{"code":"es","iso":"es-ES","file":"es.js","name":"Spanish"}],
+  localeCodes: ["en","es"],
+}
+
+export const localeMessages = {
+  'en.js': () => import('../../static/i18n/en.js' /* webpackChunkName: "lang-en.js" */),
+  'es.js': () => import('../../static/i18n/es.js' /* webpackChunkName: "lang-es.js" */),
+}

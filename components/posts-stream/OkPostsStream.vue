@@ -4,12 +4,23 @@
         <ok-http-list
                 :refresher="refresher" :on-scroll-loader="onScrollLoader" ref="okHttpList"
                 :item-class="postContainerClass" list-type="post">
-            <ok-post
-                    slot-scope="props"
+            <div
+                slot-scope="props">
+                <ok-post
                     :post="props.item"
                     :post-display-context="postsDisplayContext"
                     @onPostDeleted="removePost"
                     @onPostReported="removePost"></ok-post>
+                <div class="" v-if="props.index == 0">
+                    <adsbygoogle
+                        style="display:block"
+                        data-ad-client="ca-pub-5544049773367307"
+                        data-ad-slot="1659574095"
+                        data-ad-format="autorelaxed"
+                        data-full-width-responsive="true"></adsbygoogle>
+                </div>
+
+            </div>
         </ok-http-list>
     </div>
 </template>
