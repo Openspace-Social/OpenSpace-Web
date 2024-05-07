@@ -107,7 +107,6 @@
                 const queryParams = this.utilsService.getQueryStringParams(this.inviteToken);
                 inviteToken = queryParams.token;
             }
-
             try {
                 this.requestOperation = CancelableOperation.fromPromise<{
                     valid: boolean;
