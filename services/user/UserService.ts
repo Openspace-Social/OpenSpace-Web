@@ -205,10 +205,13 @@ export class UserService implements IUserService {
         return response.data;
     }
 
-    async isInviteTokenValid(data: IsInviteTokenValidApiParams): Promise<boolean> {
+    async isInviteTokenValid(data: IsInviteTokenValidApiParams): Promise<{
+        valid: boolean;
+        token?: string;
+    } | false> {
         try {
-            await this.authApiService.isInviteTokenValid(data);
-            return true;
+            const response = await this.authApiService.isInviteTokenValid(data);
+            return { valid: true, token: response.data["message"]["token"] };
         } catch (error) {
             if (error.response && error.response.status === 400) return false;
             throw error;
@@ -279,7 +282,6 @@ export class UserService implements IUserService {
             // This cache stays for as long as the user session is active
             storeInSessionCache: true
         });
-        console.log(this.loggedInUser);
 
         if (!this.loggedInUser.value || this.loggedInUser.value.username !== user.username) {
             this.setLoggedInUser(user);

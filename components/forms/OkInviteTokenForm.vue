@@ -6,7 +6,7 @@
             </label>
             <div class="control">
                 <input type="text"
-                       placeholder="e.g. eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MjIwMTF9.GKY4j11It9IYdTF1yg90XT6r9dFvMxBd-xWs1zu-xjE"
+                       placeholder="e.g. 1B3D5F"
                        class="input is-rounded is-medium ok-input"
                        required
                        id="inviteToken" v-model="inviteToken">
@@ -24,7 +24,7 @@
              <span>
                     {{$t('global.snippets.dont_have_one')}}
              </span>
-            <a href="https://about.okuna.io/" rel="nofollow noopener noreferrer" target="_blank" class="ok-has-text-primary-invert-60">
+            <a href="https://openspace.social/" rel="nofollow noopener noreferrer" target="_blank" class="ok-has-text-primary-invert-60">
                 {{$t('global.snippets.request_one')}}.
             </a>
         </div>
@@ -62,7 +62,10 @@
         private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
         private utilsService: IUtilsService = okunaContainer.get<IUtilsService>(TYPES.UtilsService);
 
-        requestOperation?: CancelableOperation<boolean>;
+        requestOperation?: CancelableOperation<{
+            valid: boolean;
+            token?: string;
+        } | false>;
 
         formWasSubmitted = false;
         submitInProgress = false;
@@ -106,11 +109,19 @@
             }
 
             try {
-                this.requestOperation = CancelableOperation.fromPromise<boolean>(this.userService.isInviteTokenValid({
+                this.requestOperation = CancelableOperation.fromPromise<{
+                    valid: boolean;
+                    token?: string;
+                } | false>(this.userService.isInviteTokenValid({
                     token: inviteToken
                 }));
-                this.tokenValid = await this.requestOperation.value;
-                if (this.tokenValid) this._onTokenIsValid(inviteToken);
+                const value = await this.requestOperation.value;
+                if (typeof value === "boolean" && !value) {
+                    this.tokenValid = false;
+                    return;
+                }
+                this.tokenValid = value.valid;
+                if (this.tokenValid) this._onTokenIsValid(value.token);
             } catch (error) {
                 const handledError = this.utilsService.handleErrorWithToast(error);
                 if (handledError.isUnhandled) throw handledError.error;

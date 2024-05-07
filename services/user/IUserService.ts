@@ -148,7 +148,10 @@ export interface IUserService {
 
     register(data: RegistrationApiParams): Promise<RegistrationResponse>;
 
-    isInviteTokenValid(data: IsInviteTokenValidApiParams): Promise<boolean>;
+    isInviteTokenValid(data: IsInviteTokenValidApiParams): Promise<{
+        valid: boolean;
+        token?: string;
+    } | false>;
 
     isEmailAvailable(data: IsEmailAvailableApiParams): Promise<boolean>;
 
