@@ -2,7 +2,7 @@ export default {
     "name": "Openspace",
     "pages": {
         "auth": {
-            "title": "Community drive social media, done ethically.",
+            "title": "Community driven social media. Where you control the Algorithm.",
             "usps": {
                 "friends": "Meet new friends and discover interests by joining or hosting communities.",
                 "privacy": "Browse your social feed with ease, knowing that we don't track or monitor what you do.",
