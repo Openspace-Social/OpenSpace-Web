@@ -6,10 +6,11 @@ export default {
             "usps": {
                 "friends": "Meet new friends and discover interests by joining or hosting communities.",
                 "privacy": "Browse your social feed with ease, knowing that we don't track or monitor what you do.",
+                "blog": "Long form and short form posts are available for the bloggers out there.",
                 "revenue": "Ads are optional and can be turned off through a paid subscription.",
                 "mental_health": " With private comments, toggleable follower counts and batch notifications you can make your surfing experience stress-free.",
                 "planet": "We are committed to donating a percentage of our profits towards preserving improving our only home.",
-                "microphone": "You can customize what you want to see by setting up feed filters, lists and circles."
+                "microphone": "You can customize what you want to see with feed filters, lists and circles."
             }
         },
         "home": {
