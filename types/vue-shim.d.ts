@@ -11,3 +11,6 @@ declare module "webpack-hot-middleware" {
     }
     export default middleware;
 }
+
+declare module "vue-quill-editor";
+declare module "quill-image-uploader";

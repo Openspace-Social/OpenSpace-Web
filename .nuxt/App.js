@@ -9,6 +9,12 @@ import '../assets/styles/index.scss'
 
 import '../node_modules/vue-popperjs/dist/vue-popper.css'
 
+import '../node_modules/quill/dist/quill.core.css'
+
+import '../node_modules/quill/dist/quill.snow.css'
+
+import '../node_modules/quill/dist/quill.bubble.css'
+
 import _2d217e9e from '../layouts/auth.vue'
 import _6f6c098b from '../layouts/default.vue'
 

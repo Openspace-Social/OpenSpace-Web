@@ -167,6 +167,7 @@ import { LinkPreviewData } from '~/types/models-data/link-previews/LinkPreviewDa
 import linkPreviewFactory from '~/models/link-previews/link-preview/factory';
 import { LinkIsPreviewableResponseData } from '~/services/Apis/posts/PostsApiServiceTypes';
 import { ILinkPreview } from '~/models/link-previews/link-preview/ILinkPreview';
+import {IGenericFile} from "~/models/common/generic/IGenericFile";
 
 
 @injectable()
@@ -1291,4 +1292,15 @@ export class UserService implements IUserService {
 
     // MODERATION END
 
+
+    async uploadGenericMedia(file: File | Blob | string): Promise<IGenericFile> {
+        const formData = new FormData();
+        formData.append('url', file);
+        const response: AxiosResponse<IGenericFile> = await this.httpService.post(
+            'https://api.openspace.social/api/posts/generic-media/',
+            formData
+        )
+
+        return response.data;
+    }
 }

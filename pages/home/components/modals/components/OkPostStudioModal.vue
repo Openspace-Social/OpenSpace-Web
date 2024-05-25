@@ -11,7 +11,7 @@
         //max-width: 390px;
         width: 100%;
         position: relative;
-        height: 40vh;
+        height: 70vh;
         overflow: hidden;
 
         @include for-size(tablet-portrait-up) {

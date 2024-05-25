@@ -37,6 +37,7 @@ import nuxt_plugin_vuetooltip_f49054f4 from 'nuxt_plugin_vuetooltip_f49054f4' //
 import nuxt_plugin_vuerx_301d3a3a from 'nuxt_plugin_vuerx_301d3a3a' // Source: ../plugins/vue-rx (mode: 'all')
 import nuxt_plugin_vuenotvisible_5644f10a from 'nuxt_plugin_vuenotvisible_5644f10a' // Source: ../plugins/vue-not-visible (mode: 'all')
 import nuxt_plugin_vclipboard_17e9386e from 'nuxt_plugin_vclipboard_17e9386e' // Source: ../plugins/v-clipboard (mode: 'all')
+import nuxt_plugin_quillplugin_19645052 from 'nuxt_plugin_quillplugin_19645052' // Source: ../plugins/quill-plugin (mode: 'client')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -287,6 +288,10 @@ async function createApp(ssrContext, config = {}) {
 
   if (typeof nuxt_plugin_vclipboard_17e9386e === 'function') {
     await nuxt_plugin_vclipboard_17e9386e(app.context, inject)
+  }
+
+  if (process.client && typeof nuxt_plugin_quillplugin_19645052 === 'function') {
+    await nuxt_plugin_quillplugin_19645052(app.context, inject)
   }
 
   // Lock enablePreview in context

@@ -137,6 +137,7 @@ import { ICircle } from '~/models/connections/circle/ICircle';
 import { GetSuggestedCommunitiesApiParams } from '~/services/Apis/communities/CommunitiesApiServiceTypes';
 import { PostStatus } from '~/models/posts/post/lib/PostStatus';
 import { ILinkPreview } from '~/models/link-previews/link-preview/ILinkPreview';
+import {IGenericFile} from "~/models/common/generic/IGenericFile";
 
 
 export interface IUserService {
@@ -434,5 +435,6 @@ export interface IUserService {
 
     checkConnectionsCircleNameIsAvailable(params: CheckConnectionsCircleNameIsAvailableParams): Promise<boolean>;
 
+    uploadGenericMedia(file: File | Blob | string): Promise<IGenericFile>;
     // CONNECTIONS END
 }

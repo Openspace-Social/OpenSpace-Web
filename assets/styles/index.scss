@@ -1,3 +1,11 @@
 @import "helpers";
 @import "lib";
 @import "global";
+
+.ql-container.ql-snow {
+    border: none !important;
+    height: calc(100% - 30%);
+}
+.quill-editor.editor {
+    height: 100%;
+}

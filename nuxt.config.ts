@@ -79,6 +79,9 @@ export default {
     css: [
         '~/assets/styles/index.scss',
         'vue-popperjs/dist/vue-popper.css',
+        'quill/dist/quill.core.css',
+        'quill/dist/quill.snow.css',
+        'quill/dist/quill.bubble.css'
     ],
     buildModules: [
         '@nuxt/typescript-build',
@@ -115,7 +118,8 @@ export default {
         '~/plugins/vue-tooltip',
         '~/plugins/vue-rx',
         '~/plugins/vue-not-visible',
-        '~/plugins/v-clipboard'
+        '~/plugins/v-clipboard',
+        { src: '~plugins/quill-plugin', ssr: false }
     ],
     router: {
         base: '/',
