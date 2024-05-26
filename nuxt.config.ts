@@ -190,10 +190,16 @@ export default {
     build: {
         devtools: true,
         extend(config, {isDev, isClient}) {
+            config.module.rules.push({
+                test: /\.mjs$/,
+                include: /node_modules/,
+                type: 'javascript/auto'
+            });
             config.node = {
                 fs: 'empty'
             }
-        }
+            return config;
+        },
     },
     generate: {
         routes: [
