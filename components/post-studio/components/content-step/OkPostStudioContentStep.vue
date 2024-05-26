@@ -175,6 +175,9 @@ import OkPostLinkPreview from '~/components/post/components/post-link-preview/Ok
 import TurndownService from 'turndown'
 import Quill from 'quill'
 
+import BlotFormatter from 'quill-blot-formatter';
+Quill.register('modules/blotFormatter', BlotFormatter);
+
 import ImageUploader from 'quill-image-uploader';
 
 import 'quill-image-uploader/dist/quill.imageUploader.min.css';
@@ -262,6 +265,9 @@ export default class OkPostStudioContentStep extends Vue {
                             });
                     },
                 },
+                blotFormatter: {
+                    // see config options below
+                }
             }
         };
     }
