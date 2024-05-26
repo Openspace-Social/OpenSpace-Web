@@ -24,7 +24,7 @@
              <span>
                     {{$t('global.snippets.dont_have_one')}}
              </span>
-            <a href="https://openspace.social/" rel="nofollow noopener noreferrer" target="_blank" class="ok-has-text-primary-invert-60">
+            <a href="https://openspace.social/general/contact-us" rel="nofollow noopener noreferrer" target="_blank" class="ok-has-text-primary-invert-60">
                 {{$t('global.snippets.request_one')}}.
             </a>
         </div>

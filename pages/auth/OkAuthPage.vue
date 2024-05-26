@@ -21,9 +21,15 @@
                             </span>
                         </div>
                         <div class="has-padding-bottom-10">
+                            <span v-twemoji class="icon">📝</span>
+                            <span class="has-padding-left-5 ok-has-text-primary-invert-80">
+                            {{$t('pages.auth.usps.blog')}} <b>**Coming Soon**</b>
+                            </span>
+                        </div>
+                        <div class="has-padding-bottom-10">
                             <span v-twemoji class="icon">😍</span>
                             <span class="has-padding-left-5 ok-has-text-primary-invert-80">
-                            {{$t('pages.auth.usps.revenue')}}
+                            {{$t('pages.auth.usps.revenue')}} <b>**Coming Soon**</b>
                             </span>
                         </div>
                         <div class="has-padding-bottom-10">
