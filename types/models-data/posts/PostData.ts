@@ -25,6 +25,8 @@ export interface PostData extends ModelData {
     are_comments_enabled?: boolean;
     public_reactions?: boolean;
     text?: string;
+    long_text?: string;
+    type?: string;
     language?: LanguageData;
     status?: string;
     media?: PostMediaData[];

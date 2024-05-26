@@ -72,6 +72,8 @@ export interface CreatePostApiParams {
     text?: string;
     circleIds?: number[];
     isDraft?: boolean;
+    longText?: string;
+    type?: string;
 }
 
 export interface AddMediaToPostApiParams {

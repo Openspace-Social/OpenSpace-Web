@@ -77,11 +77,11 @@ export default {
     },
     loading: {color: '#000000'},
     css: [
+        '~/assets/styles/main.css',
         '~/assets/styles/index.scss',
         'vue-popperjs/dist/vue-popper.css',
         'quill/dist/quill.core.css',
         'quill/dist/quill.snow.css',
-        'quill/dist/quill.bubble.css'
     ],
     buildModules: [
         '@nuxt/typescript-build',

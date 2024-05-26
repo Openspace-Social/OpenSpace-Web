@@ -890,7 +890,9 @@ export class UserService implements IUserService {
         const response: AxiosResponse<PostData> = await this.postsApiService.createPost({
             text: params.text,
             circleIds: params.circles && params.circles.length ? params.circles.map(circle => circle.id) : null,
-            isDraft: params.isDraft
+            isDraft: params.isDraft,
+            type: params.type,
+            longText: params.longText
         });
 
         return postFactory.make(response.data);

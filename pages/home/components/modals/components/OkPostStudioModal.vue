@@ -11,15 +11,16 @@
         //max-width: 390px;
         width: 100%;
         position: relative;
-        height: 70vh;
+        height: 80vh;
         overflow: hidden;
+        margin: 20px;
 
         @include for-size(tablet-portrait-up) {
-            width: 500px;
+            min-width: 500px;
         }
 
         @include for-size(desktop-up) {
-            width: 635px;
+            min-width: 635px;
         }
     }
 </style>

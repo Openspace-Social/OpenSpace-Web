@@ -3,9 +3,17 @@
 @import "global";
 
 .ql-container.ql-snow {
-    border: none !important;
-    height: calc(100% - 30%);
+    //border: none !important;
+    height: calc(100vh - 48vh);
 }
-.quill-editor.editor {
-    height: 100%;
+//.quill-editor.ql-editor {
+//    max-height: calc(100vh - 20vh);
+//}
+.post-markdown {
+    a {
+        font-weight: bold;
+        color: var(--accent-color) !important;
+        cursor: pointer;
+        background: none !important;
+    }
 }

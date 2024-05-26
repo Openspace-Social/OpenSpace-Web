@@ -22,6 +22,8 @@ export enum OkPostStudioSteps{
 
 export interface OkPostStudioData {
     text?: string;
+    postType?: string;
+    longText?: string;
     media?: OkFile[]
     community?: ICommunity;
     circles?: ICircle[];

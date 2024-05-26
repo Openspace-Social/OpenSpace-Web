@@ -13,7 +13,18 @@
                 <ok-post-link-preview :link="postFirstLinkUrl"></ok-post-link-preview>
             </div>
             <div class="has-padding-bottom-10 has-padding-right-20 has-padding-left-20">
-                <ok-post-text v-if="post.text" :post="post"></ok-post-text>
+                <template v-if="post.type == 'P'">
+                    <ok-post-text v-if="post.text" :post="post"></ok-post-text>
+                </template>
+                <template v-else>
+                    <vue-markdown
+                        :anchorAttributes="{
+                            target: '_blank',
+                        }"
+                        :toc-anchor-class="'has-text-weight-bold ok-has-text-accent has-cursor-pointer text__highlight'"
+                        toc-anchor-link-class="has-text-weight-bold ok-has-text-accent has-cursor-pointer text__highlight"
+                        :html="false" :source="post.longText" class="content post-markdown ok-has-text-primary-invert"/>
+                </template>
                 <div class="columns is-mobile">
                     <div class="column" v-if="post.commentsCount && post.commentsCount > 0">
                         <ok-post-comment-counts :post="post"></ok-post-comment-counts>
@@ -73,10 +84,12 @@
     import OkPostCommentCounts from "~/components/post/components/post-comments-count/OkPostCommentCounts.vue";
     import OkPostActions from "~/components/post/components/post-actions/OkPostActions.vue";
     import OkPostCircles from '~/components/post/components/post-circles/OkPostCircles.vue';
+    import VueMarkdown from "vue-markdown";
 
     @Component({
         name: "OkPost",
         components: {
+            VueMarkdown,
             OkPostCircles,
             OkPostLinkPreview,
             OkPostActions, OkPostCommentCounts, OkPostReactions, OkPostMedia, OkPostText, OkPostHeader},
@@ -88,6 +101,7 @@
         postElementWidth = 0;
 
         created() {
+            console.log(this.post);
             this.updatePostElementWidth();
         }
 

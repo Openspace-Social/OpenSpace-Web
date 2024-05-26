@@ -5,6 +5,8 @@ import { getMatchedComponentsInstances, getChildrenComponentInstancesUsingFetch,
 import NuxtLoading from './components/nuxt-loading.vue'
 import NuxtBuildIndicator from './components/nuxt-build-indicator'
 
+import '../assets/styles/main.css'
+
 import '../assets/styles/index.scss'
 
 import '../node_modules/vue-popperjs/dist/vue-popper.css'

@@ -28,6 +28,8 @@ export interface IPost extends IDataModel<IPost> {
     commentsEnabled?: boolean;
     publicReactions?: boolean;
     text?: string;
+    longText?: string;
+    type?: string;
     language?: ILanguage;
     status?: PostStatus;
     media?: IPostMedia[];

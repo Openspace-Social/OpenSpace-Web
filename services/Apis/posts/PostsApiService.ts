@@ -219,6 +219,8 @@ export class PostsApiService implements IPostsApiService {
         if (params.circleIds && params.circleIds.length) {
             bodyFormData.set('circle_id', params.circleIds.join(','));
         }
+        if (params.type) bodyFormData.set('type', params.type.toString());
+        if (params.longText) bodyFormData.set('long_text', params.longText);
 
         return this.httpService.put(PostsApiService.CREATE_POST_PATH,
             bodyFormData,

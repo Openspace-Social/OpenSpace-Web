@@ -265,6 +265,8 @@ export interface CreateCommunityPostParams {
     community: ICommunity;
     text?: string;
     isDraft?: boolean;
+    type?: string;
+    longText?: string;
 }
 
 export interface DeleteCommunityParams {
@@ -359,6 +361,8 @@ export interface CreatePostParams {
     text?: string;
     circles?: ICircle[];
     isDraft?: boolean;
+    type?: string;
+    longText?: string;
 }
 
 

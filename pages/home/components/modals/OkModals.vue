@@ -102,7 +102,7 @@
         <b-modal :active.sync="userFollowersModalOpen" :trap-focus="true" @close="onModalClosed">
             <ok-user-followers-modal :params="activeModalParams"></ok-user-followers-modal>
         </b-modal>
-        <b-modal :active.sync="postStudioModalOpen" :trap-focus="true" @close="onModalClosed">
+        <b-modal :active.sync="postStudioModalOpen" :trap-focus="true" @close="onModalClosed" :width="1444">
             <ok-post-studio-modal :params="activeModalParams" v-if="activeModalParams" :return-data-setter="setModalReturnData"/>
         </b-modal>
         <b-modal :active.sync="createCommunityModalOpen" :trap-focus="true" @close="onModalClosed">
@@ -159,7 +159,7 @@
 
     .ok-modal {
         .modal-content {
-            height: 85%;
+            height: 95%;
             padding: 0 2rem;
         }
     }

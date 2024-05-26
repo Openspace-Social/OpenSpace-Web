@@ -142,6 +142,14 @@ export class Post extends DataModel<Post> implements IPost {
             attributeKey: 'text',
         },
         {
+            dataKey: 'long_text',
+            attributeKey: 'longText',
+        },
+        {
+            dataKey: 'type',
+            attributeKey: 'type',
+        },
+        {
             dataKey: 'language',
             attributeKey: 'language',
             deserializer: languageDeserializer,

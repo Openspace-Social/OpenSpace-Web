@@ -39,17 +39,29 @@
         </ok-mobile-header>
         <div class="">
             <section>
-                <b-tabs v-model="activeTab">
-                    <b-tab-item label="Normal Post">
-                    </b-tab-item>
-
-                    <b-tab-item label="Long Post">
-                    </b-tab-item>
-                </b-tabs>
+                <div class="flex space-x-4 p-2 bg-white rounded-lg shadow-md">
+                    <button @click="type = 'P'" :class="{ 'active-tab text-white': type === 'P' }"
+                            class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">
+                        Short Post
+                    </button>
+                    <button @click="type = 'LP'" :class="{ 'active-tab text-white': type === 'LP' }"
+                            class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300 ">
+                        Long Post
+                    </button>
+                </div>
             </section>
         </div>
-        <div class="ok-post-creator-content-body columns is-paddingless is-marginless is-mobile is-flex-1">
-            <div class="column is-narrow is-paddingless">
+        <div class="ok-post-creator-content-body columns is-paddingless is-marginless is-mobile is-flex-1 overflow-auto">
+            <div v-if="type == 'LP'" class="has-padding-20">
+                <quill-editor
+                    class="editor"
+                    ref="myTextEditor"
+                    :value="content"
+                    :options="editorOptions"
+                    @change="onEditorChange($event)"
+                />
+            </div>
+            <div v-if="type === 'P'" class="column is-narrow is-paddingless">
                 <div
                     class="has-padding-top-20 has-padding-left-20 has-padding-bottom-20 is-flex flex-direction-column align-items-center">
                     <div>
@@ -61,7 +73,7 @@
                     </div>
                 </div>
             </div>
-            <div class="column is-relative is-paddingless">
+            <div v-if="type === 'P'" class="column is-relative is-paddingless">
                 <div style="position: absolute; left: 0; right: 0; bottom: 0; top: 0; overflow-y: auto;"
                      class="has-padding-20">
                     <div class="field" style="height: 100%">
@@ -69,35 +81,20 @@
                             {{ $t('global.snippets.whats_going_on') }}
                         </label>
                         <div class="control" style="height: 100%">
-<!--                            <ok-resizable-text-area-->
-<!--                                :maxHeight="Infinity">-->
-<!--                            <quill-editor-->
-<!--                                class="editor"-->
-<!--                                ref="myTextEditor"-->
-<!--                                value=""-->
-<!--                                :options="editorOption"-->
-<!--                            />-->
-<!--                            </ok-resizable-text-area>-->
-                            <quill-editor
-                                class="editor"
-                                ref="myTextEditor"
-                                :value="content"
-                                :options="editorOptions"
-                                @change="onEditorChange($event)"
-                            />
-<!--                            <ok-resizable-text-area-->
-<!--                                :maxHeight="Infinity">-->
-<!--                              <textarea-->
-<!--                                  name="text"-->
-<!--                                  class="input ok-input has-no-background is-size-5 is-paddingless"-->
-<!--                                  id="commentPostText"-->
-<!--                                  required-->
-<!--                                  :placeholder="$t('global.snippets.whats_going_on')"-->
-<!--                                  v-model="text"-->
-<!--                                  ref="textareaInput"-->
-<!--                              >-->
-<!--                                </textarea>-->
-<!--                            </ok-resizable-text-area>-->
+
+                            <ok-resizable-text-area
+                                :maxHeight="Infinity">
+                                  <textarea
+                                      name="text"
+                                      class="input ok-input has-no-background is-size-5 is-paddingless"
+                                      id="commentPostText"
+                                      required
+                                      :placeholder="$t('global.snippets.whats_going_on')"
+                                      v-model="text"
+                                      ref="textareaInput"
+                                  >
+                                    </textarea>
+                            </ok-resizable-text-area>
                         </div>
                     </div>
                     <div v-if="mediaFile || hasPost" class="has-padding-bottom-20">
@@ -121,8 +118,8 @@
                 </div>
             </div>
         </div>
-        <div class="columns is-multiline is-mobile is-paddingless is-marginless" v-if="!mediaFile && !hasPost">
-            <div class="column is-narrow">
+        <div  class="columns is-multiline is-mobile is-paddingless is-marginless" v-if="!mediaFile && !hasPost">
+            <div v-if="type === 'P'" class="column is-narrow">
                 <button @click="onWantsToPickMedia"
                         class="button is-rounded has-text-weight-bold is-borderless ok-media-button">
                     <img :src="mediaIcon" alt="Media icon" width="30px" class="has-padding-right-5">
@@ -142,6 +139,13 @@
         color: white !important;
     }
 }
+.active-tab {
+    background-color: #FCC14B;
+    color: white;
+    &:hover, &:focus {
+        opacity: 1;
+    }
+}
 </style>
 
 <script lang="ts">
@@ -151,7 +155,7 @@ import {okunaContainer} from "~/services/inversify";
 import {OkPostStudioData, OkPostStudioParams} from "~/components/post-studio/lib/OkPostCreatorTypes";
 import OkLoggedInUserAvatar from "~/components/avatars/logged-in-user-avatar/OkLoggedInUserAvatar.vue";
 import OkResizableTextArea from "~/components/OkResizableTextarea.vue";
-import {postMaxLength, postValidators} from "~/validators/post";
+import {longPostMinLength, longPostValidators, postMaxLength, postValidators} from "~/validators/post";
 import {Validate} from "~/node_modules/vuelidate-property-decorators";
 import {OkAvatarSize} from "~/components/avatars/lib/OkAvatarSize";
 import OkCharacterCount from "~/components/OkCharacterCount.vue";
@@ -177,6 +181,13 @@ import 'quill-image-uploader/dist/quill.imageUploader.min.css';
 
 Quill.register("modules/imageUploader", ImageUploader);
 const turnDownService = TurndownService()
+// turnDownService.addRule('customLink', {
+//     filter: ['a'],
+//     replacement: function(content, node) {
+//         const href = node.getAttribute('href');
+//         return `<span class="custom-link"><a href="${href}">${content}</a></span>`;
+//     }
+// });
 
 @Component({
     name: "OkPostStudioContentStep",
@@ -211,11 +222,12 @@ export default class OkPostStudioContentStep extends Vue {
 
     saveInProgress = false;
     type = "P";
-    activeTab = 0;
-    showBooks = false;
 
     @Validate(postValidators)
     text = "";
+
+    @Validate(longPostValidators)
+    longText = "";
 
     get editorOptions() {
         return {
@@ -224,16 +236,16 @@ export default class OkPostStudioContentStep extends Vue {
                 toolbar: [
                     ['bold', 'italic', 'underline', 'strike'],
                     ['blockquote', 'code-block'],
-                    [{ 'header': 1 }, { 'header': 2 }],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    [{ 'script': 'sub' }, { 'script': 'super' }],
-                    [{ 'indent': '-1' }, { 'indent': '+1' }],
-                    [{ 'direction': 'rtl' }],
-                    [{ 'size': ['small', false, 'large', 'huge'] }],
-                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                    [{ 'font': [] }],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{ 'align': [] }],
+                    [{'header': 1}, {'header': 2}],
+                    [{'list': 'ordered'}, {'list': 'bullet'}],
+                    [{'script': 'sub'}, {'script': 'super'}],
+                    [{'indent': '-1'}, {'indent': '+1'}],
+                    [{'direction': 'rtl'}],
+                    [{'size': ['small', false, 'large', 'huge']}],
+                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                    [{'font': []}],
+                    [{'color': []}, {'background': []}],
+                    [{'align': []}],
                     ['clean'],
                     ['link', 'image', 'video']
                 ],
@@ -241,7 +253,6 @@ export default class OkPostStudioContentStep extends Vue {
                     upload: (file) => {
                         return this.userService.uploadGenericMedia(file)
                             .then((response) => {
-                                console.log(response);
                                 return response.url;
                             })
                             .catch((error) => {
@@ -253,6 +264,7 @@ export default class OkPostStudioContentStep extends Vue {
             }
         };
     }
+
     content = '';
 
     linkToPreview = '';
@@ -289,13 +301,9 @@ export default class OkPostStudioContentStep extends Vue {
         this.$emit("onWantsToGoToNextStep", this.postStudioData);
     }
 
-    onEditorChange({ html, text }) {
-        console.debug('editor change!', html, text)
+    onEditorChange({html, text}) {
         this.content = html
-        console.log(this.content)
-
-        const markdown = turnDownService.turndown(this.content)
-        console.log(markdown);
+        this.longText = turnDownService.turndown(this.content)
     }
 
     @Watch('text')
@@ -333,6 +341,8 @@ export default class OkPostStudioContentStep extends Vue {
     get postStudioData() {
         const postStudioData: OkPostStudioData = {
             text: this.text,
+            longText: this.longText,
+            postType: this.type
         };
 
         if (this.community) postStudioData.community = this.community;
@@ -411,11 +421,18 @@ export default class OkPostStudioContentStep extends Vue {
     }
 
     get isValidPostContent() {
-        if (this.text) {
-            if (this.text.length > postMaxLength) return false;
-        } else if (!this.mediaFile) {
-            return false;
+        if (this.type === 'P') {
+            if (this.text) {
+                if (this.text.length > postMaxLength) return false;
+            } else if (!this.mediaFile) {
+                return false;
+            }
+        } else {
+            if (this.type === 'LP') {
+                return this.longText.length >= longPostMinLength;
+            }
         }
+
 
 
         return true;

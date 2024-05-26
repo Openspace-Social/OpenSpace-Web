@@ -71,12 +71,17 @@ export class PostUploaderService implements IPostUploaderService {
     }
 
     private postCreator(postData: OkPostStudioData): Promise<IPost> {
+        console.log(postData);
         return postData.community ? this.userService.createCommunityPost({
             text: postData.text,
             isDraft: true,
+            longText: postData.longText,
+            type: postData.postType,
             community: postData.community
         }) : this.userService.createPost({
             text: postData.text,
+            longText: postData.longText,
+            type: postData.postType,
             isDraft: true,
             circles: postData.circles
         });
