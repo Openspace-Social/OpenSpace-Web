@@ -30,7 +30,7 @@ export class FollowsApiService implements IFollowsApiService {
     }
 
     requestToFollowUser(params: RequestToFollowUserApiParams): Promise<AxiosResponse<void>> {
-        return this.httpService.post(FollowsApiService.REQUEST_TO_FOLLOW_USER_PATH, {
+        return this.httpService.put(FollowsApiService.REQUEST_TO_FOLLOW_USER_PATH, {
             username: params.userUsername
         }, {appendAuthorizationToken: true, isApiRequest: true});
     }
