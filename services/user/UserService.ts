@@ -791,7 +791,9 @@ export class UserService implements IUserService {
         const response: AxiosResponse<PostData> = await this.communitiesApiService.createCommunityPost({
             communityName: params.community.name,
             text: params.text,
-            isDraft: params.isDraft
+            isDraft: params.isDraft,
+            longText: params.longText,
+            type: params.type,
         });
 
         return postFactory.make(response.data);

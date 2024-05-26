@@ -636,6 +636,10 @@ export class CommunitiesApiService implements ICommunitiesApiService {
 
         if (params.isDraft) bodyFormData.set('is_draft', params.isDraft.toString());
 
+        if (params.longText) bodyFormData.set('long_text', params.longText);
+
+        if (params.type) bodyFormData.set('type', params.type);
+
         const path = this.makeCreateCommunityPost(params.communityName);
 
         return this.httpService.put(path,

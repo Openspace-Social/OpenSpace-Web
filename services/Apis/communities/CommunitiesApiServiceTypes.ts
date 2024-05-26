@@ -23,6 +23,8 @@ export interface SearchJoinedCommunitiesApiParams {
 export interface CreateCommunityPostApiParams {
     communityName: string;
     text?: string;
+    longText?: string;
+    type?: string;
     isDraft?: boolean;
 }
 
