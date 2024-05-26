@@ -14,3 +14,4 @@ declare module "webpack-hot-middleware" {
 
 declare module "vue-quill-editor";
 declare module "quill-image-uploader";
+declare module "turndown";
