@@ -10,11 +10,12 @@
         >
             <template v-slot:leading>
                 <div class="has-padding-bottom-30-tablet has-padding-right-30-tablet has-padding-left-30-tablet">
-                    <ok-timeline-post-uploads @onPostUploaded="onPostUploaded"/>
+                    <ok-timeline-post-uploads
+                        @onPostUploaded="onPostUploaded"/>
                 </div>
             </template>
         </ok-posts-stream>
-        <ok-new-post-action/>
+        <ok-new-post-action ref="postActionButton"/>
     </section>
 </template>
 

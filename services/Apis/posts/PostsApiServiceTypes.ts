@@ -92,6 +92,8 @@ export interface GetPostStatusApiParams {
 export interface EditPostApiParams {
     postUuid: string;
     text: string;
+    longText?: string;
+    type?: string;
 }
 
 export interface GetPostApiParams {

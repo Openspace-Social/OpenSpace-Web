@@ -330,6 +330,8 @@ export interface CommentPostParams {
 export interface EditPostParams {
     post: IPost;
     text: string;
+    type?: string;
+    longText?: string;
 }
 
 export interface EditPostCommentParams {

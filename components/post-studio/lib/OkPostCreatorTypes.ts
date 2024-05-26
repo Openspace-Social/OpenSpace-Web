@@ -7,6 +7,7 @@ import { OkFile } from '~/services/media/IMediaService';
 export interface OkPostStudioParams {
     community?: ICommunity;
     post?: IPost;
+    data?: OkPostStudioData;
 }
 
 export enum OkPostStudioSteps{

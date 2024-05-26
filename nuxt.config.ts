@@ -119,7 +119,8 @@ export default {
         '~/plugins/vue-rx',
         '~/plugins/vue-not-visible',
         '~/plugins/v-clipboard',
-        { src: '~plugins/quill-plugin', ssr: false }
+        { src: '~plugins/quill-plugin', ssr: false },
+        '~/plugins/eventBus.js'
     ],
     router: {
         base: '/',

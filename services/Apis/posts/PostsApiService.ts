@@ -201,6 +201,8 @@ export class PostsApiService implements IPostsApiService {
     editPost(params: EditPostApiParams): Promise<AxiosResponse<PostData>> {
         const bodyFormData = new FormData();
         if (params.text) bodyFormData.set('text', params.text);
+        if (params.longText) bodyFormData.set('long_text', params.longText);
+        if (params.type) bodyFormData.set('type', params.type.toString());
 
 
         const path = this.makeEditPostPath(params.postUuid);

@@ -178,6 +178,7 @@ import Quill from 'quill'
 import ImageUploader from 'quill-image-uploader';
 
 import 'quill-image-uploader/dist/quill.imageUploader.min.css';
+import markdownit from "markdown-it";
 
 Quill.register("modules/imageUploader", ImageUploader);
 const turnDownService = TurndownService()
@@ -285,10 +286,32 @@ export default class OkPostStudioContentStep extends Vue {
         if (this.data) {
             if (this.data.text) this.text = this.data.text;
             if (this.data.media && this.data.media.length) this.mediaFile = this.data.media[0];
+            if (this.data.postType) this.type = this.data.postType;
+            if (this.data.longText) {
+                const md = markdownit();
+                this.content = md.render(this.data.longText);
+                this.longText = this.data.longText;
+            }
         }
 
-        if (this.params.post?.text && !this.data.text) {
-            this.text = this.params.post.text;
+        if(this.params.data) {
+            if (this.params.data.text) this.text = this.params.data.text;
+            if (this.params.data.postType) this.type = this.params.data.postType;
+            if(this.params.data.longText) {
+                const md = markdownit();
+                this.content = md.render(this.params.data.longText);
+                this.longText = this.params.data.longText;
+            }
+        }
+
+        if (this.params.post) {
+            this.text = this.params.post.text || "";
+            if (this.params.post.type) this.type = this.params.post.type;
+            if (this.params.post.longText) {
+                const md = markdownit();
+                this.content = md.render(this.params.post.longText);
+                this.longText = this.params.post.longText;
+            }
         }
         // this.$nextTick(() => this.$refs.textareaInput.focus());
     }
@@ -368,6 +391,8 @@ export default class OkPostStudioContentStep extends Vue {
             this.saveOperation = CancelableOperation.fromPromise(this.userService.editPost({
                 post: this.post,
                 text: this.text,
+                longText: this.longText,
+                type: this.type,
             }));
 
             const savedPost = await this.saveOperation.value;

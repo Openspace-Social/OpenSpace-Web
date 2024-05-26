@@ -16,7 +16,7 @@
 
                 <template v-slot:content>
                     <span class="ok-has-text-primary-invert">
-                                {{statusText}}
+                                {{ statusText }}
                     </span>
                 </template>
 
@@ -25,10 +25,18 @@
                         <div class="column has-cursor-pointer is-flex align-items-center justify-center"
                              v-if="postUpload.status === OkPostUploadStatus.error"
                              role="button"
+                             @click="editUpload"
+                        >
+                            <ok-edit-icon
+                                class="ok-svg-icon-primary-invert is-icon-2x"></ok-edit-icon>
+                        </div>
+                        <div class="column has-cursor-pointer is-flex align-items-center justify-center"
+                             v-if="postUpload.status === OkPostUploadStatus.error"
+                             role="button"
                              @click="retryUpload"
                         >
                             <ok-refresh-icon
-                                    class="ok-svg-icon-primary-invert is-icon-2x"></ok-refresh-icon>
+                                class="ok-svg-icon-primary-invert is-icon-2x"></ok-refresh-icon>
                         </div>
                         <div class="column has-cursor-pointer is-flex align-items-center justify-center"
                              v-if="postUpload.status === OkPostUploadStatus.error || postUpload.status === OkPostUploadStatus.addingPostMedia"
@@ -36,7 +44,7 @@
                              @click="cancelUpload"
                         >
                             <ok-close-icon
-                                    class="ok-svg-icon-primary-invert is-icon-2x"></ok-close-icon>
+                                class="ok-svg-icon-primary-invert is-icon-2x"></ok-close-icon>
                         </div>
                     </div>
                 </template>
@@ -51,94 +59,102 @@
 
 
 <script lang="ts">
-    import { Component, Prop, Vue, Watch } from "nuxt-property-decorator"
-    import { OkPostUpload, OkPostUploadStatus } from "../../services/post-uploader/lib/OkPostUpload";
-    import OkImageAvatar from "../avatars/image-avatar/OkImageAvatar.vue";
-    import { IUtilsService } from "../../services/utils/IUtilsService";
-    import { okunaContainer } from "../../services/inversify";
-    import { TYPES } from "../../services/inversify-types";
-    import OkTile from "~/components/tiles/OkTile.vue";
-    import { OkFileType } from "~/services/media/IMediaService";
-    import { OkImageFit } from "~/components/images/OkImageFit";
-
-    @Component({
-        name: "OkPostUploadCard",
-        components: {
-            OkTile,
-            OkImageAvatar
-        },
-    })
-    export default class OkPostUploadCard extends Vue {
-        @Prop({
-            type: Object,
-            required: true
-        }) readonly postUpload: OkPostUpload;
+import {Component, Prop, Vue, Watch} from "nuxt-property-decorator"
+import {OkPostUpload, OkPostUploadStatus} from "../../services/post-uploader/lib/OkPostUpload";
+import OkImageAvatar from "../avatars/image-avatar/OkImageAvatar.vue";
+import {IUtilsService} from "../../services/utils/IUtilsService";
+import {okunaContainer} from "../../services/inversify";
+import {TYPES} from "../../services/inversify-types";
+import OkTile from "~/components/tiles/OkTile.vue";
+import {OkFileType} from "~/services/media/IMediaService";
+import {OkImageFit} from "~/components/images/OkImageFit";
+import EventBus from '~/plugins/eventBus';
 
 
-        private utilsService: IUtilsService = okunaContainer.get<IUtilsService>(TYPES.UtilsService);
-        OkImageFit = OkImageFit;
-        OkPostUploadStatus=OkPostUploadStatus;
-
-        @Watch("postUpload.status")
-        onChildChanged(status: OkPostUploadStatus, oldStatus: OkPostUploadStatus) {
-            this.$emit("onPostUploadStatusChange", status, this.postUpload);
-        }
-
-        cancelUpload(){
-            this.postUpload.cancel();
-        }
-
-        retryUpload(){
-            this.postUpload.retry();
-        }
-
-        get hasRetryButton() {
-            return this.postUpload.status === OkPostUploadStatus.error;
-        }
-
-        get firstMediaIsImage() {
-            return this.postUpload.firstMedia?.type === OkFileType.image;
-        }
-
-        get firstMediaIsVideo() {
-            return this.postUpload.firstMedia?.type === OkFileType.video;
-        }
+@Component({
+    name: "OkPostUploadCard",
+    components: {
+        OkTile,
+        OkImageAvatar
+    },
+})
+export default class OkPostUploadCard extends Vue {
+    @Prop({
+        type: Object,
+        required: true
+    }) readonly postUpload: OkPostUpload;
 
 
-        get statusText() {
+    private utilsService: IUtilsService = okunaContainer.get<IUtilsService>(TYPES.UtilsService);
+    OkImageFit = OkImageFit;
+    OkPostUploadStatus = OkPostUploadStatus;
 
-            let statusText;
-            switch (this.postUpload.status) {
-                case  OkPostUploadStatus.idle:
-                    statusText = this.$t("global.keywords.waiting") + "...";
-                    break;
-                case  OkPostUploadStatus.creatingPost:
-                    statusText = this.$t("global.snippets.creating_post") + "...";
-                    break;
-                case  OkPostUploadStatus.addingPostMedia:
-                    statusText = this.$t("global.snippets.uploading_media") + "...";
-                    break;
-                case  OkPostUploadStatus.publishing:
-                    statusText = this.$t("global.snippets.publishing_post") + "...";
-                    break;
-                case  OkPostUploadStatus.processing:
-                    statusText = this.$t("global.snippets.processing_media") + "...";
-                    break;
-                case  OkPostUploadStatus.published:
-                    statusText = this.$t("global.keywords.published");
-                    break;
-                case  OkPostUploadStatus.cancelled:
-                    statusText = this.$t("global.keywords.cancelled");
-                    break;
-                case  OkPostUploadStatus.error:
-                    statusText = this.utilsService.handleError(this.postUpload.error).humanFriendlyMessage;
-                    break;
-            }
-
-            return statusText;
-        }
-
+    @Watch("postUpload.status")
+    onChildChanged(status: OkPostUploadStatus, oldStatus: OkPostUploadStatus) {
+        this.$emit("onPostUploadStatusChange", status, this.postUpload);
     }
+
+    cancelUpload() {
+        this.postUpload.cancel();
+    }
+
+    retryUpload() {
+        this.postUpload.retry();
+    }
+
+    editUpload() {
+        const data = this.postUpload.okPostStudioData;
+        EventBus.$emit('onPostEdit', {data: {...data}});
+        // this.postUpload.cancel();
+    }
+
+    get hasRetryButton() {
+        return this.postUpload.status === OkPostUploadStatus.error;
+    }
+
+    get firstMediaIsImage() {
+        return this.postUpload.firstMedia?.type === OkFileType.image;
+    }
+
+    get firstMediaIsVideo() {
+        return this.postUpload.firstMedia?.type === OkFileType.video;
+    }
+
+
+    get statusText() {
+
+        let statusText;
+        switch (this.postUpload.status) {
+            case  OkPostUploadStatus.idle:
+                statusText = this.$t("global.keywords.waiting") + "...";
+                break;
+            case  OkPostUploadStatus.creatingPost:
+                statusText = this.$t("global.snippets.creating_post") + "...";
+                break;
+            case  OkPostUploadStatus.addingPostMedia:
+                statusText = this.$t("global.snippets.uploading_media") + "...";
+                break;
+            case  OkPostUploadStatus.publishing:
+                statusText = this.$t("global.snippets.publishing_post") + "...";
+                break;
+            case  OkPostUploadStatus.processing:
+                statusText = this.$t("global.snippets.processing_media") + "...";
+                break;
+            case  OkPostUploadStatus.published:
+                statusText = this.$t("global.keywords.published");
+                break;
+            case  OkPostUploadStatus.cancelled:
+                statusText = this.$t("global.keywords.cancelled");
+                break;
+            case  OkPostUploadStatus.error:
+                statusText = this.utilsService.handleError(this.postUpload.error).humanFriendlyMessage;
+                break;
+        }
+
+        return statusText;
+    }
+
+}
 </script>
 
 

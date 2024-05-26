@@ -37,6 +37,10 @@ export class OkPostUpload {
         this.remainingMediaToUpload = this.data.media ? this.data.media.slice() : [];
     }
 
+    get okPostStudioData() {
+        return this.data;
+    }
+
 
     start() {
         return this.uploadPost();
