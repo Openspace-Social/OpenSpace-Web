@@ -101,23 +101,11 @@ export default class extends Vue {
             content = content.replace("<iframe>", '\`<iframe>\`');
         }
         return content;
-
-        // return this.post.longText
-        //     .replace(/@(\w+)/g, '<span class="ok-has-text-accent has-cursor-pointer text__highlight" @click="onMentionClick(\'$1\')">@$1</span>')
-        //     .replace(/#(\w+)/g, '<span class="ok-has-text-accent has-cursor-pointer text__highlight" @click="onHashtagClick(\'$1\')">#$1</span>');
-        // return this.post.longText
-        //     .replace(/@(\w+)/g, `
-        //     <span
-        //     @click="onMentionClick('${$1}')
-        //     class="ok-has-text-accent has-cursor-pointer text__highlight">@$1</span>
-        //     `)
-        //     .replace(/#(\w+)/g, '<span class="ok-has-text-accent has-cursor-pointer text__highlight">#$1</span>');
     }
 
     created() {
         this.$nextTick(() => {
             if (this.$refs.postMarkdownContent) {
-
                 const scrollHeight = (this.$refs.postMarkdownContent as HTMLDivElement).scrollHeight;
                 if (scrollHeight > 300) {
                     this.showMoreButton = true;
