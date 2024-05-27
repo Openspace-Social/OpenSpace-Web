@@ -346,9 +346,7 @@ export default class OkPostStudioContentStep extends Vue {
 
     onEditorChange({html, text}) {
         this.content = html
-        console.log(this.content)
         this.longText = turnDownService.turndown(this.content)
-        console.log(this.longText)
     }
 
     @Watch('text')
