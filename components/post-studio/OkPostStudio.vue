@@ -95,7 +95,6 @@ export default class OkPostStudio extends Vue {
 
     mounted() {
         if (this.params.post) {
-            console.log('--2-------', this.params.post)
             this.data.text = this.params.post.text;
             this.data.postType = this.params.post.type || "P";
             if(this.params.post.longText) {
@@ -105,7 +104,6 @@ export default class OkPostStudio extends Vue {
                 this.data.longText = this.params.post.longText;
             }
         } else {
-            console.log('--4-------', this.data)
             if(this.params.data) {
                 this.data = this.params.data;
                 if(this.data.longText) {
@@ -118,7 +116,6 @@ export default class OkPostStudio extends Vue {
         if (this.params.community) {
             this.data.community = this.params.community;
         }
-        console.log('---------', this.data)
     }
 
     onSavedPost(post: IPost) {

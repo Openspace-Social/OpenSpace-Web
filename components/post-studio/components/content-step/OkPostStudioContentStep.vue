@@ -192,6 +192,20 @@ const turnDownService = TurndownService()
 //         return `<span class="custom-link"><a href="${href}">${content}</a></span>`;
 //     }
 // });
+turnDownService.addRule('codeBlock', {
+    filter: ['pre'],
+    replacement: function(content, node) {
+        return '```\n' + node.innerText + '```';
+    }
+});
+// add rule to convert iframe to a clickable link
+turnDownService.addRule('iframe', {
+    filter: ['iframe'],
+    replacement: function(content, node) {
+        const src = node.getAttribute('src');
+        return `[${src}](${src})`;
+    }
+});
 
 @Component({
     name: "OkPostStudioContentStep",
@@ -332,7 +346,9 @@ export default class OkPostStudioContentStep extends Vue {
 
     onEditorChange({html, text}) {
         this.content = html
+        console.log(this.content)
         this.longText = turnDownService.turndown(this.content)
+        console.log(this.longText)
     }
 
     @Watch('text')

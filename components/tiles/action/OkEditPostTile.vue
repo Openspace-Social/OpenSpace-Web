@@ -44,7 +44,6 @@
 
 
         onWantsToEditPost() {
-            console.log('qqqqqqq', this.post);
             this.modalService.openPostStudioModal({
                 post: this.post
             });

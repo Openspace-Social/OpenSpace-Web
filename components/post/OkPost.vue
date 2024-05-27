@@ -98,7 +98,6 @@ export default class OkPost extends Vue {
     postElementWidth = 0;
 
     created() {
-        console.log(this.post);
         this.updatePostElementWidth();
     }
 
