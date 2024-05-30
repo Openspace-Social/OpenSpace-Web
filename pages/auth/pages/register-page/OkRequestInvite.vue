@@ -171,7 +171,8 @@ export default class OkRegisterPage extends Vue {
             if (typeof value === "boolean" && !value) {
                 this.toastService.show({
                     message: `Email address already signed up, please email admin@openspacelive.com if you’re having trouble with the sign up process`,
-                    type: ToastType.error
+                    type: ToastType.error,
+                    duration: 10000
                 });
                 this.inviteSend = false;
                 return;
