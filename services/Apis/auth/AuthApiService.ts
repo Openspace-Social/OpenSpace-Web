@@ -19,7 +19,7 @@ import {
     GetFollowingsApiParams,
     GetFollowersApiParams,
     SearchFollowingsApiParams,
-    SearchFollowersApiParams
+    SearchFollowersApiParams, IsRequestInviteApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 import { IHttpService } from '~/services/http/IHttpService';
 import { inject, injectable } from '~/node_modules/inversify';
@@ -46,6 +46,7 @@ export class AuthApiService implements IAuthApiService {
     static CHECK_EMAIL_PATH = 'api/auth/email-check/';
     static CHECK_USERNAME_PATH = 'api/auth/username-check/';
     static UPDATE_AUTHENTICATED_USER_PATH = 'api/auth/user/';
+    static REQUEST_INVITE_PATH = 'api/auth/request/token/';
 
     constructor(@inject(TYPES.HttpService) private httpService: IHttpService,
                 @inject(TYPES.UtilsService) private utilsService: IUtilsService) {
@@ -97,6 +98,16 @@ export class AuthApiService implements IAuthApiService {
     isInviteTokenValid(data: IsInviteTokenValidApiParams): Promise<AxiosResponse<void>> {
         return this.httpService.post<void>(AuthApiService.VALIDATE_INVITE_TOKEN, {
             token: data.token
+        }, {
+            isApiRequest: true,
+        });
+    }
+
+    requestInviteToken(data: IsRequestInviteApiParams): Promise<AxiosResponse<void>> {
+
+        console.log("requestInviteToken true");
+        return this.httpService.post<void>(AuthApiService.REQUEST_INVITE_PATH, {
+            email: data.email
         }, {
             isApiRequest: true,
         });

@@ -125,7 +125,7 @@ import {
     ResetPasswordApiParams,
     IsInviteTokenValidApiParams,
     IsEmailAvailableApiParams,
-    IsUsernameAvailableApiParams
+    IsUsernameAvailableApiParams, IsRequestInviteApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 import { INotification } from '~/models/notifications/notification/INotification';
 import { IFollow } from '~/models/follows/follow/IFollow';
@@ -153,6 +153,8 @@ export interface IUserService {
         valid: boolean;
         token?: string;
     } | false>;
+
+    requestInviteToken(data: IsRequestInviteApiParams): Promise<boolean>;
 
     isEmailAvailable(data: IsEmailAvailableApiParams): Promise<boolean>;
 

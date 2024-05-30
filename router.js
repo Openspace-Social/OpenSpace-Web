@@ -14,6 +14,7 @@ import OkLoginPage from "./pages/auth/pages/OkLoginPage";
 import OkResetPasswordPage from "./pages/auth/pages/OkResetPasswordPage";
 import OkRequestPasswordResetPage from "./pages/auth/pages/OkRequestPasswordResetPage";
 import OkRegisterPage from "./pages/auth/pages/register-page/OkRegisterPage";
+import OkRequestInvite from "./pages/auth/pages/register-page/OkRequestInvite.vue";
 import OkCommunityProfile from "./pages/home/pages/community/OkCommunityProfile";
 
 Vue.use(Router);
@@ -97,6 +98,10 @@ export function createRouter() {
                     {
                         path: 'register',
                         component: OkRegisterPage
+                    },
+                    {
+                        path: 'request-invite',
+                        component: OkRequestInvite
                     }
                 ]
             },

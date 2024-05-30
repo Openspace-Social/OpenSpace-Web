@@ -23,7 +23,7 @@
                         <div class="has-padding-bottom-10">
                             <span v-twemoji class="icon">📝</span>
                             <span class="has-padding-left-5 ok-has-text-primary-invert-80">
-                            {{$t('pages.auth.usps.blog')}} <b>**Coming Soon**</b>
+                            {{$t('pages.auth.usps.blog')}}
                             </span>
                         </div>
                         <div class="has-padding-bottom-10">
