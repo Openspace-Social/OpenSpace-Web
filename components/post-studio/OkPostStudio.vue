@@ -69,7 +69,6 @@ import OkPostStudioDestinationStep
 import OkPostStudioCirclesStep from "~/components/post-studio/components/circles-step/OkPostStudioCirclesStep.vue";
 import OkPostStudioCommunityStep
     from "~/components/post-studio/components/community-step/OkPostStudioCommunityStep.vue";
-import markdownit from "markdown-it";
 
 @Component({
     name: "OkPostStudio",
@@ -98,8 +97,7 @@ export default class OkPostStudio extends Vue {
             this.data.text = this.params.post.text;
             this.data.postType = this.params.post.type || "P";
             if(this.params.post.longText) {
-                const md = markdownit();
-                this.data.longText = md.render(this.params.post.longText);
+                this.data.longText = this.params.post.longText;
             } else {
                 this.data.longText = this.params.post.longText;
             }
@@ -107,8 +105,7 @@ export default class OkPostStudio extends Vue {
             if(this.params.data) {
                 this.data = this.params.data;
                 if(this.data.longText) {
-                    const md = markdownit();
-                    this.data.longText = md.render(this.data.longText);
+                    this.data.longText = this.data.longText;
                 }
             }
         }
