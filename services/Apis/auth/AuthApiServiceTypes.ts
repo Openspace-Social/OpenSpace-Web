@@ -75,6 +75,10 @@ export interface IsInviteTokenValidApiParams {
     token: string
 }
 
+export interface IsRequestInviteApiParams {
+    email: string
+}
+
 export interface IsEmailAvailableApiParams {
     email: string
 }

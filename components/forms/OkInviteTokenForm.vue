@@ -24,9 +24,9 @@
              <span>
                     {{$t('global.snippets.dont_have_one')}}
              </span>
-            <a href="https://openspace.social/general/contact-us" rel="nofollow noopener noreferrer" target="_blank" class="ok-has-text-primary-invert-60">
+            <nuxt-link :to="localePath({path: '/a/request-invite'})" class="underline ok-has-text-primary-invert-60">
                 {{$t('global.snippets.request_one')}}.
-            </a>
+            </nuxt-link>
         </div>
         <div class="is-flex-1 flex-direction-column-reverse">
             <div class="field has-padding-top-20">

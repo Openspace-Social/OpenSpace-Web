@@ -181,31 +181,45 @@ Quill.register('modules/blotFormatter', BlotFormatter);
 import ImageUploader from 'quill-image-uploader';
 
 import 'quill-image-uploader/dist/quill.imageUploader.min.css';
-import markdownit from "markdown-it";
 
 Quill.register("modules/imageUploader", ImageUploader);
-const turnDownService = TurndownService()
-// turnDownService.addRule('customLink', {
-//     filter: ['a'],
-//     replacement: function(content, node) {
-//         const href = node.getAttribute('href');
-//         return `<span class="custom-link"><a href="${href}">${content}</a></span>`;
-//     }
-// });
-turnDownService.addRule('codeBlock', {
-    filter: ['pre'],
-    replacement: function(content, node) {
-        return '```\n' + node.innerText + '```';
-    }
-});
-// add rule to convert iframe to a clickable link
-turnDownService.addRule('iframe', {
-    filter: ['iframe'],
-    replacement: function(content, node) {
-        const src = node.getAttribute('src');
-        return `[${src}](${src})`;
-    }
-});
+
+var BlotsInline = Quill.import('blots/inline');
+Quill.register('format/blotsInline', BlotsInline);
+
+var DirectionAttribute = Quill.import('attributors/attribute/direction');
+Quill.register(DirectionAttribute, true);
+var AlignClass = Quill.import('attributors/class/align');
+Quill.register(AlignClass, true);
+var BackgroundClass = Quill.import('attributors/class/background');
+Quill.register(BackgroundClass, true);
+var ColorClass = Quill.import('attributors/class/color');
+Quill.register(ColorClass, true);
+var DirectionClass = Quill.import('attributors/class/direction');
+Quill.register(DirectionClass, true);
+var FontClass = Quill.import('attributors/class/font');
+Quill.register(FontClass, true);
+var SizeClass = Quill.import('attributors/class/size');
+Quill.register(SizeClass, true);
+var AlignStyle = Quill.import('attributors/style/align');
+Quill.register(AlignStyle, true);
+var BackgroundStyle = Quill.import('attributors/style/background');
+Quill.register(BackgroundStyle, true);
+var ColorStyle = Quill.import('attributors/style/color');
+Quill.register(ColorStyle, true);
+var DirectionStyle = Quill.import('attributors/style/direction');
+Quill.register(DirectionStyle, true);
+var FontStyle = Quill.import('attributors/style/font');
+Quill.register(FontStyle, true);
+// var SizeStyle = Quill.import('attributors/style/size');
+// // delete SizeStyle.whitelist;  // accept all
+// SizeStyle.whitelist = ['small', 'large'];
+// SizeStyle.sizes = {
+//     'small': '10px',
+//     'large': '18px',
+//     'huge': '32px'
+// };
+// Quill.register(SizeStyle, true);
 
 @Component({
     name: "OkPostStudioContentStep",
@@ -259,7 +273,6 @@ export default class OkPostStudioContentStep extends Vue {
                     [{'script': 'sub'}, {'script': 'super'}],
                     [{'indent': '-1'}, {'indent': '+1'}],
                     [{'direction': 'rtl'}],
-                    [{'size': ['small', false, 'large', 'huge']}],
                     [{'header': [1, 2, 3, 4, 5, 6, false]}],
                     [{'font': []}],
                     [{'color': []}, {'background': []}],
@@ -308,8 +321,7 @@ export default class OkPostStudioContentStep extends Vue {
             if (this.data.media && this.data.media.length) this.mediaFile = this.data.media[0];
             if (this.data.postType) this.type = this.data.postType;
             if (this.data.longText) {
-                const md = markdownit();
-                this.content = md.render(this.data.longText);
+                this.content = this.data.longText;
                 this.longText = this.data.longText;
             }
         }
@@ -318,8 +330,7 @@ export default class OkPostStudioContentStep extends Vue {
             if (this.params.data.text) this.text = this.params.data.text;
             if (this.params.data.postType) this.type = this.params.data.postType;
             if(this.params.data.longText) {
-                const md = markdownit();
-                this.content = md.render(this.params.data.longText);
+                this.content = this.params.data.longText;
                 this.longText = this.params.data.longText;
             }
         }
@@ -328,8 +339,7 @@ export default class OkPostStudioContentStep extends Vue {
             this.text = this.params.post.text || "";
             if (this.params.post.type) this.type = this.params.post.type;
             if (this.params.post.longText) {
-                const md = markdownit();
-                this.content = md.render(this.params.post.longText);
+                this.content = this.params.post.longText;
                 this.longText = this.params.post.longText;
             }
         }
@@ -346,7 +356,7 @@ export default class OkPostStudioContentStep extends Vue {
 
     onEditorChange({html, text}) {
         this.content = html
-        this.longText = turnDownService.turndown(this.content)
+        this.longText = html
     }
 
     @Watch('text')

@@ -4,7 +4,8 @@ import { UserData } from '~/types/models-data/auth/UserData';
 
 import {
     BlockUserApiParams,
-    GetUserApiParams, IsEmailAvailableApiParams,
+    GetUserApiParams,
+    IsEmailAvailableApiParams,
     LoginApiParams,
     LoginResponse,
     RegistrationApiParams,
@@ -14,7 +15,14 @@ import {
     ResetPasswordApiParams,
     SearchUsersApiParams,
     UnblockUserApiParams,
-    IsInviteTokenValidApiParams, IsUsernameAvailableApiParams, UpdateUserApiParams, GetFollowingsApiParams, GetFollowersApiParams, SearchFollowingsApiParams, SearchFollowersApiParams
+    IsInviteTokenValidApiParams,
+    IsUsernameAvailableApiParams,
+    UpdateUserApiParams,
+    GetFollowingsApiParams,
+    GetFollowersApiParams,
+    SearchFollowingsApiParams,
+    SearchFollowersApiParams,
+    IsRequestInviteApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 
 export interface IAuthApiService {
@@ -42,6 +50,8 @@ export interface IAuthApiService {
     unblockUser(params: UnblockUserApiParams): Promise<AxiosResponse<void>>;
 
     isInviteTokenValid(data: IsInviteTokenValidApiParams): Promise<AxiosResponse<void>>;
+
+    requestInviteToken(data: IsRequestInviteApiParams): Promise<AxiosResponse<void>>;
 
     isEmailAvailable(data: IsEmailAvailableApiParams): Promise<AxiosResponse<void>>;
 

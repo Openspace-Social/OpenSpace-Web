@@ -6,7 +6,10 @@ import {
     RegistrationApiParams,
     RegistrationResponse,
     RequestResetPasswordApiParams,
-    ResetPasswordApiParams, IsInviteTokenValidApiParams, IsEmailAvailableApiParams, IsUsernameAvailableApiParams
+    ResetPasswordApiParams,
+    IsInviteTokenValidApiParams,
+    IsEmailAvailableApiParams,
+    IsUsernameAvailableApiParams, IsRequestInviteApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 import { IUser } from '~/models/auth/user/IUser';
 import userFactory from '~/models/auth/user/factory';
@@ -215,6 +218,18 @@ export class UserService implements IUserService {
             return { valid: true, token: response.data["message"]["token"] };
         } catch (error) {
             if (error.response && error.response.status === 400) return false;
+            throw error;
+        }
+    }
+
+    async requestInviteToken(data: IsRequestInviteApiParams): Promise<boolean> {
+        try {
+            const response = await this.authApiService.requestInviteToken(data);
+            console.log("requestInviteToken true")
+            console.log(response.data);
+            return true;
+        } catch (error) {
+            if (!error || (error.response && error.response.status === 400)) return false;
             throw error;
         }
     }
