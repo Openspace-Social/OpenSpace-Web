@@ -49,6 +49,10 @@ export interface IModalService {
 
     openThemesModal(params: ThemeModalParams): Promise<void>;
 
+    openSupportFeedbackModal(params: SupportFeedbackModalParams): Promise<void>;
+
+    openUsefulLinksModal(params: UsefulLinksModalParams): Promise<void>;
+
     openSettingsModal(params?: SettingsModalParams): Promise<void>;
 
     openApplicationSettingsModal(params?: ApplicationSettingsModalParams): Promise<void>;
@@ -132,6 +136,8 @@ export type ModalParams =
     | HashtagActionsModalParams
     | ConnectionsCirclesPickerModalParams
     | ThemeModalParams
+    | SupportFeedbackModalParams
+    | UsefulLinksModalParams
     | SettingsModalParams
     | ApplicationSettingsModalParams
     | UserSettingsModalParams
@@ -278,6 +284,14 @@ export interface ReportObjectModalParams {
 }
 
 export interface ThemeModalParams {
+    title: string;
+}
+
+export interface SupportFeedbackModalParams {
+    title: string;
+}
+
+export interface UsefulLinksModalParams {
     title: string;
 }
 

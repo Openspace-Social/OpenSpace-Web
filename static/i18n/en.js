@@ -127,6 +127,12 @@ export default {
         "community_members_count": {
             "members": "Members",
         },
+        "support_and_feedback": {
+            "support_and_feedback": "Support & Feedback",
+        },
+        "useful_link": {
+            "useful_link": "Useful Links",
+        },
     },
     "forms": {
         "report_object": {
@@ -684,6 +690,17 @@ export default {
             "post_published": "Post published",
             "you_shared_with": "You shared with",
             "post_shared_privately_in": "Post shared privately in",
+            "buy_us_coffee" : "Help fund the vision @ BuyMeACoffee.com",
+            "feature_and_bugs" : "Request a new feature, or report a bug",
+            "openspace_docs" : "User Guide - Official Openspace documentation",
+            "contact_us" : "Contact us",
+            "how_to_post" : "Discover the different ways you can post on Openspace.Social",
+            "how_to_communities" : "Get to know the concept behind Communities and how to use them",
+            "how_to_followers_vs_connections" : "What are the differences between Follwers and Connections?",
+            "how_to_lists_and_circles" : "Understand the differences between Lists and Circles",
+            "how_to_profile_options" : "Get to know your Profile options",
+            "how_to_learn_more" : "Search the official User Guide",
+
         },
     },
 }

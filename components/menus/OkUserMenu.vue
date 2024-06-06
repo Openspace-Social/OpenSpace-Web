@@ -147,8 +147,11 @@
                 </a>
             </li>
             <li>
-                <nuxt-link :to="'/'"
-                           class="is-disabled has-no-hover-text-decoration ok-has-background-primary-highlight-hover">
+                <a
+                        href="javascript://"
+                        class="has-no-hover-text-decoration ok-has-background-primary-highlight-hover"
+                        @click="onSupportFeedbackClick"
+                >
                             <span class="icon has-padding-right-10">
                                  <ok-help-icon
                                          class="ok-svg-icon-primary-invert"></ok-help-icon>
@@ -156,11 +159,14 @@
                     <span class="ok-has-text-primary-invert">
                                 {{$t('components.user_dropdown.support_and_feedback')}}
                             </span>
-                </nuxt-link>
+                </a>
             </li>
             <li>
-                <nuxt-link :to="'/'"
-                           class="is-disabled has-no-hover-text-decoration ok-has-background-primary-highlight-hover">
+                <a
+                        href="javascript://"
+                        class="has-no-hover-text-decoration ok-has-background-primary-highlight-hover"
+                        @click="onUsefulLinksClick"
+                >
                             <span class="icon has-padding-right-10">
                                  <ok-link-icon
                                          class="ok-svg-icon-primary-invert"></ok-link-icon>
@@ -168,7 +174,7 @@
                     <span class="ok-has-text-primary-invert">
                                 {{$t('components.user_dropdown.useful_links')}}
                             </span>
-                </nuxt-link>
+                </a>
             </li>
         </ul>
         <ul class="menu-list ok-has-border-top-primary-highlight has-padding-top-10">
@@ -256,6 +262,20 @@
             this.$emit("leaveMenu");
             await this.modalService.openThemesModal({
                 title: this.$t("components.user_dropdown.themes").toString()
+            });
+        }
+
+        async onSupportFeedbackClick() {
+            this.$emit("leaveMenu");
+            await this.modalService.openSupportFeedbackModal({
+                title: this.$t("components.user_dropdown.support_and_feedback").toString()
+            });
+        }
+
+        async onUsefulLinksClick() {
+            this.$emit("leaveMenu");
+            await this.modalService.openUsefulLinksModal({
+                title: this.$t("components.user_dropdown.useful_links").toString()
             });
         }
 
