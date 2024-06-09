@@ -30,7 +30,7 @@ export class ThemeService implements IThemeService {
             warning_color: '#ffaf34',
             warning_color_invert: '#ffffff',
             info_color: '#227cff',
-            info_color_invert: '#ffffff',
+            info_color_invert: '#000000',
         }),
         themeFactory.make({
             id: 2,

@@ -165,7 +165,7 @@
 
     .ok-modal {
         .modal-content {
-            height: 95%;
+            height: 85%;
             padding: 0 2rem;
         }
     }
