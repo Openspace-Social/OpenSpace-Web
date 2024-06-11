@@ -3,6 +3,7 @@
         class="ok-post-media"
         :style="{ width: postElementWidth + 'px', height: mediaContainerHeight + 'px', backgroundImage: `url('${post.mediaThumbnail}')` }"
         @click="onWantsToExpandPost"
+        
     >
         <div v-if="postMedia.length > 0" class="ok-post-media-item-container">
             <ok-fitted-img
@@ -129,15 +130,20 @@ export default class extends Vue {
 }
 </script>
 
-
 <style lang="scss" scoped>
 .ok-post-media {
     position: relative;
     max-height: 70vh;
     overflow: hidden;
     background-position: center;
+    // Ensure the background is contained
+    // hide the background image
     background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #151212; // Set a background color as needed
+    
     cursor: pointer;
+    z-index: 1; // Ensure this is behind the media content
 
     .ok-post-media-item-container {
         position: absolute;
@@ -148,6 +154,7 @@ export default class extends Vue {
         display: flex;
         justify-content: center;
         align-items: center;
+        z-index: 2; // Ensure this is in front of the background
     }
 
     .ok-post-media-image {
@@ -161,7 +168,7 @@ export default class extends Vue {
         position: absolute;
         bottom: 5px; // Adjust as needed
         right: 5px; // Adjust as needed
-        z-index: 10; // Ensure it's above other content
+        z-index: 3; // Ensure it's above other content
     }
 }
 </style>
