@@ -66,6 +66,12 @@
         <b-modal :active.sync="themesModalOpen" :trap-focus="true" @close="onModalClosed">
             <ok-themes-modal :params="activeModalParams"></ok-themes-modal>
         </b-modal>
+        <b-modal :active.sync="supportFeedbackModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-support-feedback-modal :params="activeModalParams"></ok-support-feedback-modal>
+        </b-modal>
+        <b-modal :active.sync="usefulLinksModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-useful-links-modal :params="activeModalParams"></ok-useful-links-modal>
+        </b-modal>
         <b-modal :active.sync="getTheAppModalOpen" :trap-focus="true" @close="onModalClosed">
             <ok-get-the-app-modal :params="activeModalParams"></ok-get-the-app-modal>
         </b-modal>
@@ -191,6 +197,8 @@
     import OkPrivacyPolicyModal from "~/pages/home/components/modals/components/OkPrivacyPolicyModal.vue";
     import OkCommunityGuidelinesModal from "~/pages/home/components/modals/components/OkCommunityGuidelinesModal.vue";
     import OkThemesModal from "~/pages/home/components/modals/components/OkThemesModal.vue";
+    import OkSupportFeedbackModal from "~/pages/home/components/modals/components/OkSupportFeedbackModal.vue";
+    import OkUsefulLinksModal from "~/pages/home/components/modals/components/OkUsefulLinksModal.vue";
     import OkGetTheAppModal from "~/pages/home/components/modals/components/get-the-app/OkGetTheAppModal.vue";
     import OkWelcomeToOkunaWebModal from "~/pages/home/components/modals/components/OkWelcomeToOkunaWebModal.vue";
     import OkCommunityStaffModal
@@ -250,6 +258,8 @@
             OkPostActionsModal,
             OkCommunitiesListModal, OkPostCommentReactionsModal, OkPostReactionsModal, OkPostModal,
             OkThemesModal,
+            OkSupportFeedbackModal,
+            OkUsefulLinksModal,
             OkUserFollowingsModal,
             OkUserFollowersModal,
             OkCreateCommunityModal,
@@ -294,6 +304,8 @@
         communityGuidelinesModalOpened: boolean = false;
         privacyPolicyModalOpened: boolean = false;
         themesModalOpen: boolean = false;
+        supportFeedbackModalOpen: boolean = false;
+        usefulLinksModalOpen: boolean = false;
         getTheAppModalOpen: boolean = false;
         welcomeToOkunaWebModalOpen: boolean = false;
         communityStaffModalOpen: boolean = false;
@@ -365,6 +377,8 @@
             this.communityGuidelinesModalOpened = activeModalValue === ModalType.communityGuidelines;
             this.privacyPolicyModalOpened = activeModalValue === ModalType.privacyPolicy;
             this.themesModalOpen = activeModalValue === ModalType.themes;
+            this.supportFeedbackModalOpen = activeModalValue === ModalType.supportFeedback;
+            this.usefulLinksModalOpen = activeModalValue === ModalType.usefulLinks;
             this.getTheAppModalOpen = activeModalValue === ModalType.getTheApp;
             this.welcomeToOkunaWebModalOpen = activeModalValue === ModalType.welcomeToOkunaWeb;
             this.communityStaffModalOpen = activeModalValue === ModalType.communityStaff;

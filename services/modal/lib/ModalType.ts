@@ -14,6 +14,8 @@ export class ModalType {
     static privacyPolicy = new ModalType('PrivacyPolicy');
     static communityGuidelines = new ModalType('PrivacyPolicy');
     static themes = new ModalType('Themes');
+    static supportFeedback = new ModalType('SupportFeedback');
+    static usefulLinks = new ModalType('UsefulLinks');
     static settings = new ModalType('Settings');
     static applicationSettings = new ModalType('ApplicationSettings');
     static userSettings = new ModalType('UserSettings');
@@ -61,6 +63,8 @@ export class ModalType {
         ModalType.privacyPolicy,
         ModalType.communityGuidelines,
         ModalType.themes,
+        ModalType.supportFeedback,
+        ModalType.usefulLinks,
         ModalType.welcomeToOkunaWeb,
         ModalType.getTheApp,
         ModalType.communityRules,
