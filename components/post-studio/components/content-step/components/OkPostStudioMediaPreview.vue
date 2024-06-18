@@ -6,7 +6,7 @@
             </template>
             <template v-else="mediaItem.type === OkFileType.video">
                 <video :src="previewSrc" class="ok-video-preview">
-                    Your browser does not support the video tag.
+                    Your browser does not support the video  tag.
                 </video>
                 <div class="ok-video-preview-icon">
                     <ok-play-circle
