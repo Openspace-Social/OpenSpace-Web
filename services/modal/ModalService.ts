@@ -14,8 +14,6 @@ import {
     ReportObjectModalParams,
     UserActionsModalParams,
     ThemeModalParams,
-    SupportFeedbackModalParams,
-    UsefulLinksModalParams,
     CommunityStaffModalParams,
     CommunityRulesModalParams,
     PostStudioModalParams,
@@ -143,16 +141,6 @@ export class ModalService implements IModalService {
     async openThemesModal(params: ThemeModalParams): Promise<void> {
         this.ensureHasNoActiveModal();
         return this.openModal(ModalType.themes, params);
-    }
-
-    async openSupportFeedbackModal(params: SupportFeedbackModalParams): Promise<void> {
-        this.ensureHasNoActiveModal();
-        return this.openModal(ModalType.supportFeedback, params);
-    }
-
-    async openUsefulLinksModal(params: UsefulLinksModalParams): Promise<void> {
-        this.ensureHasNoActiveModal();
-        return this.openModal(ModalType.usefulLinks, params);
     }
 
     async openSettingsModal(params: ThemeModalParams): Promise<void> {
