@@ -1,51 +1,51 @@
-import { getMatchedComponents, setScrollRestoration } from './utils'
+import { getMatchedComponents } from './utils'
 
 if (process.client) {
   if ('scrollRestoration' in window.history) {
-    setScrollRestoration('manual')
+    window.history.scrollRestoration = 'manual'
 
     // reset scrollRestoration to auto when leaving page, allowing page reload
     // and back-navigation from other pages to use the browser to restore the
     // scrolling position.
     window.addEventListener('beforeunload', () => {
-      setScrollRestoration('auto')
+      window.history.scrollRestoration = 'auto'
     })
 
     // Setting scrollRestoration to manual again when returning to this page.
     window.addEventListener('load', () => {
-      setScrollRestoration('manual')
+      window.history.scrollRestoration = 'manual'
     })
   }
 }
 
-function shouldScrollToTop(route) {
-   const Pages = getMatchedComponents(route)
-   if (Pages.length === 1) {
-     const { options = {} } = Pages[0]
-     return options.scrollToTop !== false
-   }
-   return Pages.some(({ options }) => options && options.scrollToTop)
-}
-
-export default function (to, from, savedPosition) {
+  export default function (to, from, savedPosition) {
   // If the returned position is falsy or an empty object, will retain current scroll position
   let position = false
-  const isRouteChanged = to !== from
+
+  const Pages = getMatchedComponents(to)
+
+  // Scroll to the top of the page if...
+  if (
+      // One of the children set `scrollToTop`
+      Pages.some(Page => Page.options.scrollToTop) ||
+      // scrollToTop set in only page without children
+      (Pages.length < 2 && Pages.every(Page => Page.options.scrollToTop !== false))
+  ) {
+    position = { x: 0, y: 0 }
+  }
 
   // savedPosition is only available for popstate navigations (back button)
   if (savedPosition) {
     position = savedPosition
-  } else if (isRouteChanged && shouldScrollToTop(to)) {
-    position = { x: 0, y: 0 }
   }
 
   const nuxt = window.$nuxt
 
   if (
-    // Initial load (vuejs/vue-router#3199)
-    !isRouteChanged ||
     // Route hash changes
-    (to.path === from.path && to.hash !== from.hash)
+    (to.path === from.path && to.hash !== from.hash) ||
+    // Initial load (vuejs/vue-router#3199)
+    to === from
   ) {
     nuxt.$nextTick(() => nuxt.$emit('triggerScroll'))
   }
@@ -62,15 +62,9 @@ export default function (to, from, savedPosition) {
           hash = '#' + window.CSS.escape(hash.substr(1))
         }
         try {
-          const el = document.querySelector(hash)
-          if (el) {
+          if (document.querySelector(hash)) {
             // scroll to anchor by returning the selector
             position = { selector: hash }
-            // Respect any scroll-margin-top set in CSS when scrolling to anchor
-            const y = Number(getComputedStyle(el)['scroll-margin-top']?.replace('px', ''))
-            if (y) {
-              position.offset = { y }
-            }
           }
         } catch (e) {
           console.warn('Failed to save scroll position. Please add CSS.escape() polyfill (https://github.com/mathiasbynens/CSS.escape).')

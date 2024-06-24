@@ -15,8 +15,7 @@ import {
   compile,
   getQueryDiff,
   globalHandleError,
-  isSamePath,
-  urlJoin
+  isSamePath
 } from './utils.js'
 import { createApp, NuxtError } from './index.js'
 import fetchMixin from './mixins/fetch.client'
@@ -41,11 +40,6 @@ let router
 
 // Try to rehydrate SSR data from window
 const NUXT = window.__NUXT__ || {}
-
-const $config = NUXT.config || {}
-if ($config._app) {
-  __webpack_public_path__ = urlJoin($config._app.cdnURL, $config._app.assetsPath)
-}
 
 Object.assign(Vue.config, {"silent":false,"performance":true})
 
@@ -215,8 +209,10 @@ function applySSRData (Component, ssrData) {
 }
 
 // Get matched components
-function resolveComponents (route) {
-  return flatMapComponents(route, async (Component, _, match, key, index) => {
+function resolveComponents (router) {
+  const path = getLocation(router.options.base, router.options.mode)
+
+  return flatMapComponents(router.match(path), async (Component, _, match, key, index) => {
     // If component is not resolved yet, resolve it
     if (typeof Component === 'function' && !Component.options) {
       Component = await Component()
@@ -228,7 +224,7 @@ function resolveComponents (route) {
   })
 }
 
-function callMiddleware (Components, context, layout, renderState) {
+function callMiddleware (Components, context, layout) {
   let midd = ["post-redirect","nuxti18n"]
   let unknownMiddleware = false
 
@@ -260,10 +256,10 @@ function callMiddleware (Components, context, layout, renderState) {
   if (unknownMiddleware) {
     return
   }
-  return middlewareSeries(midd, context, renderState)
+  return middlewareSeries(midd, context)
 }
 
-async function render (to, from, next, renderState) {
+async function render (to, from, next) {
   if (this._routeChanged === false && this._paramChanged === false && this._queryChanged === false) {
     return next()
   }
@@ -302,12 +298,6 @@ async function render (to, from, next, renderState) {
   await setContext(app, {
     route: to,
     from,
-    error: (err) => {
-      if (renderState.aborted) {
-        return
-      }
-      app.nuxt.error.call(this, err)
-    },
     next: _next.bind(this)
   })
   this._dateLastError = app.nuxt.dateErr
@@ -320,12 +310,8 @@ async function render (to, from, next, renderState) {
   // If no Components matched, generate 404
   if (!Components.length) {
     // Default layout
-    await callMiddleware.call(this, Components, app.context, undefined, renderState)
+    await callMiddleware.call(this, Components, app.context)
     if (nextCalled) {
-      return
-    }
-    if (renderState.aborted) {
-      next(false)
       return
     }
 
@@ -337,12 +323,8 @@ async function render (to, from, next, renderState) {
         : errorLayout
     )
 
-    await callMiddleware.call(this, Components, app.context, layout, renderState)
+    await callMiddleware.call(this, Components, app.context, layout)
     if (nextCalled) {
-      return
-    }
-    if (renderState.aborted) {
-      next(false)
       return
     }
 
@@ -364,12 +346,8 @@ async function render (to, from, next, renderState) {
 
   try {
     // Call middleware
-    await callMiddleware.call(this, Components, app.context, undefined, renderState)
+    await callMiddleware.call(this, Components, app.context)
     if (nextCalled) {
-      return
-    }
-    if (renderState.aborted) {
-      next(false)
       return
     }
     if (app.context._errored) {
@@ -384,12 +362,8 @@ async function render (to, from, next, renderState) {
     layout = await this.loadLayout(layout)
 
     // Call middleware for layout
-    await callMiddleware.call(this, Components, app.context, layout, renderState)
+    await callMiddleware.call(this, Components, app.context, layout)
     if (nextCalled) {
-      return
-    }
-    if (renderState.aborted) {
-      next(false)
       return
     }
     if (app.context._errored) {
@@ -509,17 +483,9 @@ async function render (to, from, next, renderState) {
         this.$loading.finish()
       }
 
-      if (renderState.aborted) {
-        next(false)
-        return
-      }
       next()
     }
   } catch (err) {
-    if (renderState.aborted) {
-      next(false)
-      return
-    }
     const error = err || {}
     if (error.message === 'ERR_REDIRECT') {
       return this.$nuxt.$emit('routeChanged', to, from, error)
@@ -567,7 +533,6 @@ function setLayoutForNextPage (to) {
   if (typeof layout === 'function') {
     layout = layout(app.context)
   }
-
   this.setLayout(layout)
 }
 
@@ -588,8 +553,6 @@ function fixPrepatch (to, ___) {
   const instances = getMatchedComponentsInstances(to)
   const Components = getMatchedComponents(to)
 
-  let triggerScroll = false
-
   Vue.nextTick(() => {
     instances.forEach((instance, i) => {
       if (!instance || instance._isDestroyed) {
@@ -607,17 +570,12 @@ function fixPrepatch (to, ___) {
           Vue.set(instance.$data, key, newData[key])
         }
 
-        triggerScroll = true
+        // Ensure to trigger scroll event after calling scrollBehavior
+        window.$nuxt.$nextTick(() => {
+          window.$nuxt.$emit('triggerScroll')
+        })
       }
     })
-
-    if (triggerScroll) {
-      // Ensure to trigger scroll event after calling scrollBehavior
-      window.$nuxt.$nextTick(() => {
-        window.$nuxt.$emit('triggerScroll')
-      })
-    }
-
     checkForErrors(this)
 
     // Hot reloading
@@ -665,13 +623,6 @@ function hotReloadAPI(_app) {
   let $components = getNuxtChildComponents(_app.$nuxt, [])
 
   $components.forEach(addHotReload.bind(_app))
-
-  if (_app.context.isHMR) {
-    const Components = getMatchedComponents(router.currentRoute)
-    Components.forEach((Component) => {
-      Component.prototype.constructor = Component
-    })
-  }
 }
 
 function addHotReload ($component, depth) {
@@ -790,7 +741,7 @@ async function mountApp (__app) {
   }
 
   // Resolve route components
-  const Components = await Promise.all(resolveComponents(app.context.route))
+  const Components = await Promise.all(resolveComponents(router))
 
   // Enable transitions
   _app.setTransitions = _app.$options.nuxt.setTransitions.bind(_app)
@@ -807,17 +758,7 @@ async function mountApp (__app) {
 
   // Add beforeEach router hooks
   router.beforeEach(loadAsyncComponents.bind(_app))
-
-  // Each new invocation of render() aborts previous invocation
-  let renderState = null
-  const boundRender = render.bind(_app)
-  router.beforeEach((to, from, next) => {
-    if (renderState) {
-      renderState.aborted = true
-    }
-    renderState = { aborted: false }
-    boundRender(to, from, next, renderState)
-  })
+  router.beforeEach(render.bind(_app))
 
   // Fix in static: remove trailing slash to force hydration
   // Full static, if server-rendered: hydrate, to allow custom redirect to generated page
@@ -858,6 +799,5 @@ async function mountApp (__app) {
         errorHandler(err)
       }
     })
-  },
-  { aborted: false })
+  })
 }
