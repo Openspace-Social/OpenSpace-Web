@@ -188,6 +188,8 @@ export interface IUserService {
 
     searchUsers(params: SearchUsersParams): Promise<IHashtag[]>;
 
+    linkedUsers(): Promise<IHashtag[]>;
+
     reportUser(params: ReportUserParams): Promise<void>;
 
     blockUser(params: BlockUserParams): Promise<void>;
@@ -438,5 +440,7 @@ export interface IUserService {
     checkConnectionsCircleNameIsAvailable(params: CheckConnectionsCircleNameIsAvailableParams): Promise<boolean>;
 
     uploadGenericMedia(file: File | Blob | string): Promise<IGenericFile>;
+
+
     // CONNECTIONS END
 }

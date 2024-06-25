@@ -24,6 +24,7 @@ import {
     SearchFollowersApiParams,
     IsRequestInviteApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
+import {IHashtag} from "~/models/common/hashtag/IHashtag";
 
 export interface IAuthApiService {
 
@@ -42,6 +43,8 @@ export interface IAuthApiService {
     updateUser(params: UpdateUserApiParams): Promise<AxiosResponse<UserData>>;
 
     searchUsers(params: SearchUsersApiParams): Promise<AxiosResponse<UserData[]>>;
+
+    linkedUsers(): Promise<AxiosResponse<UserData[]>>;
 
     reportUser(params: ReportUserApiParams): Promise<AxiosResponse<void>>;
 
