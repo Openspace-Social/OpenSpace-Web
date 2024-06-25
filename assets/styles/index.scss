@@ -22,3 +22,30 @@
     width: 100%;
     aspect-ratio: 16/9;
 }
+
+#quill-mention-list {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.ql-mention-list-item {
+    padding: 4px 8px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    transition: background-color 0.3s, border 0.3s;
+}
+
+.ql-mention-list-item:hover {
+    background-color: #e0e0e0;
+    border-color: #bdbdbd;
+}
+
+.ql-mention-list-item.selected {
+    background-color: #d1e7fd;
+    border-color: #90caf9;
+}

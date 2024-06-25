@@ -57,7 +57,7 @@
                     class="editor"
                     ref="myTextEditor"
                     :value="content"
-                    :options="editorOptions"
+                    :options="editorOptions()"
                     @change="onEditorChange($event)"
                 />
             </div>
@@ -179,10 +179,13 @@ import BlotFormatter from 'quill-blot-formatter';
 Quill.register('modules/blotFormatter', BlotFormatter);
 
 import ImageUploader from 'quill-image-uploader';
-
 import 'quill-image-uploader/dist/quill.imageUploader.min.css';
 
 Quill.register("modules/imageUploader", ImageUploader);
+
+import "quill-mention";
+// import {Mention, MentionBlot} from "quill-mention";
+// Quill.register({ "blots/mention": MentionBlot, "modules/mention": Mention });
 
 var BlotsInline = Quill.import('blots/inline');
 Quill.register('format/blotsInline', BlotsInline);
@@ -211,15 +214,15 @@ var DirectionStyle = Quill.import('attributors/style/direction');
 Quill.register(DirectionStyle, true);
 var FontStyle = Quill.import('attributors/style/font');
 Quill.register(FontStyle, true);
-// var SizeStyle = Quill.import('attributors/style/size');
-// // delete SizeStyle.whitelist;  // accept all
-// SizeStyle.whitelist = ['small', 'large'];
-// SizeStyle.sizes = {
-//     'small': '10px',
-//     'large': '18px',
-//     'huge': '32px'
-// };
-// Quill.register(SizeStyle, true);
+
+const atValues = [
+    { id: 1, value: "Fredrik Sundqvist" },
+    { id: 2, value: "Patrik Sjölin" }
+];
+const hashValues = [
+    { id: 3, value: "Fredrik Sundqvist 2" },
+    { id: 4, value: "Patrik Sjölin 2" }
+];
 
 @Component({
     name: "OkPostStudioContentStep",
@@ -260,44 +263,6 @@ export default class OkPostStudioContentStep extends Vue {
 
     @Validate(longPostValidators)
     longText = "";
-
-    get editorOptions() {
-        return {
-            placeholder: this.$t('global.snippets.whats_going_on'),
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline', 'strike'],
-                    ['blockquote', 'code-block'],
-                    [{'header': 1}, {'header': 2}],
-                    [{'list': 'ordered'}, {'list': 'bullet'}],
-                    [{'script': 'sub'}, {'script': 'super'}],
-                    [{'indent': '-1'}, {'indent': '+1'}],
-                    [{'direction': 'rtl'}],
-                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
-                    [{'font': []}],
-                    [{'color': []}, {'background': []}],
-                    [{'align': []}],
-                    ['clean'],
-                    ['link', 'image', 'video']
-                ],
-                imageUploader: {
-                    upload: (file) => {
-                        return this.userService.uploadGenericMedia(file)
-                            .then((response) => {
-                                return response.url;
-                            })
-                            .catch((error) => {
-                                console.error(error);
-                                return '';
-                            });
-                    },
-                },
-                blotFormatter: {
-                    // see config options below
-                }
-            }
-        };
-    }
 
     content = '';
 
@@ -357,6 +322,8 @@ export default class OkPostStudioContentStep extends Vue {
     onEditorChange({html, text}) {
         this.content = html
         this.longText = html
+        console.log(this.content)
+        console.log(this.longText)
     }
 
     @Watch('text')
@@ -502,5 +469,99 @@ export default class OkPostStudioContentStep extends Vue {
         return require("./assets/media-icon.png");
     }
 
+    editorOptions() {
+        return {
+            placeholder: this.$t('global.snippets.whats_going_on'),
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    ['blockquote', 'code-block'],
+                    [{'header': 1}, {'header': 2}],
+                    [{'list': 'ordered'}, {'list': 'bullet'}],
+                    [{'script': 'sub'}, {'script': 'super'}],
+                    [{'indent': '-1'}, {'indent': '+1'}],
+                    [{'direction': 'rtl'}],
+                    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                    [{'font': []}],
+                    [{'color': []}, {'background': []}],
+                    [{'align': []}],
+                    ['clean'],
+                    ['link', 'image', 'video']
+                ],
+                imageUploader: {
+                    upload: (file) => {
+                        return this.userService.uploadGenericMedia(file)
+                            .then((response) => {
+                                return response.url;
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                                return '';
+                            });
+                    },
+                },
+                blotFormatter: {
+                    // see config options below
+                },
+                mention: {
+                    allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+                    mentionDenotationChars: ["@", "#", "c/"],
+                    source: async (searchTerm, renderList, mentionChar) => {
+                        let values;
+                        if (mentionChar === "@") {
+                            let users = []
+                            if (searchTerm.length === 0) {
+                                users = await this.userService.linkedUsers();
+                            } else {
+                                users =  await this.userService.searchUsers({
+                                    query: searchTerm
+                                });
+                            }
+                            values = users.map((user) => {
+                                return {
+                                    id: user.id,
+                                    value: user.username
+                                }
+                            });
+                            values = values.splice(0, 8);
+                        } else if (mentionChar === "#") {
+                            if (searchTerm.length === 0) {
+                                values = [];
+                            } else {
+                                let hashtags =  await this.userService.searchHashtags({
+                                    query: searchTerm
+                                });
+                                values = hashtags.map((tag) => {
+                                    return {
+                                        id: tag.id,
+                                        value: tag.name
+                                    }
+                                });
+                                values = values.splice(0, 8);
+                            }
+                        } else if (mentionChar === "c/") {
+                            // this.userService.getJoinedCommunities();
+                            let communities = []
+                            if (searchTerm.length === 0) {
+                                communities = await this.userService.getJoinedCommunities();
+                            } else {
+                                communities =  await this.userService.searchCommunities({
+                                    query: searchTerm
+                                });
+                            }
+                            values = communities.map((user) => {
+                                return {
+                                    id: user.id,
+                                    value: user.name
+                                }
+                            });
+                            values = values.splice(0, 8);
+                        }
+                        renderList(values, searchTerm);
+                    }
+                }
+            }
+        };
+    }
 }
 </script>

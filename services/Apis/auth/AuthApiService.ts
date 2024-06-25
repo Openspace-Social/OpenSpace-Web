@@ -34,6 +34,7 @@ export class AuthApiService implements IAuthApiService {
     static REQUEST_RESET_PASSWORD_PATH = 'api/auth/password/reset/';
     static REGISTER_PATH = 'api/auth/register/';
     static AUTHENTICATED_USER_PATH = 'api/auth/user/';
+    static LINKED_USER_PATH = 'api/auth/linked-users/';
     static GET_USERS_PATH = 'api/auth/users/';
     static VALIDATE_INVITE_TOKEN = 'api/auth/register/verify-token/';
     static REPORT_USER_PATH = 'api/auth/users/{userUsername}/report/';
@@ -209,6 +210,13 @@ export class AuthApiService implements IAuthApiService {
             },
             isApiRequest: true,
             appendAuthorizationTokenIfExists: params.appendAuthorizationTokenIfExists,
+        });
+    }
+
+    linkedUsers(): Promise<AxiosResponse<UserData[]>> {
+        return this.httpService.get<UserData[]>(AuthApiService.LINKED_USER_PATH, {
+            isApiRequest: true,
+            appendAuthorizationToken: true
         });
     }
 

@@ -352,6 +352,11 @@ export class UserService implements IUserService {
         return userFactory.makeMultiple(response.data);
     }
 
+    async linkedUsers(): Promise<IHashtag[]> {
+        const response: AxiosResponse<HashtagData[]> = await this.authApiService.linkedUsers();
+        return userFactory.makeMultiple(response.data);
+    }
+
 
     async reportUser(params: ReportUserParams): Promise<void> {
         await this.authApiService.reportUser({
