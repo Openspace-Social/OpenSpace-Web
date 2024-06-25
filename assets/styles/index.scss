@@ -25,7 +25,7 @@
 
 #quill-mention-list {
     border: 1px solid #ccc;
-    background-color: #f9f9f9;
+//     background-color: #f9f9f9;
     border-radius: 5px;
     list-style-type: none;
     display: flex;
@@ -42,10 +42,11 @@
 
 .ql-mention-list-item:hover {
     background-color: #e0e0e0;
+    color: #000000;
     border-color: #bdbdbd;
 }
 
 .ql-mention-list-item.selected {
-    background-color: #d1e7fd;
-    border-color: #90caf9;
+//     background-color: #d1e7fd;
+    border-color: #FCC14B;
 }

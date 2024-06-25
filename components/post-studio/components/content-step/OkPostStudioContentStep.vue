@@ -39,7 +39,7 @@
         </ok-mobile-header>
         <div class="">
             <section>
-                <div class="flex space-x-4 p-2 bg-white rounded-lg shadow-md">
+                <div class="flex space-x-4 p-2 rounded-lg shadow-md">
                     <button @click="type = 'P'" :class="{ 'active-tab text-white': type === 'P' }"
                             class="flex-1 py-2 px-4 rounded-md focus:outline-none focus:shadow-outline-blue transition-all duration-300">
                         Short Post
@@ -131,6 +131,7 @@
 </template>
 
 <style lang="scss" scoped>
+
 .ok-media-button {
     background-color: #FCC14B;
     color: white;
@@ -141,9 +142,10 @@
 }
 .active-tab {
     background-color: #FCC14B;
-    color: white;
+    color: #000000;
     &:hover, &:focus {
         opacity: 1;
+        color: #000000
     }
 }
 </style>
