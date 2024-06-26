@@ -51,7 +51,8 @@
                 </div>
             </section>
         </div>
-        <div class="ok-post-creator-content-body columns is-paddingless is-marginless is-mobile is-flex-1 overflow-auto">
+        <div
+            class="ok-post-creator-content-body columns is-paddingless is-marginless is-mobile is-flex-1 overflow-auto">
             <div v-if="type == 'LP'" class="has-padding-20">
                 <quill-editor
                     class="editor"
@@ -84,16 +85,15 @@
 
                             <ok-resizable-text-area
                                 :maxHeight="Infinity">
-                                  <textarea
-                                      name="text"
-                                      class="input ok-input has-no-background is-size-5 is-paddingless"
-                                      id="commentPostText"
-                                      required
-                                      :placeholder="$t('global.snippets.whats_going_on')"
-                                      v-model="text"
-                                      ref="textareaInput"
-                                  >
-                                    </textarea>
+                                <text-complete
+                                    name="text"
+                                    id="commentPostText"
+                                    required
+                                    :placeholder="$t('global.snippets.whats_going_on')"
+                                    ref="textareaInput"
+                                    :style="{width: '100%', height: '100%'}"
+                                    v-model="text" areaClass="textcomplete"
+                                    :strategies="strategies"></text-complete>
                             </ok-resizable-text-area>
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                 </div>
             </div>
         </div>
-        <div  class="columns is-multiline is-mobile is-paddingless is-marginless" v-if="!mediaFile && !hasPost">
+        <div class="columns is-multiline is-mobile is-paddingless is-marginless" v-if="!mediaFile && !hasPost">
             <div v-if="type === 'P'" class="column is-narrow">
                 <button @click="onWantsToPickMedia"
                         class="button is-rounded has-text-weight-bold is-borderless ok-media-button">
@@ -140,9 +140,11 @@
         color: white !important;
     }
 }
+
 .active-tab {
     background-color: #FCC14B;
     color: #000000;
+
     &:hover, &:focus {
         opacity: 1;
         color: #000000
@@ -174,10 +176,12 @@ import UrlMatcher from '~/lib/matchers/UrlMatcher';
 import {ILinkPreview} from '~/models/link-previews/link-preview/ILinkPreview';
 import OkLoadingIndicator from '~/components/utils/OkLoadingIndicator.vue';
 import OkPostLinkPreview from '~/components/post/components/post-link-preview/OkPostLinkPreview.vue';
-import TurndownService from 'turndown'
+import TextComplete from 'v-textcomplete'
+
 import Quill from 'quill'
 
 import BlotFormatter from 'quill-blot-formatter';
+
 Quill.register('modules/blotFormatter', BlotFormatter);
 
 import ImageUploader from 'quill-image-uploader';
@@ -217,15 +221,6 @@ Quill.register(DirectionStyle, true);
 var FontStyle = Quill.import('attributors/style/font');
 Quill.register(FontStyle, true);
 
-const atValues = [
-    { id: 1, value: "Fredrik Sundqvist" },
-    { id: 2, value: "Patrik Sjölin" }
-];
-const hashValues = [
-    { id: 3, value: "Fredrik Sundqvist 2" },
-    { id: 4, value: "Patrik Sjölin 2" }
-];
-
 @Component({
     name: "OkPostStudioContentStep",
     components: {
@@ -233,7 +228,8 @@ const hashValues = [
         OkLoadingIndicator,
         OkPostStudioMediaPreview,
         OkMobileHeader,
-        OkCommunityTile, OkCharacterCount, OkResizableTextArea, OkLoggedInUserAvatar
+        OkCommunityTile, OkCharacterCount, OkResizableTextArea, OkLoggedInUserAvatar,
+        TextComplete
     },
 })
 export default class OkPostStudioContentStep extends Vue {
@@ -268,6 +264,64 @@ export default class OkPostStudioContentStep extends Vue {
 
     content = '';
 
+    mentionItems = [
+        {
+            value: 'cat',
+            label: 'Mr Cat',
+        },
+        {
+            value: 'dog',
+            label: 'Mr Dog',
+        },
+    ];
+
+    strategies = [{
+        match: /(^|\s)@([a-z0-9+\-\_]*)$/,
+        search: async (term, callback) => {
+        },
+        remote: async (term, callback) => {
+            let v = await this.loadMentionItems('@', term, callback)
+            console.log(v);
+            callback(v);
+        },
+        template: (name) => {
+            return name;
+        },
+        replace: (value) => {
+            return '$1@' + value + ' '
+        },
+    }, {
+        match: /(^|\s)#([a-z0-9+\-\_]*)$/,
+        search: async (term, callback) => {
+        },
+        remote: async (term, callback) => {
+            let v = await this.loadMentionItems('#', term, callback)
+            console.log(v);
+            callback(v);
+        },
+        template: (name) => {
+            return name;
+        },
+        replace: (value) => {
+            return '$1#' + value + ' '
+        },
+    }, {
+        match: /(^|\s)c\/([a-z0-9+\-\_]*)$/,
+        search: async (term, callback) => {
+        },
+        remote: async (term, callback) => {
+            let v = await this.loadMentionItems('c/', term, callback)
+            console.log(v);
+            callback(v);
+        },
+        template: (name) => {
+            return name;
+        },
+        replace: (value) => {
+            return '$1c/' + value + ' '
+        },
+    }];
+
     linkToPreview = '';
     linkPreviewInProgress = false;
     linkPreview: ILinkPreview = null;
@@ -293,10 +347,10 @@ export default class OkPostStudioContentStep extends Vue {
             }
         }
 
-        if(this.params.data) {
+        if (this.params.data) {
             if (this.params.data.text) this.text = this.params.data.text;
             if (this.params.data.postType) this.type = this.params.data.postType;
-            if(this.params.data.longText) {
+            if (this.params.data.longText) {
                 this.content = this.params.data.longText;
                 this.longText = this.params.data.longText;
             }
@@ -324,8 +378,6 @@ export default class OkPostStudioContentStep extends Vue {
     onEditorChange({html, text}) {
         this.content = html
         this.longText = html
-        console.log(this.content)
-        console.log(this.longText)
     }
 
     @Watch('text')
@@ -458,7 +510,6 @@ export default class OkPostStudioContentStep extends Vue {
         }
 
 
-
         return true;
     }
 
@@ -470,6 +521,72 @@ export default class OkPostStudioContentStep extends Vue {
     get mediaIcon() {
         return require("./assets/media-icon.png");
     }
+
+    async loadMentionItems(mentionChar, searchTerm, callback) {
+        // this.mentionItems = [];
+        console.log(mentionChar, searchTerm);
+        let values;
+        if (mentionChar === "@") {
+            let users = []
+            if (searchTerm.length === 0) {
+                users = await this.userService.linkedUsers();
+            } else {
+                users = await this.userService.searchUsers({
+                    query: searchTerm
+                });
+            }
+            values = users.map((user) => {
+                return {
+                    id: user.id,
+                    value: user.username
+                }
+            });
+            values = values.splice(0, 8);
+        } else if (mentionChar === "#") {
+            if (searchTerm.length === 0) {
+                values = [];
+            } else {
+                let hashtags = await this.userService.searchHashtags({
+                    query: searchTerm
+                });
+                values = hashtags.map((tag) => {
+                    return {
+                        id: tag.id,
+                        value: tag.name
+                    }
+                });
+                values = values.splice(0, 8);
+            }
+        } else if (mentionChar === "c/") {
+            // this.userService.getJoinedCommunities();
+            let communities = []
+            if (searchTerm.length === 0) {
+                communities = await this.userService.getJoinedCommunities();
+            } else {
+                communities = await this.userService.searchCommunities({
+                    query: searchTerm
+                });
+            }
+            values = communities.map((user) => {
+                return {
+                    id: user.id,
+                    value: user.name
+                }
+            });
+            values = values.splice(0, 8);
+        }
+        console.log(values);
+        console.log(values.map((item) => {
+            return item.value
+        }));
+        return values.map((item) => {
+            return item.value
+        });
+        callback(values.map((item) => {
+            return item.value
+        }));
+    }
+
 
     editorOptions() {
         return {
@@ -515,7 +632,7 @@ export default class OkPostStudioContentStep extends Vue {
                             if (searchTerm.length === 0) {
                                 users = await this.userService.linkedUsers();
                             } else {
-                                users =  await this.userService.searchUsers({
+                                users = await this.userService.searchUsers({
                                     query: searchTerm
                                 });
                             }
@@ -530,7 +647,7 @@ export default class OkPostStudioContentStep extends Vue {
                             if (searchTerm.length === 0) {
                                 values = [];
                             } else {
-                                let hashtags =  await this.userService.searchHashtags({
+                                let hashtags = await this.userService.searchHashtags({
                                     query: searchTerm
                                 });
                                 values = hashtags.map((tag) => {
@@ -547,7 +664,7 @@ export default class OkPostStudioContentStep extends Vue {
                             if (searchTerm.length === 0) {
                                 communities = await this.userService.getJoinedCommunities();
                             } else {
-                                communities =  await this.userService.searchCommunities({
+                                communities = await this.userService.searchCommunities({
                                     query: searchTerm
                                 });
                             }

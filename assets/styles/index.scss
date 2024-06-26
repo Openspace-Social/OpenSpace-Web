@@ -50,3 +50,22 @@
 //     background-color: #d1e7fd;
     border-color: #FCC14B;
 }
+
+.v-textcomplete__inner.textcomplete {
+    font-size: 1.25rem !important;
+    background: none !important;
+    color: var(--primary-invert-color) !important;
+}
+
+#commentPostText {
+    height: 100% !important;
+    overflow: visible !important;
+    .autocomplete {
+        background-color: var(--primary-color) !important;
+        color: var(--primary-invert-color) !important;
+
+        li:hover {
+            color: black;
+        }
+    }
+}
