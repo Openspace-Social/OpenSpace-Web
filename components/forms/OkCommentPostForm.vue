@@ -78,7 +78,7 @@
     import OkCharacterCount from "~/components/OkCharacterCount.vue";
     import { IOkLogger } from "~/services/logging/types";
     import { ILoggingService } from "~/services/logging/ILoggingService";
-    import TextComplete from 'v-textcomplete'
+    import TextComplete from 'v-textcomplete';
 
     @Component({
         name: "OkCommentPostForm",
