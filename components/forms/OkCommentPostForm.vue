@@ -6,17 +6,17 @@
             </label>
             <div class="control">
                 <ok-resizable-text-area>
-                              <textarea
-                                      name="text"
-                                      class="input ok-input"
-                                      id="commentPostText"
-                                      required
-                                      :placeholder="placeholderText"
-                                      v-model="text"
-                                      @focus="inputIsFocused = true"
-                                      @blur="inputIsFocused = false"
-                              >
-                        </textarea>
+                    <text-complete
+                        name="text"
+                        id="commentPostPopup"
+                        required
+                        :placeholder="placeholderText"
+                        ref="textareaInput"
+                        @focus="inputIsFocused = true"
+                        @blur="inputIsFocused = false"
+                        :style="{width: '100%', height: '100%'}"
+                        v-model="text" areaClass="textcomplete"
+                        :strategies="strategies"></text-complete>
                 </ok-resizable-text-area>
             </div>
             <p class="help is-danger has-text-left" v-if="!$v.text.required && $v.text.$dirty">
@@ -60,7 +60,6 @@
         height: 35px !important;
         border-radius: 500px !important;
     }
-
 </style>
 
 <script lang="ts">
@@ -78,10 +77,11 @@
     import OkCharacterCount from "~/components/OkCharacterCount.vue";
     import { IOkLogger } from "~/services/logging/types";
     import { ILoggingService } from "~/services/logging/ILoggingService";
+    import TextComplete from 'v-textcomplete';
 
     @Component({
         name: "OkCommentPostForm",
-        components: {OkCharacterCount, OkResizableTextArea}
+        components: {OkCharacterCount, OkResizableTextArea, TextComplete}
     })
     export default class OkCommentPostForm extends Vue {
 
@@ -138,6 +138,117 @@
                 }
                 this.replyToReplyPrependedMention = "";
             }
+        }
+        strategies = [{
+            match: /(^|\s)@([a-z0-9+\-\_]*)$/,
+            search: async (term, callback) => {
+            },
+            remote: async (term, callback) => {
+                let v = await this.loadMentionItems('@', term, callback)
+                console.log(v);
+                callback(v);
+            },
+            template: (name) => {
+                return name;
+            },
+            replace: (value) => {
+                return '$1@' + value + ' '
+            },
+        }, {
+            match: /(^|\s)#([a-z0-9+\-\_]*)$/,
+            search: async (term, callback) => {
+            },
+            remote: async (term, callback) => {
+                let v = await this.loadMentionItems('#', term, callback)
+                console.log(v);
+                callback(v);
+            },
+            template: (name) => {
+                return name;
+            },
+            replace: (value) => {
+                return '$1#' + value + ' '
+            },
+        }, {
+            match: /(^|\s)c\/([a-z0-9+\-\_]*)$/,
+            search: async (term, callback) => {
+            },
+            remote: async (term, callback) => {
+                let v = await this.loadMentionItems('c/', term, callback)
+                console.log(v);
+                callback(v);
+            },
+            template: (name) => {
+                return name;
+            },
+            replace: (value) => {
+                return '$1c/' + value + ' '
+            },
+        }];
+
+        async loadMentionItems(mentionChar, searchTerm, callback) {
+            // this.mentionItems = [];
+            console.log(mentionChar, searchTerm);
+            let values;
+            if (mentionChar === "@") {
+                let users = []
+                if (searchTerm.length === 0) {
+                    users = await this.userService.linkedUsers();
+                } else {
+                    users = await this.userService.searchUsers({
+                        query: searchTerm
+                    });
+                }
+                values = users.map((user) => {
+                    return {
+                        id: user.id,
+                        value: user.username
+                    }
+                });
+                values = values.splice(0, 8);
+            } else if (mentionChar === "#") {
+                if (searchTerm.length === 0) {
+                    values = [];
+                } else {
+                    let hashtags = await this.userService.searchHashtags({
+                        query: searchTerm
+                    });
+                    values = hashtags.map((tag) => {
+                        return {
+                            id: tag.id,
+                            value: tag.name
+                        }
+                    });
+                    values = values.splice(0, 8);
+                }
+            } else if (mentionChar === "c/") {
+                // this.userService.getJoinedCommunities();
+                let communities = []
+                if (searchTerm.length === 0) {
+                    communities = await this.userService.getJoinedCommunities();
+                } else {
+                    communities = await this.userService.searchCommunities({
+                        query: searchTerm
+                    });
+                }
+                values = communities.map((user) => {
+                    return {
+                        id: user.id,
+                        value: user.name
+                    }
+                });
+                values = values.splice(0, 8);
+            }
+            console.log(values);
+            console.log(values.map((item) => {
+                return item.value
+            }));
+            return values.map((item) => {
+                return item.value
+            });
+            callback(values.map((item) => {
+                return item.value
+            }));
         }
 
         get placeholderText() {

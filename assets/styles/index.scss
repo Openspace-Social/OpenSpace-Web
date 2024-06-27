@@ -50,3 +50,55 @@
 //     background-color: #d1e7fd;
     border-color: #FCC14B;
 }
+
+
+.v-textcomplete__inner.textcomplete {
+    font-size: 1.25rem !important;
+    background: none !important;
+    color: var(--primary-invert-color) !important;
+    border: none;
+    height: 100%;
+}
+
+#commentPostPopup {
+    padding: 4px 8px;
+    height: 100% !important;
+    overflow: visible !important;
+    border-radius: 10px;
+    .autocomplete ul {
+        position: absolute;
+        bottom: 50px;
+        background-color: var(--primary-color) !important;
+        color: var(--primary-invert-color) !important;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        padding: 10px;
+        li {
+            padding: 10px;
+        }
+        li:hover {
+            background: -webkit-linear-gradient(#ff2f00, #ffb700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+}
+
+#newPostTextPopup {
+    padding: 4px 8px;
+    overflow: visible !important;
+    .autocomplete {
+        background-color: var(--primary-color) !important;
+        color: var(--primary-invert-color) !important;
+        cursor: pointer;
+        li {
+            padding: 10px;
+        }
+        li:hover {
+            background: -webkit-linear-gradient(#ff2f00, #ffb700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    }
+}
