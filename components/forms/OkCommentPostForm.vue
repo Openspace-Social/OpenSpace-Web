@@ -8,7 +8,7 @@
                 <ok-resizable-text-area>
                     <text-complete
                         name="text"
-                        id="commentPostText"
+                        id="commentPostPopup"
                         required
                         :placeholder="placeholderText"
                         ref="textareaInput"
@@ -60,7 +60,6 @@
         height: 35px !important;
         border-radius: 500px !important;
     }
-
 </style>
 
 <script lang="ts">

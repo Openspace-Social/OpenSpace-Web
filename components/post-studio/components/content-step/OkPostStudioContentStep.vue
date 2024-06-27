@@ -87,7 +87,7 @@
                                 :maxHeight="Infinity">
                                 <text-complete
                                     name="text"
-                                    id="commentPostText"
+                                    id="newPostTextPopup"
                                     required
                                     :placeholder="$t('global.snippets.whats_going_on')"
                                     ref="textareaInput"
