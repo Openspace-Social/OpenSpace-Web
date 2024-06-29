@@ -4,6 +4,7 @@
             <ok-post :post="post"></ok-post>
             <ok-post-comments :post="post" ref="postCommentsComponent"
                               :container-id="postCommentsContainerId"
+                              @onWantsToEditComment="onWantsToEditComment"
                               @onWantsToReplyToComment="onWantsToReplyToComment"></ok-post-comments>
         </div>
         <div class="ok-mobile-post-container-commentator">
@@ -60,6 +61,7 @@
         from '~/components/post-theatre/post-theatre-sidebar/components/post-commenter/OkPostCommenter.vue';
     import { IPostComment } from '~/models/posts/post-comment/IPostComment';
     import {
+        EditCommentParams,
         OnCommentedPostParams,
         ReplyToCommentParams, ReplyToReplyParams
     } from "~/components/post-theatre/post-theatre-sidebar/lib/PostTheatreEventParams";
@@ -112,6 +114,10 @@
 
         onCommentedPost(params: OnCommentedPostParams) {
             this.$refs.postCommentsComponent.addPostComment(params);
+        }
+
+        onWantsToEditComment(params: EditCommentParams) {
+            this.$refs.postCommenter.setEditCommentParams(params);
         }
 
         onWantsToReplyToComment(params: ReplyToCommentParams) {

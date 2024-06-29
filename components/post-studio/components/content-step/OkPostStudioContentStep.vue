@@ -97,35 +97,37 @@
                             </ok-resizable-text-area>
                         </div>
                     </div>
-                    <div v-if="mediaFile || hasPost" class="has-padding-bottom-20">
-                        <ok-post-studio-media-preview :data="postStudioData"
-                                                      @onWantsToRemoveFile="onWantsToRemoveFile"/>
-                    </div>
-                    <div v-if="!mediaFile && linkToPreview">
-                        <template v-if="linkPreviewInProgress">
-                            <ok-loading-indicator/>
-                        </template>
-                        <template v-else-if="linkPreview">
-                            <ok-post-link-preview :link-preview="linkPreview"/>
-                        </template>
-                    </div>
-                    <div v-if="community" class="has-padding-bottom-20">
-                        <div class="ok-has-text-primary-invert-60 has-padding-bottom-10">
-                            {{ $t('global.snippets.sharing_post_to') }}
-                        </div>
-                        <ok-community-tile :community="community" style="max-width: 400px"/>
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="columns is-multiline is-mobile is-paddingless is-marginless" v-if="!mediaFile && !hasPost">
-            <div v-if="type === 'P'" class="column is-narrow">
-                <button @click="onWantsToPickMedia"
-                        class="button is-rounded has-text-weight-bold is-borderless ok-media-button">
-                    <img :src="mediaIcon" alt="Media icon" width="30px" class="has-padding-right-5">
-                    {{ $t('global.keywords.media') }}
-                </button>
+        <div class="columns is-multiline is-mobile is-paddingless is-marginless" >
+            <div v-if="community" class="has-padding-20">
+                <div class="ok-has-text-primary-invert-60 has-padding-bottom-10">
+                    {{ $t('global.snippets.sharing_post_to') }}
+                </div>
+                <ok-community-tile :community="community" style="max-width: 400px"/>
             </div>
+            <div class="has-padding-20" v-if="!mediaFile && linkToPreview">
+                <template v-if="linkPreviewInProgress">
+                    <ok-loading-indicator/>
+                </template>
+                <template v-else-if="linkPreview">
+                    <ok-post-link-preview :link-preview="linkPreview"/>
+                </template>
+            </div>
+            <div v-if="mediaFile || hasPost" class="has-padding-20">
+                <ok-post-studio-media-preview :data="postStudioData"
+                                              @onWantsToRemoveFile="onWantsToRemoveFile"/>
+            </div>
+            <template v-if="!mediaFile && !hasPost">
+                <div v-if="type === 'P'" class="column is-narrow">
+                    <button @click="onWantsToPickMedia"
+                            class="button is-rounded has-text-weight-bold is-borderless ok-media-button">
+                        <img :src="mediaIcon" alt="Media icon" width="30px" class="has-padding-right-5">
+                        {{ $t('global.keywords.media') }}
+                    </button>
+                </div>
+            </template>
         </div>
     </div>
 </template>
@@ -281,7 +283,6 @@ export default class OkPostStudioContentStep extends Vue {
         },
         remote: async (term, callback) => {
             let v = await this.loadMentionItems('@', term, callback)
-            console.log(v);
             callback(v);
         },
         template: (name) => {
@@ -296,7 +297,6 @@ export default class OkPostStudioContentStep extends Vue {
         },
         remote: async (term, callback) => {
             let v = await this.loadMentionItems('#', term, callback)
-            console.log(v);
             callback(v);
         },
         template: (name) => {
@@ -311,7 +311,6 @@ export default class OkPostStudioContentStep extends Vue {
         },
         remote: async (term, callback) => {
             let v = await this.loadMentionItems('c/', term, callback)
-            console.log(v);
             callback(v);
         },
         template: (name) => {
@@ -524,7 +523,6 @@ export default class OkPostStudioContentStep extends Vue {
 
     async loadMentionItems(mentionChar, searchTerm, callback) {
         // this.mentionItems = [];
-        console.log(mentionChar, searchTerm);
         let values;
         if (mentionChar === "@") {
             let users = []
@@ -575,10 +573,6 @@ export default class OkPostStudioContentStep extends Vue {
             });
             values = values.splice(0, 8);
         }
-        console.log(values);
-        console.log(values.map((item) => {
-            return item.value
-        }));
         return values.map((item) => {
             return item.value
         });

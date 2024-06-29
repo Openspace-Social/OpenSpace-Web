@@ -51,6 +51,7 @@ import VueMarkdown from "vue-markdown";
 
 import {IUtilsService} from "~/services/utils/IUtilsService";
 import OkTranslateButton from "~/components/smart-text/components/OkTranslateButton.vue";
+import {IModalService} from "~/services/modal/IModalService";
 
 @Component({
     name: "OkPostMarkdownText",
@@ -66,6 +67,7 @@ export default class extends Vue {
 
     private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
     private utilsService: IUtilsService = okunaContainer.get<IUtilsService>(TYPES.UtilsService);
+    private modalService: IModalService = okunaContainer.get<IModalService>(TYPES.ModalService);
 
     $observables!: {
         loggedInUser?: BehaviorSubject<IUser>
@@ -114,8 +116,22 @@ export default class extends Vue {
                 if (this.post.longText.indexOf("Lecture Outline") !== -1) {
                     this.translatePostText();
                 }
+                const imageTags = (this.$refs.postMarkdownContent as HTMLDivElement).querySelectorAll("img");
+                for (let i = 0; i < imageTags.length; i++) {
+                    imageTags[i].removeEventListener("click", this.openFullScreenImageModal);
+                    imageTags[i].addEventListener("click", this.openFullScreenImageModal);
+                }
             }
         });
+    }
+
+    openFullScreenImageModal(e: PointerEvent) {
+        try {
+            const imageUrl = (e.target as HTMLImageElement).src;
+            this.modalService.openFullScreenImageModal({
+                imageUrl
+            });
+        } catch (e) {}
     }
 
     translatedText: String = undefined;

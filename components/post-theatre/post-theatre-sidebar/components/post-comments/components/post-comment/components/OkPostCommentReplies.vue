@@ -21,6 +21,7 @@
                                          :linked-post-comment-id.sync="linkedPostCommentId"
                                          :linked-post-comment-reply-id.sync="linkedPostCommentReplyId"
                                          :highlighted-post-comment-id.sync="highlightedPostCommentId"
+                                         @onWantsToEdit="onWantsToEdit"
                                          @onWantsToReply="onWantsToReplyToReply(postCommentReply)"></ok-post-comment>
                     </div>
                 </ok-load-more>
@@ -52,7 +53,10 @@
     import { CancelableOperation } from "~/lib/CancelableOperation";
     import { IUtilsService } from "~/services/utils/IUtilsService";
     import OkLoadingIndicator from "~/components/utils/OkLoadingIndicator.vue";
-    import { ReplyToReplyParams } from "~/components/post-theatre/post-theatre-sidebar/lib/PostTheatreEventParams";
+    import {
+        EditCommentParams,
+        ReplyToReplyParams
+    } from "~/components/post-theatre/post-theatre-sidebar/lib/PostTheatreEventParams";
 
     @Component({
         name: "OkPostCommentReplies",
@@ -123,6 +127,11 @@
             };
             this.$emit("onWantsToReplyToReply", params);
         }
+
+        onWantsToEdit(params: EditCommentParams) {
+            this.$emit("onWantsToEditComment", params);
+        }
+
 
         @Watch("linkedPostCommentReplyId")
         onChildChanged(val: string, oldVal: string) {

@@ -1,5 +1,7 @@
 <template>
-    <button @click="onPressed"
+    <button
+            @dblclick="onDoublePressed"
+            @click="onPressed"
             class="button is-rounded is-small ok-has-background-primary-highlight is-borderless"
             :class="{'has-text-weight-bold': isCurrentReaction, 'ok-emoji-reaction-button-small': isSmallSize}"
     >
@@ -51,9 +53,18 @@
         mounted() {
 
         }
+        clickTimeout = null;
 
         onPressed() {
-            this.$emit("onPressed", this.emojiCount);
+            clearTimeout(this.clickTimeout);
+            this.clickTimeout = setTimeout(() => {
+                this.$emit("onPressed", this.emojiCount);
+            }, 300);
+        }
+
+        onDoublePressed() {
+            clearTimeout(this.clickTimeout);
+            this.$emit("onDoublePressed", this.emojiCount);
         }
 
         get isSmallSize() {

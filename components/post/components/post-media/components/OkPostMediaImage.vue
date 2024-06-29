@@ -1,7 +1,7 @@
 <template>
-    <figure class="image ok-post-media-image"
-            :style="{backgroundImage: `url('${postImage.thumbnail}')`}">
-        <img alt="Post Image" :src="postImage.image" :width="mediaWidth" :height="mediaHeight">
+    <figure class="image ok-post-media-image ok-has-background-primary">
+<!--        :style="{backgroundImage: `url('${postImage.thumbnail}')`}"-->
+        <img class="ok-post-img" alt="Post Image" :src="postImage.image" :width="mediaWidth" :height="mediaHeight">
     </figure>
 </template>
 
@@ -14,6 +14,12 @@
         display: flex;
         align-items: center;
         line-height: 0;
+    }
+    .ok-post-img {
+        object-fit: contain;
+        width: 100%;
+        height: 100%;
+        max-height: 70vh;
     }
 </style>
 

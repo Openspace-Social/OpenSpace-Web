@@ -13,6 +13,9 @@
         <div class="level-item has-text-centered has-cursor-pointer" role="button" @click="onWantsToReply">
             <span class="ok-has-text-primary-invert-60 has-text-weight-bold is-size-7">Reply</span>
         </div>
+        <div v-if="canEditComment" class="level-item has-text-centered has-cursor-pointer" role="button" @click="onWantsToEdit">
+            <span class="ok-has-text-primary-invert-60 has-text-weight-bold is-size-7">Edit</span>
+        </div>
         <div class="level-item has-text-centered has-cursor-pointer" role="button" aria-label="Options"
              @click="onWantsToOpenMoreActions" tabindex="0">
             <ok-more-horizontal class="ok-svg-icon-primary-invert-60 is-icon-2x"></ok-more-horizontal>
@@ -36,6 +39,7 @@
     import { IModalService } from "~/services/modal/IModalService";
     import { TYPES } from "~/services/inversify-types";
     import { okunaContainer } from "~/services/inversify";
+    import {IUserService} from "~/services/user/IUserService";
 
 
     @Component({
@@ -45,16 +49,22 @@
     export default class OkPostCommentInlineActions extends Vue {
 
 
+        private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
         OkAvatarSize = OkAvatarSize;
 
         @Prop(Object) readonly post: IPost;
         @Prop(Object) readonly postComment: IPostComment;
         @Prop(Boolean) readonly expandedReplies: boolean;
+        @Prop(Boolean) readonly canEditComment: boolean;
 
         private modalService: IModalService = okunaContainer.get<IModalService>(TYPES.ModalService);
 
         onWantsToReply() {
             this.$emit("onWantsToReply", this.postComment, this.post);
+        }
+
+        onWantsToEdit() {
+            this.$emit("onWantsToEdit", this.postComment, this.post);
         }
 
         onWantsToToggleReplies() {

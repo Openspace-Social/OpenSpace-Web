@@ -153,6 +153,14 @@
         <b-modal :active.sync="confirmationModalOpen" :trap-focus="true" @close="onModalClosed">
             <ok-confirmation-modal :params="activeModalParams" v-if="activeModalParams"></ok-confirmation-modal>
         </b-modal>
+        <b-modal :active.sync="fullScreenImageModalOpen" :trap-focus="true" @close="onModalClosed">
+           <div class="karthik1">
+               <ok-full-screen-image-modal :params="activeModalParams" v-if="activeModalParams"></ok-full-screen-image-modal>
+           </div>
+        </b-modal>
+        <b-modal :active.sync="postReactionUsersModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-post-reaction-users-modal :params="activeModalParams" v-if="activeModalParams"></ok-post-reaction-users-modal>
+        </b-modal>
     </div>
 </template>
 
@@ -233,10 +241,14 @@
     import OkEditCircleModal from '~/pages/home/components/modals/components/circles/OkEditCircleModal.vue';
 
     import OkConfirmationModal from '~/pages/home/components/modals/components/OkConfirmationModal.vue';
+    import OkFullScreenImageModal from "~/pages/home/components/modals/components/OkFullScreenImageModal.vue";
+    import OkPostReactionUsersModal from "~/pages/home/components/modals/components/OkPostReactionUsersModal.vue";
 
     @Component({
         name: "OkModals",
         components: {
+            OkPostReactionUsersModal,
+            OkFullScreenImageModal,
             OkPostStudioModal,
             OkApplicationSettingsModal,
             OkSettingsModal,
@@ -333,6 +345,8 @@
         circleDetailsModalOpen: boolean = false;
         editCircleModalOpen: boolean = false;
         confirmationModalOpen: boolean = false;
+        fullScreenImageModalOpen: boolean = false;
+        postReactionUsersModalOpen: boolean = false;
 
         private modalService: IModalService = okunaContainer.get<IModalService>(TYPES.ModalService);
 
@@ -406,6 +420,8 @@
             this.circleDetailsModalOpen = activeModalValue === ModalType.circleDetailsModal;
             this.editCircleModalOpen = activeModalValue === ModalType.editCircleModal;
             this.confirmationModalOpen = activeModalValue === ModalType.confirmationModal;
+            this.fullScreenImageModalOpen = activeModalValue === ModalType.fullScreenImageModal;
+            this.postReactionUsersModalOpen = activeModalValue === ModalType.postReactionUsersModal;
         }
     }
 </script>

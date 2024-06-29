@@ -41,7 +41,7 @@
                 </div>
             </div>
             <ok-post-reactions :post="post"
-                               class="has-padding-left-20 has-padding-right-20 has-padding-bottom-20"></ok-post-reactions>
+                               class="has-padding-left-20 has-margin-top-10 has-padding-right-20 has-padding-bottom-10"></ok-post-reactions>
             <ok-post-circles :post="post"
                              v-if="(post.circles && post.circles.length) || (post.isEncircled)"
                              class="has-padding-left-20 has-padding-right-20 has-padding-bottom-20"></ok-post-circles>

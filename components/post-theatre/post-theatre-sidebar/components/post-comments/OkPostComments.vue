@@ -5,6 +5,7 @@
             <div v-for="postComment in postComments" :key="postComment.id">
                 <ok-post-comment :post="post" :post-comment="postComment"
                                  :show-replies="true"
+                                 @onWantsToEdit="onWantsToEdit"
                                  @onWantsToReply="onWantsToReplyToComment"
                                  @onPostCommentDeleted="onPostCommentDeleted"
                                  @onWantsToReplyToReply="onWantsToReplyToReply"
@@ -32,6 +33,7 @@
                                      :highlighted-post-comment-id.sync="highlightedPostCommentId"
                                      @onPostCommentDeleted="onPostCommentDeleted"
                                      @onWantsToReply="onWantsToReplyToComment"
+                                     @onWantsToEdit="onWantsToEdit"
                                      @onWantsToReplyToReply="onWantsToReplyToReply"
                     ></ok-post-comment>
                 </div>
@@ -71,6 +73,7 @@
     import OkLoadingIndicator from "~/components/utils/OkLoadingIndicator.vue";
     import { IHistoryService } from "~/services/history/IHistoryService";
     import {
+        EditCommentParams,
         OnCommentedPostParams,
         ReplyToCommentParams,
         ReplyToReplyParams
@@ -180,6 +183,10 @@
 
         onWantsToReplyToComment(params: ReplyToCommentParams) {
             this.$emit("onWantsToReplyToComment", params);
+        }
+
+        onWantsToEdit(params: EditCommentParams) {
+            this.$emit("onWantsToEditComment", params);
         }
 
         onWantsToReplyToReply(params: ReplyToReplyParams) {
@@ -330,31 +337,34 @@
 
             let newLinkedPostCommentId;
             let newLinkedPostCommentReplyId;
+            if (!params.isEditComment) {
 
-            if (params.parentPostComment) {
-                // Its a reply
-                newLinkedPostCommentId = params.parentPostComment.id;
-                newLinkedPostCommentReplyId = params.createdPostComment.id;
-            } else {
-                // Its a post comment
-                newLinkedPostCommentId = params.createdPostComment.id;
-                newLinkedPostCommentReplyId = undefined;
+
+                if (params.parentPostComment) {
+                    // Its a reply
+                    newLinkedPostCommentId = params.parentPostComment.id;
+                    newLinkedPostCommentReplyId = params.createdPostComment.id;
+                } else {
+                    // Its a post comment
+                    newLinkedPostCommentId = params.createdPostComment.id;
+                    newLinkedPostCommentReplyId = undefined;
+                }
+
+                this.linkedPostCommentId = newLinkedPostCommentId;
+                this.linkedPostCommentReplyId = newLinkedPostCommentReplyId;
+
+                let newQueryParams = {
+                    pc: newLinkedPostCommentId
+                };
+
+                if (newLinkedPostCommentReplyId) newQueryParams["pcr"] = newLinkedPostCommentReplyId;
+
+                this.historyService.updatePathForPostSilently({
+                    post: this.post,
+                    linkedPostCommentReplyId: newLinkedPostCommentReplyId,
+                    linkedPostCommentId: newLinkedPostCommentId
+                });
             }
-
-            this.linkedPostCommentId = newLinkedPostCommentId;
-            this.linkedPostCommentReplyId = newLinkedPostCommentReplyId;
-
-            let newQueryParams = {
-                pc: newLinkedPostCommentId
-            };
-
-            if (newLinkedPostCommentReplyId) newQueryParams["pcr"] = newLinkedPostCommentReplyId;
-
-            this.historyService.updatePathForPostSilently({
-                post: this.post,
-                linkedPostCommentReplyId: newLinkedPostCommentReplyId,
-                linkedPostCommentId: newLinkedPostCommentId
-            });
 
             this.state = OkPostCommentsState.loadMore;
 

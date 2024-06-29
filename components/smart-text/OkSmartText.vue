@@ -39,20 +39,20 @@
         ];
 
         onUrlPressed(url: string) {
-            console.log("You pressed url", url);
+            // console.log("You pressed url", url);
         }
 
         onUsernamePressed(username: string) {
-            console.log("You pressed username", username);
+            // console.log("You pressed username", username);
         }
 
 
         onHashtagPressed(hashtag: string) {
-            console.log("You pressed hashtag", hashtag);
+            // console.log("You pressed hashtag", hashtag);
         }
 
         onCommunityNamePressed(communityName: string) {
-            console.log("You pressed communityName", communityName);
+            // console.log("You pressed communityName", communityName);
         }
     }
 </script>

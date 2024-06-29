@@ -225,8 +225,6 @@ export class UserService implements IUserService {
     async requestInviteToken(data: IsRequestInviteApiParams): Promise<boolean> {
         try {
             const response = await this.authApiService.requestInviteToken(data);
-            console.log("requestInviteToken true")
-            console.log(response.data);
             return true;
         } catch (error) {
             if (!error || (error.response && error.response.status === 400)) return false;
@@ -994,6 +992,9 @@ export class UserService implements IUserService {
     async getPostReactions(params: GetPostReactionsParams): Promise<IPostReaction[]> {
         const response: AxiosResponse<PostReactionData[]> = await this.postsApiService.getPostReactions({
             postUuid: params.post.uuid,
+            emojiId: params.emojiId,
+            maxId: params.maxId,
+            count: params.count
         });
 
         return postReactionFactory.makeMultiple(response.data);
