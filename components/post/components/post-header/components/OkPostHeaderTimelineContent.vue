@@ -35,8 +35,14 @@
                     ·
                     </span>
                     <span>
-                    {{ post.created | moment("from", "now") }}
-                </span>
+                        {{ post.created | moment("from", "now") }}
+                    </span>
+                    <span>
+                        ·
+                    </span>
+                    <span>
+                        {{ post.type == 'LP' ? $t('components.posts.long_post') : $t('components.posts.short_post')}}
+                    </span>
                 </p>
             </div>
             <div v-else>
@@ -70,6 +76,12 @@
                         </span>
                         <span>
                             {{ post.created | moment("from", "now") }}
+                        </span>
+                        <span>
+                            ·
+                        </span>
+                        <span>
+                            {{ post.type == 'LP' ? $t('components.posts.long_post') : $t('components.posts.short_post')}}
                         </span>
                     </p>
                 </ok-user-hover-card>
