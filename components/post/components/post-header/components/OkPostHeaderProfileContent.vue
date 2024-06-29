@@ -34,6 +34,12 @@
                         <span>
                         {{ post.created | moment("from", "now") }}
                         </span>
+                        <span>
+                            ·
+                        </span>
+                        <span>
+                            {{ post.type == 'LP' ? $t('components.posts.long_post') : $t('components.posts.short_post')}}
+                        </span>
                     </p>
                 </ok-community-hover-card>
             </div>
@@ -66,7 +72,7 @@
                                 ·
                             </span>
                             <span>
-                                {{ this.post.type == 'LP' ? $t('components.posts.long_post') : $t('components.posts.short_post')}}
+                                {{ post.type == 'LP' ? $t('components.posts.long_post') : $t('components.posts.short_post')}}
                             </span>
                         </span>
                     </p>
