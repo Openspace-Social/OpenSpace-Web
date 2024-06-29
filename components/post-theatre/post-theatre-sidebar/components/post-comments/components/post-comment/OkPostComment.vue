@@ -39,6 +39,8 @@
         <ok-post-comment-inline-actions :post="post" :post-comment="postComment"
                                         :expanded-replies="expandedReplies"
                                         @onWantsToReply="onWantsToReply"
+                                        @onWantsToEdit="onWantsToEdit"
+                                        :canEditComment="canEditComment"
                                         @onPostCommentDeleted="onPostCommentDeleted"
                                         @onWantsToToggleReplies="onWantsToToggleReplies"
                                         v-if="showActions"></ok-post-comment-inline-actions>
@@ -64,6 +66,7 @@
     import OkPostCommentReplies
         from "~/components/post-theatre/post-theatre-sidebar/components/post-comments/components/post-comment/components/OkPostCommentReplies.vue";
     import {
+        EditCommentParams,
         ReplyToCommentParams,
         ReplyToReplyParams
     } from "~/components/post-theatre/post-theatre-sidebar/lib/PostTheatreEventParams";
@@ -163,6 +166,14 @@
             this.$emit("onWantsToReply", params);
         }
 
+        onWantsToEdit(postComment, post) {
+            let params: EditCommentParams = {
+                postComment: postComment,
+                post: post
+            };
+            this.$emit("onWantsToEdit", params);
+        }
+
         onPostCommentDeleted(postComment, post) {
             this.$emit("onPostCommentDeleted", postComment, post)
         }
@@ -176,11 +187,11 @@
         }
 
         get isHighlightedPostComment() {
-            return this.postComment.id === this.highlightedPostCommentId;
+            return this.postComment?.id === this.highlightedPostCommentId;
         }
 
         get isLinkedPostComment() {
-            return this.postComment.id === this.linkedPostCommentId;
+            return this.postComment?.id === this.linkedPostCommentId;
         }
 
         get haslinkedPostCommentReply() {
@@ -202,5 +213,9 @@
             return this.$observables.loggedInUser?.value?.canTranslatePostComment(this.postComment, this.post);
         }
 
+        get canEditComment(): boolean {
+            const user = this.$observables.loggedInUser?.value;
+            return user?.canEditPostComment(this.postComment);
+        }
     }
 </script>

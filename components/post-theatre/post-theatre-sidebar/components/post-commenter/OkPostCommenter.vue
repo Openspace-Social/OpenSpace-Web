@@ -9,8 +9,11 @@
                     </div>
                 </header>
                 <div>
+                    <p v-if="editComment" class="has-padding-top-20 has-padding-left-20 font-bold ok-has-text-primary-invert is-size-6">
+                        <span>{{ $t("forms.comment_post.edit_comment") }}</span>
+                    </p>
                     <ok-post-comment :post="post" :post-comment="displayedPostComment" :show-actions="false"
-                                     :show-reactions="false" class="has-padding-top-20"></ok-post-comment>
+                                     :show-reactions="false" class=""></ok-post-comment>
                 </div>
             </div>
         </div>
@@ -22,7 +25,9 @@
                 </ok-user-avatar>
             </div>
             <div class="media-content">
-                <ok-comment-post-form ref="commentPostForm" :post="post" :post-comment="postComment"
+                <ok-comment-post-form ref="commentPostForm" :post="post"
+                                      :post-comment="postComment"
+                                      :edit-post-comment="editComment"
                                       @onCommentedPost="onCommentedPost"></ok-comment-post-form>
             </div>
         </div>
@@ -58,6 +63,7 @@
     import OkPostComment
         from "~/components/post-theatre/post-theatre-sidebar/components/post-comments/components/post-comment/OkPostComment.vue";
     import {
+        EditCommentParams,
         OnCommentedPostParams,
         ReplyToCommentParams,
         ReplyToReplyParams
@@ -77,6 +83,7 @@
 
         postComment: IPostComment = null;
         displayedPostComment: IPostComment = null;
+        editComment: IPostComment = null;
 
         $route!: Route;
 
@@ -96,7 +103,8 @@
             const params: OnCommentedPostParams = {
                 post: this.post,
                 createdPostComment: createdPostComment,
-                parentPostComment: parentPostComment
+                parentPostComment: parentPostComment,
+                isEditComment: !!this.editComment
             };
 
             this.$emit("onCommentedPost", params);
@@ -106,6 +114,13 @@
         setReplyToCommentParams(params: ReplyToCommentParams) {
             this.postComment = params.postComment;
             this.displayedPostComment = params.postComment;
+        }
+
+        setEditCommentParams(params: EditCommentParams) {
+            this.postComment = params.postComment;
+            this.displayedPostComment = params.postComment;
+            this.editComment = params.postComment;
+            this.$refs.commentPostForm.setText(params.postComment.text);
         }
 
         setReplyToReplyParams(params: ReplyToReplyParams) {
@@ -118,6 +133,10 @@
         reset() {
             this.postComment = null;
             this.$refs.commentPostForm.unprependFromText(this.prependedUsernameMention);
+            if (this.editComment) {
+                this.$refs.commentPostForm.reset();
+            }
+            this.editComment = null;
             this.prependedUsernameMention = "";
             this.displayedPostComment = null;
         }

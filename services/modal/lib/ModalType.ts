@@ -47,6 +47,8 @@ export class ModalType {
     static postStudio = new ModalType('createPost');
 
     static confirmationModal = new ModalType('ConfirmationModal');
+    static fullScreenImageModal = new ModalType('FullScreenImageModal');
+    static postReactionUsersModal = new ModalType('PostReactionUsersModal');
 
 
     static _values: ModalType[] = [
@@ -96,6 +98,7 @@ export class ModalType {
         ModalType.editCircleModal,
 
         ModalType.confirmationModal,
+        ModalType.fullScreenImageModal
     ];
 
     static values() {

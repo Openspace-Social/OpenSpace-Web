@@ -113,6 +113,10 @@ export interface IModalService {
 
     openConfirmationModal(params: ConfirmationModalParams): Promise<void>;
 
+    openFullScreenImageModal(params: FullScreenImageModalParams): Promise<void>;
+
+    openPostReactionUsersModal(params: PostReactionUsersModalParams): Promise<void>;
+
     // Methods for OkModals component
     activeModal: BehaviorSubject<ModalType | undefined>
 
@@ -159,7 +163,9 @@ export type ModalParams =
     | CirclesModalParams
     | CreateCircleModalParams
     | CircleDetailsModalParams
-    | EditCircleModalParams;
+    | EditCircleModalParams
+    | FullScreenImageModalParams
+    | PostReactionUsersModalParams;
 
 export interface HttpListModalParams<T> {
     refresher: OkHttpListRefresher<T>;
@@ -369,4 +375,13 @@ export interface ConfirmationModalParams {
     showCancelButton?: boolean;
     confirmationCallback?(): any;
     cancelCallback?(): any;
+}
+
+export interface FullScreenImageModalParams {
+    imageUrl: string;
+}
+
+export interface PostReactionUsersModalParams {
+    post: IPost;
+    emojiId: number;
 }

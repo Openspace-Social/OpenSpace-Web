@@ -6,6 +6,7 @@
                     :emoji-count="reactionsEmojiCount"
                     :is-current-reaction="post.reaction && post.reaction.emoji.id === reactionsEmojiCount.emoji.id"
                     @onPressed="onEmojiReactionButtonPressed"
+                    @onDoublePressed="onEmojiReactionButtonDoublePressed"
             ></ok-emoji-reaction-button>
         </div>
     </div>
@@ -27,6 +28,7 @@
     import { IUtilsService } from "~/services/utils/IUtilsService";
     import { CancelableOperation } from "~/lib/CancelableOperation";
     import { IPostReaction } from "~/models/posts/post-reaction/IPostReaction";
+    import {IModalService} from "~/services/modal/IModalService";
 
     @Component({
         name: "OkPostReactions",
@@ -39,6 +41,7 @@
 
         private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
         private utilsService: IUtilsService = okunaContainer.get<IUtilsService>(TYPES.UtilsService);
+        private modalService: IModalService = okunaContainer.get<IModalService>(TYPES.ModalService);
 
         private reactWithEmojiOperation?: CancelableOperation<IPostReaction>;
         private removeReactionOperation?: CancelableOperation<void>;
@@ -64,6 +67,28 @@
             }
 
             this.requestInProgress = false;
+        }
+
+        async onEmojiReactionButtonDoublePressed(reactionsEmojiCount: IReactionsEmojiCount) {
+            this.modalService.openPostReactionUsersModal({
+                post: this.post,
+                emojiId: reactionsEmojiCount.emoji.id || 0
+            });
+
+            // if (this.requestInProgress) return;
+            // this.requestInProgress = true;
+            //
+            // const tappedEmojiReactionButtonIsCurrentReaction = this.post.reaction && this.post.reaction.emoji.id === reactionsEmojiCount.emoji.id;
+            //
+            // if (tappedEmojiReactionButtonIsCurrentReaction) {
+            //     // Remove reaction
+            //     await this.removeCurrentReaction();
+            // } else {
+            //     // Add reaction
+            //     await this.reactWithEmoji(reactionsEmojiCount.emoji);
+            // }
+            //
+            // this.requestInProgress = false;
         }
 
         private async reactWithEmoji(emoji: IEmoji) {

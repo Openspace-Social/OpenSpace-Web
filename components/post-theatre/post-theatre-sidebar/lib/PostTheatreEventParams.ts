@@ -10,9 +10,16 @@ export interface OnCommentedPostParams{
 
     // The created post comment
     createdPostComment: IPostComment;
+
+    isEditComment: boolean;
 }
 
 export interface ReplyToCommentParams{
+    post: IPost;
+    postComment: IPostComment;
+}
+
+export interface EditCommentParams{
     post: IPost;
     postComment: IPostComment;
 }

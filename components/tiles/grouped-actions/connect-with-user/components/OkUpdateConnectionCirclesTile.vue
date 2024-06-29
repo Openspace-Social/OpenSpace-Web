@@ -76,8 +76,6 @@
                 initialConnectionsCircles: this.user.connectedCircles,
                 disabledConnectionsCircles: disabledConectionsCircles,
                 onWantsToPickCircles: async (circles: ICircle[]) => {
-                    console.log(circles);
-
                     await this.userService.updateConnectionWithUser({
                         user: this.user,
                         circles: circles

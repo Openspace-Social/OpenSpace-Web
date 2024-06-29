@@ -40,7 +40,7 @@ import {
     CirclesModalParams,
     CreateCircleModalParams,
     CircleDetailsModalParams,
-    EditCircleModalParams
+    EditCircleModalParams, FullScreenImageModalParams, PostReactionUsersModalParams
 } from '~/services/modal/IModalService';
 // From outside Vue instance
 import { BehaviorSubject } from '~/node_modules/rxjs';
@@ -321,6 +321,16 @@ export class ModalService implements IModalService {
     async openConfirmationModal(params: ConfirmationModalParams): Promise<void> {
         this.ensureHasNoActiveModal();
         return this.openModal(ModalType.confirmationModal, params);
+    }
+
+    async openFullScreenImageModal(params: FullScreenImageModalParams): Promise<void> {
+        this.ensureHasNoActiveModal();
+        return this.openModal(ModalType.fullScreenImageModal, params);
+    }
+
+    async openPostReactionUsersModal(params: PostReactionUsersModalParams): Promise<void> {
+        this.ensureHasNoActiveModal();
+        return this.openModal(ModalType.postReactionUsersModal, params);
     }
 
     notifyModalClosed(): void {

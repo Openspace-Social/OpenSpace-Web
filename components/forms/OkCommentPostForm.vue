@@ -88,6 +88,7 @@
         @Prop(Object) readonly post: IPost;
         @Prop(Object) readonly postComment: IPostComment;
         @Prop(Object) readonly replyToPostComment: IPostComment;
+        @Prop(Object) readonly editPostComment: IPostComment;
 
         private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
         private utilsService: IUtilsService = okunaContainer.get<IUtilsService>(TYPES.UtilsService);
@@ -101,6 +102,7 @@
 
         inputIsFocused = false;
         isPostCommentReply = false;
+        isPostCommentEdit = false;
         formWasSubmitted = false;
         submitInProgress = false;
 
@@ -139,13 +141,21 @@
                 this.replyToReplyPrependedMention = "";
             }
         }
+
+        @Watch("editPostComment")
+        onEditPostCommentChanged(val: IPostComment, oldVal: IPostComment) {
+            this.isPostCommentEdit = !!val;
+            if (val) {
+                this.text = val.text;
+            }
+        }
+
         strategies = [{
             match: /(^|\s)@([a-z0-9+\-\_]*)$/,
             search: async (term, callback) => {
             },
             remote: async (term, callback) => {
                 let v = await this.loadMentionItems('@', term, callback)
-                console.log(v);
                 callback(v);
             },
             template: (name) => {
@@ -160,7 +170,6 @@
             },
             remote: async (term, callback) => {
                 let v = await this.loadMentionItems('#', term, callback)
-                console.log(v);
                 callback(v);
             },
             template: (name) => {
@@ -175,7 +184,6 @@
             },
             remote: async (term, callback) => {
                 let v = await this.loadMentionItems('c/', term, callback)
-                console.log(v);
                 callback(v);
             },
             template: (name) => {
@@ -188,7 +196,6 @@
 
         async loadMentionItems(mentionChar, searchTerm, callback) {
             // this.mentionItems = [];
-            console.log(mentionChar, searchTerm);
             let values;
             if (mentionChar === "@") {
                 let users = []
@@ -239,10 +246,6 @@
                 });
                 values = values.splice(0, 8);
             }
-            console.log(values);
-            console.log(values.map((item) => {
-                return item.value
-            }));
             return values.map((item) => {
                 return item.value
             });
@@ -258,13 +261,15 @@
         }
 
         get submitText() {
-            return this.isPostCommentReply ?
+            return this.isPostCommentEdit ?
+                this.$t("forms.comment_post.update_comment") :
+                this.isPostCommentReply ?
                 this.$t("forms.comment_post.submit_reply") :
                 this.$t("forms.comment_post.submit")
         }
 
         get titleText() {
-            return this.isPostCommentReply ?
+            return this.isPostCommentEdit ? this.$t("forms.comment_post.edit_comment") : this.isPostCommentReply ?
                 this.$t("forms.comment_post.title_reply") :
                 this.$t("forms.comment_post.title")
         }
@@ -288,6 +293,11 @@
 
             try {
                 this.commentPostOperation = CancelableOperation.fromPromise<IPostComment>(
+                    this.editPostComment ? this.userService.editPostComment({
+                        text: this.text,
+                        post: this.post,
+                        postComment: this.editPostComment
+                    }) :
                     this.postComment ? this.userService.replyToPostComment({
                         text: this.text,
                         post: this.post,
@@ -322,6 +332,10 @@
 
         prependToText(value: string) {
             this.text = value + this.text;
+        }
+
+        setText(value: string) {
+            this.text = value;
         }
 
         unprependFromText(value: string) {

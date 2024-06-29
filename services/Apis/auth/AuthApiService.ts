@@ -106,7 +106,6 @@ export class AuthApiService implements IAuthApiService {
 
     requestInviteToken(data: IsRequestInviteApiParams): Promise<AxiosResponse<void>> {
 
-        console.log("requestInviteToken true");
         return this.httpService.post<void>(AuthApiService.REQUEST_INVITE_PATH, {
             email: data.email
         }, {

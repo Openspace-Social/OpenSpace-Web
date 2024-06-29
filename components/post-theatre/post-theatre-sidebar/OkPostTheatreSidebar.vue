@@ -7,13 +7,20 @@
                     <div v-if="postHasLinkToPreview" class="has-padding-bottom-20">
                         <ok-post-link-preview :link="postFirstLink.link"/>
                     </div>
-                    <ok-post-text :post="post"></ok-post-text>
+                    <template v-if="post.type == 'P'">
+                        <ok-post-text v-if="post.text" :post="post"></ok-post-text>
+                    </template>
+                    <template v-else>
+                        <ok-post-markdown-text v-if="post.longText" :post="post"></ok-post-markdown-text>
+                    </template>
+<!--                    <ok-post-text :post="post"></ok-post-text>-->
                     <ok-post-reactions :post="post"></ok-post-reactions>
                     <ok-post-actions :post="post" class="has-padding-top-20"></ok-post-actions>
                 </div>
                 <ok-post-comments :post="post" ref="postCommentsComponent"
                                   :container-id="postCommentsContainerId"
                                   @onWantsToReplyToComment="onWantsToReplyToComment"
+                                  @onWantsToEditComment="onWantsToEditComment"
                                   @onWantsToReplyToReply="onWantsToReplyToReply"
                 ></ok-post-comments>
             </div>
@@ -53,13 +60,16 @@
     import { TYPES } from "~/services/inversify-types";
     import OkPostMedia from "~/components/post/components/post-media/OkPostMedia.vue";
     import {
+        EditCommentParams,
         OnCommentedPostParams,
         ReplyToCommentParams, ReplyToReplyParams
     } from "~/components/post-theatre/post-theatre-sidebar/lib/PostTheatreEventParams";
+    import OkPostMarkdownText from "~/components/post/components/OkPostMarkdownText.vue";
 
     @Component({
         name: "OkPostTheatreSidebar",
         components: {
+            OkPostMarkdownText,
             OkPostMedia,
             OkPostCommenter,
             OkPostComments,
@@ -92,6 +102,10 @@
 
         onWantsToReplyToComment(params: ReplyToCommentParams) {
             this.$refs.postCommenter.setReplyToCommentParams(params);
+        }
+
+        onWantsToEditComment(params: EditCommentParams) {
+            this.$refs.postCommenter.setEditCommentParams(params);
         }
 
         onWantsToReplyToReply(params: ReplyToReplyParams) {

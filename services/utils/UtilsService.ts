@@ -118,13 +118,17 @@ export class UtilsService implements IUtilsService {
     }
 
     makeHumanFriendlyLargeNumberDisplay(n: number) {
-        for (let i = 0; i < this.userFriendlyLargeNumberRanges.length; i++) {
-            if (n >= this.userFriendlyLargeNumberRanges[i].divider) {
-                const number = (n / this.userFriendlyLargeNumberRanges[i].divider).toFixed(1);
-                return number.toString() + this.userFriendlyLargeNumberRanges[i].suffix;
+        try {
+            for (let i = 0; i < this.userFriendlyLargeNumberRanges.length; i++) {
+                if (n >= this.userFriendlyLargeNumberRanges[i].divider) {
+                    const number = (n / this.userFriendlyLargeNumberRanges[i].divider).toFixed(1);
+                    return number.toString() + this.userFriendlyLargeNumberRanges[i].suffix;
+                }
             }
+            return n.toString();
+        } catch (e) {
+            return "0";
         }
-        return n.toString();
     }
 
     parseTemplateString(template: string, templateData: {[key: string]: boolean | number | string}): string {

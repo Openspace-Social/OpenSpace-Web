@@ -54,8 +54,15 @@ export default {
             "collapse_replies": "Collapse replies",
             "replies_count": "{repliesCount}+ Replies",
         },
+        "posts": {
+          "long_post": "Long post",
+          "short_post": "Short post",
+        },
         "post_comments": {
             "load_more": "Load more comments"
+        },
+        "reaction_users": {
+            "load_more": "Load more users",
         },
         "post_comment_replies": {
             "load_more": "Load more replies"
@@ -155,6 +162,8 @@ export default {
             "submit_reply": "Reply",
             "title": "Comment post",
             "title_reply": "Reply to comment",
+            "edit_comment": "Edit comment",
+            "update_comment": "Update comment",
         },
     },
     "user_preferences": {
