@@ -117,6 +117,16 @@ export interface IModalService {
 
     openPostReactionUsersModal(params: PostReactionUsersModalParams): Promise<void>;
 
+    openAccountSettingsModal(): Promise<void>;
+
+    openChangeEmailModal(): Promise<void>;
+
+    openChangePasswordModal(): Promise<void>;
+
+    openBlockedUsersModal(): Promise<void>;
+
+    openDeleteAccountModal(): Promise<void>;
+
     // Methods for OkModals component
     activeModal: BehaviorSubject<ModalType | undefined>
 

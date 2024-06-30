@@ -125,7 +125,11 @@ import {
     ResetPasswordApiParams,
     IsInviteTokenValidApiParams,
     IsEmailAvailableApiParams,
-    IsUsernameAvailableApiParams, IsRequestInviteApiParams
+    IsUsernameAvailableApiParams,
+    IsRequestInviteApiParams,
+    UpdateUserSettingsApiParams,
+    DeleteUserApiParams,
+    BlockedUsersApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 import { INotification } from '~/models/notifications/notification/INotification';
 import { IFollow } from '~/models/follows/follow/IFollow';
@@ -185,6 +189,14 @@ export interface IUserService {
     getUser(params: GetUserParams): Promise<IUser>;
 
     updateUser(params: UpdateUserParams): Promise<IUser>;
+
+    updateUserSettings(params: UpdateUserSettingsApiParams): Promise<IUser>;
+
+    deleteUser(params: DeleteUserApiParams): Promise<void>;
+
+    getBlockedUsers(params: BlockedUsersApiParams): Promise<IUser[]>;
+
+    searchBlockedUsers(params: BlockedUsersApiParams): Promise<IUser[]>;
 
     searchUsers(params: SearchUsersParams): Promise<IHashtag[]>;
 

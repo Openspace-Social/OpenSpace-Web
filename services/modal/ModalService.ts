@@ -333,6 +333,31 @@ export class ModalService implements IModalService {
         return this.openModal(ModalType.postReactionUsersModal, params);
     }
 
+    async openAccountSettingsModal(): Promise<void> {
+        this.ensureHasNoActiveModal();
+        return this.openModal(ModalType.accountSettingsModal);
+    }
+
+    async openChangeEmailModal(): Promise<void> {
+        this.ensureHasNoActiveModal();
+        return this.openModal(ModalType.changeEmailModal);
+    }
+
+    async openChangePasswordModal(): Promise<void> {
+        this.ensureHasNoActiveModal();
+        return this.openModal(ModalType.changePasswordModal);
+    }
+
+    async openBlockedUsersModal(): Promise<void> {
+        this.ensureHasNoActiveModal();
+        return this.openModal(ModalType.blockedUsersModal);
+    }
+
+    async openDeleteAccountModal(): Promise<void> {
+        this.ensureHasNoActiveModal();
+        return this.openModal(ModalType.deleteAccountModal);
+    }
+
     notifyModalClosed(): void {
         this.ensureHasActiveModal();
         this.logModalClosed();
@@ -379,11 +404,11 @@ export class ModalService implements IModalService {
     }
 
     private logModalOpened() {
-        this.logger.info('Modal opened', this.activeModal.value);
+        // this.logger.info('Modal opened', this.activeModal.value);
     }
 
     private logModalClosed() {
-        this.logger.info('Modal closed', this.activeModal.value);
+        // this.logger.info('Modal closed', this.activeModal.value);
     }
 
     private logModalFailed(reason) {

@@ -9,7 +9,11 @@ import {
     ResetPasswordApiParams,
     IsInviteTokenValidApiParams,
     IsEmailAvailableApiParams,
-    IsUsernameAvailableApiParams, IsRequestInviteApiParams
+    IsUsernameAvailableApiParams,
+    IsRequestInviteApiParams,
+    UpdateUserSettingsApiParams,
+    DeleteUserApiParams,
+    BlockedUsersApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 import { IUser } from '~/models/auth/user/IUser';
 import userFactory from '~/models/auth/user/factory';
@@ -339,6 +343,25 @@ export class UserService implements IUserService {
     async updateUser(params: UpdateUserParams): Promise<IUser> {
         const response: AxiosResponse<UserData> = await this.authApiService.updateUser(params);
         return userFactory.make(response.data);
+    }
+
+    async updateUserSettings(params: UpdateUserSettingsApiParams): Promise<IUser> {
+        const response: AxiosResponse<UserData> = await this.authApiService.updateUserSettings(params);
+        return userFactory.make(response.data);
+    }
+
+    async deleteUser(params: DeleteUserApiParams): Promise<void> {
+        await this.authApiService.deleteUser(params);
+    }
+
+    async getBlockedUsers(params: BlockedUsersApiParams): Promise<IUser[]> {
+        const response: AxiosResponse<UserData[]> = await this.authApiService.getBlockedUsers(params);
+        return userFactory.makeMultiple(response.data);
+    }
+
+    async searchBlockedUsers(params: BlockedUsersApiParams): Promise<IUser[]> {
+        const response: AxiosResponse<UserData[]> = await this.authApiService.searchBlockedUsers(params);
+        return userFactory.makeMultiple(response.data);
     }
 
     async searchUsers(params: SearchUsersParams): Promise<IHashtag[]> {

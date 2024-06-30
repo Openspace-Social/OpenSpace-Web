@@ -66,6 +66,7 @@ import TextShort from 'vue-material-design-icons/TextShort.vue';
 import Palette from 'vue-material-design-icons/Palette.vue';
 import Shape from 'vue-material-design-icons/Shape.vue';
 import ArrowExpand from 'vue-material-design-icons/ArrowExpand.vue';
+import LockOpen from 'vue-material-design-icons/LockOpen.vue';
 
 // Full list https://materialdesignicons.com/
 
@@ -238,3 +239,5 @@ Vue.component('ok-circle-color-icon', Palette);
 Vue.component('ok-arrow-expand-icon', ArrowExpand);
 
 Vue.component('ok-badge-icon', CheckIcon);
+
+Vue.component('ok-lock-open', LockOpen);

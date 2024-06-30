@@ -22,7 +22,7 @@ import {
     GetFollowersApiParams,
     SearchFollowingsApiParams,
     SearchFollowersApiParams,
-    IsRequestInviteApiParams
+    IsRequestInviteApiParams, UpdateUserSettingsApiParams, DeleteUserApiParams, BlockedUsersApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 import {IHashtag} from "~/models/common/hashtag/IHashtag";
 
@@ -42,11 +42,19 @@ export interface IAuthApiService {
 
     updateUser(params: UpdateUserApiParams): Promise<AxiosResponse<UserData>>;
 
+    updateUserSettings(params: UpdateUserSettingsApiParams): Promise<AxiosResponse<UserData>>;
+
+    deleteUser(params: DeleteUserApiParams): Promise<AxiosResponse<void>>;
+
     searchUsers(params: SearchUsersApiParams): Promise<AxiosResponse<UserData[]>>;
 
     linkedUsers(): Promise<AxiosResponse<UserData[]>>;
 
     reportUser(params: ReportUserApiParams): Promise<AxiosResponse<void>>;
+
+    getBlockedUsers(params: BlockedUsersApiParams): Promise<AxiosResponse<UserData[]>>;
+
+    searchBlockedUsers(params: BlockedUsersApiParams): Promise<AxiosResponse<UserData[]>>;
 
     blockUser(params: BlockUserApiParams): Promise<AxiosResponse<void>>;
 

@@ -19,7 +19,11 @@ import {
     GetFollowingsApiParams,
     GetFollowersApiParams,
     SearchFollowingsApiParams,
-    SearchFollowersApiParams, IsRequestInviteApiParams
+    SearchFollowersApiParams,
+    IsRequestInviteApiParams,
+    UpdateUserSettingsApiParams,
+    DeleteUserApiParams,
+    BlockedUsersApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 import { IHttpService } from '~/services/http/IHttpService';
 import { inject, injectable } from '~/node_modules/inversify';
@@ -47,7 +51,11 @@ export class AuthApiService implements IAuthApiService {
     static CHECK_EMAIL_PATH = 'api/auth/email-check/';
     static CHECK_USERNAME_PATH = 'api/auth/username-check/';
     static UPDATE_AUTHENTICATED_USER_PATH = 'api/auth/user/';
+    static UPDATE_AUTHENTICATED_USER_SETTINGS_PATH = 'api/auth/user/settings/';
     static REQUEST_INVITE_PATH = 'api/auth/request/token/';
+    static DELETE_USER_PATH = 'api/auth/user/delete/';
+    static GET_BLOCKED_USERS_PATH = 'api/auth/blocked-users/';
+    static SEARCH_BLOCKED_USERS_PATH = 'api/auth/blocked-users/search/';
 
     constructor(@inject(TYPES.HttpService) private httpService: IHttpService,
                 @inject(TYPES.UtilsService) private utilsService: IUtilsService) {
@@ -199,6 +207,64 @@ export class AuthApiService implements IAuthApiService {
         return this.httpService.patch(AuthApiService.UPDATE_AUTHENTICATED_USER_PATH, bodyFormData, {
             appendAuthorizationToken: true,
             isApiRequest: true
+        });
+    }
+
+    updateUserSettings(params: UpdateUserSettingsApiParams): Promise<AxiosResponse<UserData>> {
+        const bodyFormData = new FormData();
+
+        if (params.email) {
+            bodyFormData.set('email', params.email);
+        }
+
+        if (params.currentPassword) {
+            bodyFormData.set('current_password', params.currentPassword);
+        }
+
+        if (params.newPassword) {
+            bodyFormData.set('new_password', params.newPassword);
+        }
+
+        return this.httpService.patch(AuthApiService.UPDATE_AUTHENTICATED_USER_SETTINGS_PATH, bodyFormData, {
+            appendAuthorizationToken: true,
+            isApiRequest: true
+        });
+    }
+
+    deleteUser(params: DeleteUserApiParams): Promise<AxiosResponse<void>> {
+        const bodyFormData = new FormData();
+
+        bodyFormData.set('password', params.password);
+
+        return this.httpService.post<void>(AuthApiService.DELETE_USER_PATH,  bodyFormData, {
+            isApiRequest: true,
+            appendAuthorizationToken: true
+        });
+    }
+
+    getBlockedUsers(params: BlockedUsersApiParams): Promise<AxiosResponse<UserData[]>> {
+        const queryParams = {
+            ...(typeof params.count !== 'undefined' && { count: params.count }),
+            ...(typeof params.maxId !== 'undefined' && { max_id: params.maxId })
+        };
+
+        return this.httpService.get<UserData[]>(AuthApiService.GET_BLOCKED_USERS_PATH, {
+            queryParams,
+            isApiRequest: true,
+            appendAuthorizationToken: true
+        });
+    }
+
+    searchBlockedUsers(params: BlockedUsersApiParams): Promise<AxiosResponse<UserData[]>> {
+        const queryParams = {
+            ...(typeof params.count !== 'undefined' && { count: params.count }),
+            ...(typeof params.query !== 'undefined' && { query: params.query })
+        };
+
+        return this.httpService.get<UserData[]>(AuthApiService.SEARCH_BLOCKED_USERS_PATH, {
+            queryParams,
+            isApiRequest: true,
+            appendAuthorizationToken: true
         });
     }
 
