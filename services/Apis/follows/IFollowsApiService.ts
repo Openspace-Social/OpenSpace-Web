@@ -6,6 +6,7 @@ import {
 } from '~/services/Apis/follows/FollowsApiServiceTypes';
 import { FollowData } from '~/types/models-data/follows/FollowData';
 import { UserData } from '~/types/models-data/auth/UserData';
+import {List} from "~/models/lists/list/List";
 
 export interface IFollowsApiService {
 
@@ -20,5 +21,17 @@ export interface IFollowsApiService {
     followUser(params: FollowUserApiParams): Promise<AxiosResponse<FollowData>>;
 
     unfollowUser(params: UnfollowUserApiParams): Promise<AxiosResponse<UserData>>;
+
+    listNameCheck(name: string): Promise<AxiosResponse<void>>;
+
+    getLists(): Promise<AxiosResponse<List[]>>;
+
+    createList(name: string, emojiId: number): Promise<AxiosResponse<List>>;
+
+    updateList(listId: number, name: string, emojiId: number, usernames: string[]): Promise<AxiosResponse<List>>;
+
+    deleteList(listId: number): Promise<AxiosResponse<void>>;
+
+    getSingleList(listId: number): Promise<AxiosResponse<List>>;
 
 }

@@ -175,6 +175,9 @@ import linkPreviewFactory from '~/models/link-previews/link-preview/factory';
 import { LinkIsPreviewableResponseData } from '~/services/Apis/posts/PostsApiServiceTypes';
 import { ILinkPreview } from '~/models/link-previews/link-preview/ILinkPreview';
 import {IGenericFile} from "~/models/common/generic/IGenericFile";
+import {IList} from "~/models/lists/list/IList";
+import {List} from "~/models/lists/list/List";
+import listFactory from "~/models/lists/list/factory";
 
 
 @injectable()
@@ -1277,6 +1280,15 @@ export class UserService implements IUserService {
     }
 
     // FOLLOWS END
+
+    // LISTS START
+
+    async getLists(): Promise<IList[]> {
+        const response: AxiosResponse<List[]> = await this.followsApiService.getLists();
+        return listFactory.makeMultiple(response.data);
+    }
+
+    // LISTS END
 
     // CATEGORIES START
 

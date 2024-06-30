@@ -176,6 +176,9 @@
         <b-modal :active.sync="deleteAccountModalOpen" :trap-focus="true" @close="onModalClosed">
             <ok-delete-account-modal :params="activeModalParams"></ok-delete-account-modal>
         </b-modal>
+        <b-modal :active.sync="listsModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-follow-lists-modal :params="activeModalParams"></ok-follow-lists-modal>
+        </b-modal>
 
     </div>
 </template>
@@ -265,6 +268,7 @@
         from "~/pages/home/components/modals/components/account-settings/OkChangePasswordModal.vue";
     import OkBlockedUsersModal from "~/pages/home/components/modals/components/OkBlockedUsersModal.vue";
     import OkDeleteAccountModal from "~/pages/home/components/modals/components/OkDeleteAccountModal.vue";
+    import OkFollowListsModal from "~/pages/home/components/modals/components/follow-lists/OkFollowListsModal.vue";
 
     @Component({
         name: "OkModals",
@@ -315,6 +319,7 @@
             OkCircleDetailsModal,
             OkEditCircleModal,
             OkConfirmationModal,
+            OkFollowListsModal
         },
         subscriptions: function () {
             return {
@@ -379,6 +384,7 @@
         changePasswordModalOpen: boolean = false;
         blockedUsersModalOpen: boolean = false;
         deleteAccountModalOpen: boolean = false;
+        listsModalOpen: boolean = false;
 
         private modalService: IModalService = okunaContainer.get<IModalService>(TYPES.ModalService);
 
@@ -459,6 +465,7 @@
             this.changePasswordModalOpen = activeModalValue === ModalType.changePasswordModal;
             this.blockedUsersModalOpen = activeModalValue === ModalType.blockedUsersModal;
             this.deleteAccountModalOpen = activeModalValue === ModalType.deleteAccountModal;
+            this.listsModalOpen = activeModalValue === ModalType.listsModal;
         }
     }
 </script>

@@ -1,22 +1,22 @@
 <template>
-    <section class="ok-blocked-users-stream">
+    <section class="ok-follow-lists-stream">
         <ok-http-list
-            :refresher="blockedUsersRefresher"
-            :on-scroll-loader="blockedUsersOnScrollLoader"
-            :searcher="blockedUsersSearcher"
+            :refresher="followListsRefresher"
+            :show-search-bar="false"
+            :show-no-more="false"
             ref="okHttpList"
         >
-            <ok-blocked-user-list-item
+            <ok-list-tile
                 slot-scope="props"
                 @refresh="refreshUsers"
-                :user="props.item"
-            ></ok-blocked-user-list-item>
+                :list="props.item"
+            ></ok-list-tile>
         </ok-http-list>
     </section>
 </template>
 
 <style lang="scss" scoped>
-    .ok-blocked-users-stream {
+    .ok-follow-lists-stream {
         height: calc(100vh - 240px);
         width: 100%;
         overflow-y: auto;
@@ -37,17 +37,19 @@
     import OkBlockButton from "~/components/buttons/OkBlockButton.vue";
     import {CancelableOperation} from "~/lib/CancelableOperation";
     import {IUtilsService} from "~/services/utils/IUtilsService";
+    import {IList} from "~/models/lists/list/IList";
+    import OkListTile from "~/components/user-list/lists/components/OkListTile.vue";
 
     @Component({
-        name: 'OkBlockedUsersStream',
-        components: {OkBlockButton, OkBlockedUserListItem, OkHttpList, OkUserListItem },
+        name: 'OkFollowListsStream',
+        components: {OkListTile, OkBlockButton, OkBlockedUserListItem, OkHttpList, OkUserListItem },
         subscriptions: function () {
             return {
                 loggedInUser: this['userService'].loggedInUser
             };
         }
     })
-    export default class OkBlockedUsersStream extends Vue {
+    export default class OkFollowListsStream extends Vue {
         static infiniteScrollChunkUsersCount = 10;
 
         $observables!: {
@@ -64,28 +66,10 @@
         private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
         private utilsService: IUtilsService = okunaContainer.get<IUtilsService>(TYPES.UtilsService);
 
-        blockedUsers: IUser[] = [];
+        followLists: IList[] = [];
 
-        async blockedUsersSearcher(query: string): Promise<IUser[]> {
-            return this.userService.searchBlockedUsers({
-                query
-            });
-        }
-
-        async blockedUsersRefresher(): Promise<IUser[]> {
-            return this.userService.getBlockedUsers({
-                count: OkBlockedUsersStream.infiniteScrollChunkUsersCount
-            });
-        }
-
-        async blockedUsersOnScrollLoader(users: IUser[]): Promise<IUser[]> {
-            const lastFollowing = users[users.length - 1];
-            const lastFollowingId = lastFollowing.id;
-
-            return this.userService.getBlockedUsers({
-                count: OkBlockedUsersStream.infiniteScrollChunkUsersCount,
-                maxId: lastFollowingId
-            });
+        async followListsRefresher(): Promise<IList[]> {
+            return this.userService.getLists();
         }
 
         async refreshUsers() {

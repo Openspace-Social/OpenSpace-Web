@@ -142,6 +142,7 @@ import { GetSuggestedCommunitiesApiParams } from '~/services/Apis/communities/Co
 import { PostStatus } from '~/models/posts/post/lib/PostStatus';
 import { ILinkPreview } from '~/models/link-previews/link-preview/ILinkPreview';
 import {IGenericFile} from "~/models/common/generic/IGenericFile";
+import {IList} from "~/models/lists/list/IList";
 
 
 export interface IUserService {
@@ -455,4 +456,10 @@ export interface IUserService {
 
 
     // CONNECTIONS END
+
+    // LISTS START
+
+    getLists(): Promise<IList[]>
+
+    // LISTS END
 }

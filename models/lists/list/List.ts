@@ -11,6 +11,7 @@ export class List extends DataModel<List> implements IList {
     emoji: IEmoji;
     name: string;
     followsCount: number;
+    users: IUser[];
 
     dataMaps: DataModelAttributeMap<IList>[] = [
         {
@@ -20,6 +21,12 @@ export class List extends DataModel<List> implements IList {
         {
             dataKey: 'follows_count',
             attributeKey: 'followsCount'
+        },
+        {
+            dataKey: 'users',
+            attributeKey: 'users',
+            deserializer: userDeserializer,
+            serializer: userSerializer
         },
         {
             dataKey: 'creator',

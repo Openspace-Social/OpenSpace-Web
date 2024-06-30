@@ -157,7 +157,6 @@
         private navigationService: INavigationService = okunaContainer.get<INavigationService>(TYPES.NavigationService);
 
         mounted() {
-            this.$refs.password.focus();
         }
 
         confirmAccountDeletion() {

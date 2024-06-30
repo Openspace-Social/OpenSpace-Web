@@ -190,7 +190,6 @@
         private localizationService: ILocalizationService = okunaContainer.get<ILocalizationService>(TYPES.LocalizationService);
 
         mounted() {
-            this.$refs.password.focus();
         }
 
         async handleFormSubmit(e: Event) {

@@ -567,7 +567,8 @@ export default {
             "zoom_in": "Zoom In",
             "zoom_out": "Zoom Out",
             "delete": "Delete",
-            "goodbye": "Goodbye 😢"
+            "goodbye": "Goodbye 😢",
+            "lists": "Lists",
         },
         "models": {
             "post": "post",

@@ -54,6 +54,7 @@ export class ModalType {
     static changePasswordModal = new ModalType('ChangePasswordModal');
     static blockedUsersModal = new ModalType('BlockedUsersModal');
     static deleteAccountModal = new ModalType('DeleteAccountModal');
+    static listsModal = new ModalType('ListsModal');
 
 
     static _values: ModalType[] = [
@@ -105,7 +106,12 @@ export class ModalType {
         ModalType.confirmationModal,
         ModalType.fullScreenImageModal,
         ModalType.postReactionUsersModal,
-        ModalType.accountSettingsModal
+        ModalType.accountSettingsModal,
+        ModalType.changeEmailModal,
+        ModalType.changePasswordModal,
+        ModalType.blockedUsersModal,
+        ModalType.deleteAccountModal,
+        ModalType.listsModal,
     ];
 
     static values() {
