@@ -62,7 +62,7 @@ export class ModalService implements IModalService {
     activeModalRejector: (reason?: any) => void;
     activeModalReturnData: any;
 
-    private modalStack: Array<{ type: ModalType, params: ModalParams | undefined }> = [];
+    // private modalStack: Array<{ type: ModalType, params: ModalParams | undefined }> = [];
 
 
     private logger: IOkLogger;
@@ -373,17 +373,17 @@ export class ModalService implements IModalService {
         this.resetState();
 
         // Reopen the previous modal if any
-        if (this.modalStack.length > 0) {
-            setTimeout(() => {
-                if (!this.activeModal.value) {
-                    this.modalStack.pop();
-                    const previousModal = this.modalStack.pop();
-                    if (previousModal) {
-                        this.openModal(previousModal.type, previousModal.params);
-                    }
-                }
-            }, 500);
-        }
+        // if (this.modalStack.length > 0) {
+        //     setTimeout(() => {
+        //         if (!this.activeModal.value) {
+        //             this.modalStack.pop();
+        //             const previousModal = this.modalStack.pop();
+        //             if (previousModal) {
+        //                 this.openModal(previousModal.type, previousModal.params);
+        //             }
+        //         }
+        //     }, 500);
+        // }
     }
 
 
@@ -393,12 +393,12 @@ export class ModalService implements IModalService {
 
     private openModal(modalType: ModalType, params?: ModalParams): Promise<any> {
         // Push the current modal state onto the stack
-        if (modalType) {
-            this.modalStack.push({
-                type: modalType,
-                params: params
-            });
-        }
+        // if (modalType) {
+        //     this.modalStack.push({
+        //         type: modalType,
+        //         params: params
+        //     });
+        // }
         this.activeModalParams.next(params);
         this.activeModal.next(modalType);
         this.logModalOpened();
