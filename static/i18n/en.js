@@ -535,6 +535,7 @@ export default {
             "all": 'All',
             "explore": 'Explore',
             "trending": 'Trending',
+            "public": "Public",
             "posts": "posts",
             "search": "Search",
             "hashtag": "Hashtag",

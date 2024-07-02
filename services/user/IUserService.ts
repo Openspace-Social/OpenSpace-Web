@@ -106,7 +106,7 @@ import {
     CreateConnectionsCircleParams,
     UpdateConnectionsCircleParams,
     DeleteConnectionsCircleParams,
-    CheckConnectionsCircleNameIsAvailableParams,
+    CheckConnectionsCircleNameIsAvailableParams, GetPublicPostsParams,
 } from '~/services/user/UserServiceTypes';
 import { IPost } from '~/models/posts/post/IPost';
 import { ITopPost } from '~/models/posts/top-post/ITopPost';
@@ -302,6 +302,8 @@ export interface IUserService {
     // POSTS START
 
     getTopPosts(params?: GetTopPostsParams): Promise<ITopPost[]>;
+
+    getPublicPosts(params?: GetPublicPostsParams): Promise<IPost[]>;
 
     getTrendingPosts(params?: GetTrendingPostsParams): Promise<ITrendingPost[]>;
 

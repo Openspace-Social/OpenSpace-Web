@@ -45,6 +45,7 @@ import { EmojiGroupData } from '~/types/models-data/common/EmojiGroupData';
 import { TopPostData } from '~/types/models-data/posts/TopPostData';
 import { TrendingPostData } from '~/types/models-data/posts/TrendingPostData';
 import { LinkPreviewData } from '~/types/models-data/link-previews/LinkPreviewData';
+import {GetPublicPostsParams} from "~/services/user/UserServiceTypes";
 
 
 export interface IPostsApiService {
@@ -53,6 +54,8 @@ export interface IPostsApiService {
     getTrendingPosts(params: GetTrendingPostsApiParams): Promise<AxiosResponse<TrendingPostData[]>>;
 
     getTimelinePosts(params: GetTimelinePostsApiParams): Promise<AxiosResponse<PostData[]>>;
+
+    getPublicPosts(params: GetPublicPostsParams): Promise<AxiosResponse<PostData[]>>;
 
     getPostMedia(params: GetPostMediaApiParams): Promise<AxiosResponse<PostMediaData[]>>;
 

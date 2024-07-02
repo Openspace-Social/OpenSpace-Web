@@ -284,6 +284,12 @@ export interface GetTopPostsParams {
     excludeJoinedCommunities?: boolean;
 }
 
+export interface GetPublicPostsParams {
+    minId?: number;
+    maxId?: number;
+    count?: number;
+}
+
 export interface GetTrendingPostsParams {
     minId?: number;
     maxId?: number;

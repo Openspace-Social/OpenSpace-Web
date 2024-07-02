@@ -100,7 +100,37 @@ import {
     SearchJoinedCommunitiesParams,
     CreatePostParams,
     AddMediaToPostParams,
-    PublishPostParams, GetPostStatusParams, CreateCommunityPostParams, PreviewLinkParams, UpdateUserParams, GetFollowersParams, GetFollowingsParams, SearchFollowersParams, SearchFollowingsParams, FavoriteCommunityParams, UnfavoriteCommunityParams, RemoveCommunityAdministratorParams, UpdateCommunityParams, UpdateCommunityAvatarParams, DeleteCommunityAvatarParams, UpdateCommunityCoverParams, DeleteCommunityCoverParams, RemoveCommunityModeratorParams, GetCommunityBannedUsersParams, SearchCommunityBannedUsersParams, BanCommunityUserParams, UnbanCommunityUserParams, DeleteCommunityParams, AddCommunityAdministratorParams, AddCommunityModeratorParams, CreateCommunityParams, CreateConnectionsCircleParams, UpdateConnectionsCircleParams, DeleteConnectionsCircleParams, CheckConnectionsCircleNameIsAvailableParams
+    PublishPostParams,
+    GetPostStatusParams,
+    CreateCommunityPostParams,
+    PreviewLinkParams,
+    UpdateUserParams,
+    GetFollowersParams,
+    GetFollowingsParams,
+    SearchFollowersParams,
+    SearchFollowingsParams,
+    FavoriteCommunityParams,
+    UnfavoriteCommunityParams,
+    RemoveCommunityAdministratorParams,
+    UpdateCommunityParams,
+    UpdateCommunityAvatarParams,
+    DeleteCommunityAvatarParams,
+    UpdateCommunityCoverParams,
+    DeleteCommunityCoverParams,
+    RemoveCommunityModeratorParams,
+    GetCommunityBannedUsersParams,
+    SearchCommunityBannedUsersParams,
+    BanCommunityUserParams,
+    UnbanCommunityUserParams,
+    DeleteCommunityParams,
+    AddCommunityAdministratorParams,
+    AddCommunityModeratorParams,
+    CreateCommunityParams,
+    CreateConnectionsCircleParams,
+    UpdateConnectionsCircleParams,
+    DeleteConnectionsCircleParams,
+    CheckConnectionsCircleNameIsAvailableParams,
+    GetPublicPostsParams
 } from '~/services/user/UserServiceTypes';
 import { ICommunity } from '~/models/communities/community/ICommunity';
 import { ICommunitiesApiService } from '~/services/Apis/communities/ICommunitiesApiService';
@@ -1048,6 +1078,16 @@ export class UserService implements IUserService {
             listIds: params.lists ? params.lists.map((listItem) => listItem.id) : null,
             circleIds: params.circles ? params.circles.map((circleItem) => circleItem.id) : null,
             username: params.username,
+        });
+
+        return postFactory.makeMultiple(response.data);
+    }
+
+    async getPublicPosts(params: GetPublicPostsParams = {}): Promise<IPost[]> {
+        const response: AxiosResponse<PostData[]> = await this.postsApiService.getPublicPosts({
+            minId: params.minId,
+            maxId: params.maxId,
+            count: params.count,
         });
 
         return postFactory.makeMultiple(response.data);
