@@ -177,7 +177,7 @@ export class Community extends DataModel<Community> implements ICommunity {
     }
 
     private getMembershipForUser(user: IUser): ICommunityMembership | null {
-        if (this.memberships.length === 0) return null;
+        if (this.memberships?.length === 0) return null;
 
         const membership = this.memberships.find((membership) => membership.userId === user.id);
 

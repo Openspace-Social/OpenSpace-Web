@@ -7,5 +7,6 @@ export interface IList extends IDataModel<IList> {
     emoji: IEmoji;
     name: string;
     followsCount: number;
+    users: IUser[];
 }
 

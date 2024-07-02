@@ -11,6 +11,8 @@ import { AxiosResponse } from '~/node_modules/axios';
 import { FollowData } from '~/types/models-data/follows/FollowData';
 import { IFollowsApiService } from '~/services/Apis/follows/IFollowsApiService';
 import { UserData } from '~/types/models-data/auth/UserData';
+import {IList} from "~/models/lists/list/IList";
+import {List} from "~/models/lists/list/List";
 
 @injectable()
 export class FollowsApiService implements IFollowsApiService {
@@ -23,6 +25,13 @@ export class FollowsApiService implements IFollowsApiService {
         'api/follows/requests/approve/';
     static REJECT_USER_FOLLOW_REQUEST_PATH = 'api/follows/requests/reject/';
     static RECEIVED_FOLLOW_REQUESTS_PATH = 'api/follows/requests/received/';
+
+    static LIST_NAME_CHECK_PATH = 'api/lists/name-check/';
+    static GET_LISTS_PATH = 'api/lists/';
+    static CREATE_LIST_PATH = 'api/lists/';
+    static UPDATE_LIST_PATH = 'api/lists/{listId}/';
+    static DELETE_LIST_PATH = 'api/lists/{listId}/';
+    static GET_LIST_PATH = 'api/lists/{listId}/';
 
     constructor(@inject(TYPES.HttpService) private httpService: IHttpService,
                 @inject(TYPES.StringTemplateService) private stringTemplateService: IStringTemplateService) {
@@ -65,5 +74,37 @@ export class FollowsApiService implements IFollowsApiService {
         }, {appendAuthorizationToken: true, isApiRequest: true});
     }
 
+    listNameCheck(name: string): Promise<AxiosResponse<void>> {
+        return this.httpService.post(FollowsApiService.LIST_NAME_CHECK_PATH, {
+            name: name
+        }, {appendAuthorizationToken: true, isApiRequest: true});
+    }
+
+    getLists(): Promise<AxiosResponse<List[]>> {
+        return this.httpService.get(FollowsApiService.GET_LISTS_PATH, {appendAuthorizationToken: true, isApiRequest: true});
+    }
+
+    createList(name: string, emojiId: number): Promise<AxiosResponse<List>> {
+        return this.httpService.post(FollowsApiService.CREATE_LIST_PATH, {
+            name: name,
+            emoji_id: emojiId
+        }, {appendAuthorizationToken: true, isApiRequest: true});
+    }
+
+    updateList(listId: number, name: string, emojiId: number, usernames: string[]): Promise<AxiosResponse<List>> {
+        return this.httpService.put(this.stringTemplateService.parse(FollowsApiService.UPDATE_LIST_PATH, {listId: listId}), {
+            name: name,
+            emoji_id: emojiId,
+            usernames: usernames
+        }, {appendAuthorizationToken: true, isApiRequest: true});
+    }
+
+    deleteList(listId: number): Promise<AxiosResponse<void>> {
+        return this.httpService.delete(this.stringTemplateService.parse(FollowsApiService.DELETE_LIST_PATH, {listId: listId}), {appendAuthorizationToken: true, isApiRequest: true});
+    }
+
+    getSingleList(listId: number): Promise<AxiosResponse<List>> {
+        return this.httpService.get(this.stringTemplateService.parse(FollowsApiService.GET_LIST_PATH, {listId: listId}), {appendAuthorizationToken: true, isApiRequest: true});
+    }
 
 }

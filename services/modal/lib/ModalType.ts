@@ -49,6 +49,12 @@ export class ModalType {
     static confirmationModal = new ModalType('ConfirmationModal');
     static fullScreenImageModal = new ModalType('FullScreenImageModal');
     static postReactionUsersModal = new ModalType('PostReactionUsersModal');
+    static accountSettingsModal = new ModalType('AccountSettingsModal');
+    static changeEmailModal = new ModalType('ChangeEmailModal');
+    static changePasswordModal = new ModalType('ChangePasswordModal');
+    static blockedUsersModal = new ModalType('BlockedUsersModal');
+    static deleteAccountModal = new ModalType('DeleteAccountModal');
+    static listsModal = new ModalType('ListsModal');
 
 
     static _values: ModalType[] = [
@@ -98,7 +104,14 @@ export class ModalType {
         ModalType.editCircleModal,
 
         ModalType.confirmationModal,
-        ModalType.fullScreenImageModal
+        ModalType.fullScreenImageModal,
+        ModalType.postReactionUsersModal,
+        ModalType.accountSettingsModal,
+        ModalType.changeEmailModal,
+        ModalType.changePasswordModal,
+        ModalType.blockedUsersModal,
+        ModalType.deleteAccountModal,
+        ModalType.listsModal,
     ];
 
     static values() {

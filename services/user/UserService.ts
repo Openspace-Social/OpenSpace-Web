@@ -9,7 +9,11 @@ import {
     ResetPasswordApiParams,
     IsInviteTokenValidApiParams,
     IsEmailAvailableApiParams,
-    IsUsernameAvailableApiParams, IsRequestInviteApiParams
+    IsUsernameAvailableApiParams,
+    IsRequestInviteApiParams,
+    UpdateUserSettingsApiParams,
+    DeleteUserApiParams,
+    BlockedUsersApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 import { IUser } from '~/models/auth/user/IUser';
 import userFactory from '~/models/auth/user/factory';
@@ -96,7 +100,37 @@ import {
     SearchJoinedCommunitiesParams,
     CreatePostParams,
     AddMediaToPostParams,
-    PublishPostParams, GetPostStatusParams, CreateCommunityPostParams, PreviewLinkParams, UpdateUserParams, GetFollowersParams, GetFollowingsParams, SearchFollowersParams, SearchFollowingsParams, FavoriteCommunityParams, UnfavoriteCommunityParams, RemoveCommunityAdministratorParams, UpdateCommunityParams, UpdateCommunityAvatarParams, DeleteCommunityAvatarParams, UpdateCommunityCoverParams, DeleteCommunityCoverParams, RemoveCommunityModeratorParams, GetCommunityBannedUsersParams, SearchCommunityBannedUsersParams, BanCommunityUserParams, UnbanCommunityUserParams, DeleteCommunityParams, AddCommunityAdministratorParams, AddCommunityModeratorParams, CreateCommunityParams, CreateConnectionsCircleParams, UpdateConnectionsCircleParams, DeleteConnectionsCircleParams, CheckConnectionsCircleNameIsAvailableParams
+    PublishPostParams,
+    GetPostStatusParams,
+    CreateCommunityPostParams,
+    PreviewLinkParams,
+    UpdateUserParams,
+    GetFollowersParams,
+    GetFollowingsParams,
+    SearchFollowersParams,
+    SearchFollowingsParams,
+    FavoriteCommunityParams,
+    UnfavoriteCommunityParams,
+    RemoveCommunityAdministratorParams,
+    UpdateCommunityParams,
+    UpdateCommunityAvatarParams,
+    DeleteCommunityAvatarParams,
+    UpdateCommunityCoverParams,
+    DeleteCommunityCoverParams,
+    RemoveCommunityModeratorParams,
+    GetCommunityBannedUsersParams,
+    SearchCommunityBannedUsersParams,
+    BanCommunityUserParams,
+    UnbanCommunityUserParams,
+    DeleteCommunityParams,
+    AddCommunityAdministratorParams,
+    AddCommunityModeratorParams,
+    CreateCommunityParams,
+    CreateConnectionsCircleParams,
+    UpdateConnectionsCircleParams,
+    DeleteConnectionsCircleParams,
+    CheckConnectionsCircleNameIsAvailableParams,
+    GetPublicPostsParams
 } from '~/services/user/UserServiceTypes';
 import { ICommunity } from '~/models/communities/community/ICommunity';
 import { ICommunitiesApiService } from '~/services/Apis/communities/ICommunitiesApiService';
@@ -171,6 +205,9 @@ import linkPreviewFactory from '~/models/link-previews/link-preview/factory';
 import { LinkIsPreviewableResponseData } from '~/services/Apis/posts/PostsApiServiceTypes';
 import { ILinkPreview } from '~/models/link-previews/link-preview/ILinkPreview';
 import {IGenericFile} from "~/models/common/generic/IGenericFile";
+import {IList} from "~/models/lists/list/IList";
+import {List} from "~/models/lists/list/List";
+import listFactory from "~/models/lists/list/factory";
 
 
 @injectable()
@@ -339,6 +376,25 @@ export class UserService implements IUserService {
     async updateUser(params: UpdateUserParams): Promise<IUser> {
         const response: AxiosResponse<UserData> = await this.authApiService.updateUser(params);
         return userFactory.make(response.data);
+    }
+
+    async updateUserSettings(params: UpdateUserSettingsApiParams): Promise<IUser> {
+        const response: AxiosResponse<UserData> = await this.authApiService.updateUserSettings(params);
+        return userFactory.make(response.data);
+    }
+
+    async deleteUser(params: DeleteUserApiParams): Promise<void> {
+        await this.authApiService.deleteUser(params);
+    }
+
+    async getBlockedUsers(params: BlockedUsersApiParams): Promise<IUser[]> {
+        const response: AxiosResponse<UserData[]> = await this.authApiService.getBlockedUsers(params);
+        return userFactory.makeMultiple(response.data);
+    }
+
+    async searchBlockedUsers(params: BlockedUsersApiParams): Promise<IUser[]> {
+        const response: AxiosResponse<UserData[]> = await this.authApiService.searchBlockedUsers(params);
+        return userFactory.makeMultiple(response.data);
     }
 
     async searchUsers(params: SearchUsersParams): Promise<IHashtag[]> {
@@ -1027,6 +1083,16 @@ export class UserService implements IUserService {
         return postFactory.makeMultiple(response.data);
     }
 
+    async getPublicPosts(params: GetPublicPostsParams = {}): Promise<IPost[]> {
+        const response: AxiosResponse<PostData[]> = await this.postsApiService.getPublicPosts({
+            minId: params.minId,
+            maxId: params.maxId,
+            count: params.count,
+        });
+
+        return postFactory.makeMultiple(response.data);
+    }
+
     async getTopPosts(params: GetTopPostsParams = {}): Promise<ITopPost[]> {
         const response: AxiosResponse<TopPostData[]> = await this.postsApiService.getTopPosts({
             minId: params.minId,
@@ -1254,6 +1320,15 @@ export class UserService implements IUserService {
     }
 
     // FOLLOWS END
+
+    // LISTS START
+
+    async getLists(): Promise<IList[]> {
+        const response: AxiosResponse<List[]> = await this.followsApiService.getLists();
+        return listFactory.makeMultiple(response.data);
+    }
+
+    // LISTS END
 
     // CATEGORIES START
 

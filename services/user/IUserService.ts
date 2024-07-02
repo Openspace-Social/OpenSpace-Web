@@ -106,7 +106,7 @@ import {
     CreateConnectionsCircleParams,
     UpdateConnectionsCircleParams,
     DeleteConnectionsCircleParams,
-    CheckConnectionsCircleNameIsAvailableParams,
+    CheckConnectionsCircleNameIsAvailableParams, GetPublicPostsParams,
 } from '~/services/user/UserServiceTypes';
 import { IPost } from '~/models/posts/post/IPost';
 import { ITopPost } from '~/models/posts/top-post/ITopPost';
@@ -125,7 +125,11 @@ import {
     ResetPasswordApiParams,
     IsInviteTokenValidApiParams,
     IsEmailAvailableApiParams,
-    IsUsernameAvailableApiParams, IsRequestInviteApiParams
+    IsUsernameAvailableApiParams,
+    IsRequestInviteApiParams,
+    UpdateUserSettingsApiParams,
+    DeleteUserApiParams,
+    BlockedUsersApiParams
 } from '~/services/Apis/auth/AuthApiServiceTypes';
 import { INotification } from '~/models/notifications/notification/INotification';
 import { IFollow } from '~/models/follows/follow/IFollow';
@@ -138,6 +142,7 @@ import { GetSuggestedCommunitiesApiParams } from '~/services/Apis/communities/Co
 import { PostStatus } from '~/models/posts/post/lib/PostStatus';
 import { ILinkPreview } from '~/models/link-previews/link-preview/ILinkPreview';
 import {IGenericFile} from "~/models/common/generic/IGenericFile";
+import {IList} from "~/models/lists/list/IList";
 
 
 export interface IUserService {
@@ -185,6 +190,14 @@ export interface IUserService {
     getUser(params: GetUserParams): Promise<IUser>;
 
     updateUser(params: UpdateUserParams): Promise<IUser>;
+
+    updateUserSettings(params: UpdateUserSettingsApiParams): Promise<IUser>;
+
+    deleteUser(params: DeleteUserApiParams): Promise<void>;
+
+    getBlockedUsers(params: BlockedUsersApiParams): Promise<IUser[]>;
+
+    searchBlockedUsers(params: BlockedUsersApiParams): Promise<IUser[]>;
 
     searchUsers(params: SearchUsersParams): Promise<IHashtag[]>;
 
@@ -289,6 +302,8 @@ export interface IUserService {
     // POSTS START
 
     getTopPosts(params?: GetTopPostsParams): Promise<ITopPost[]>;
+
+    getPublicPosts(params?: GetPublicPostsParams): Promise<IPost[]>;
 
     getTrendingPosts(params?: GetTrendingPostsParams): Promise<ITrendingPost[]>;
 
@@ -443,4 +458,10 @@ export interface IUserService {
 
 
     // CONNECTIONS END
+
+    // LISTS START
+
+    getLists(): Promise<IList[]>
+
+    // LISTS END
 }

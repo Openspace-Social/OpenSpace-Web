@@ -161,6 +161,25 @@
         <b-modal :active.sync="postReactionUsersModalOpen" :trap-focus="true" @close="onModalClosed">
             <ok-post-reaction-users-modal :params="activeModalParams" v-if="activeModalParams"></ok-post-reaction-users-modal>
         </b-modal>
+        <b-modal :active.sync="accountSettingsModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-account-settings-modal :params="activeModalParams"></ok-account-settings-modal>
+        </b-modal>
+        <b-modal :active.sync="changeEmailModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-change-email-modal :params="activeModalParams"></ok-change-email-modal>
+        </b-modal>
+        <b-modal :active.sync="changePasswordModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-change-password-modal :params="activeModalParams"></ok-change-password-modal>
+        </b-modal>
+        <b-modal :active.sync="blockedUsersModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-blocked-users-modal :params="activeModalParams"></ok-blocked-users-modal>
+        </b-modal>
+        <b-modal :active.sync="deleteAccountModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-delete-account-modal :params="activeModalParams"></ok-delete-account-modal>
+        </b-modal>
+        <b-modal :active.sync="listsModalOpen" :trap-focus="true" @close="onModalClosed">
+            <ok-follow-lists-modal :params="activeModalParams"></ok-follow-lists-modal>
+        </b-modal>
+
     </div>
 </template>
 
@@ -243,10 +262,22 @@
     import OkConfirmationModal from '~/pages/home/components/modals/components/OkConfirmationModal.vue';
     import OkFullScreenImageModal from "~/pages/home/components/modals/components/OkFullScreenImageModal.vue";
     import OkPostReactionUsersModal from "~/pages/home/components/modals/components/OkPostReactionUsersModal.vue";
+    import OkAccountSettingsModal from "~/pages/home/components/modals/components/account-settings/OkAccountSettingsModal.vue";
+    import OkChangeEmailModal from "~/pages/home/components/modals/components/account-settings/OkChangeEmailModal.vue";
+    import OkChangePasswordModal
+        from "~/pages/home/components/modals/components/account-settings/OkChangePasswordModal.vue";
+    import OkBlockedUsersModal from "~/pages/home/components/modals/components/OkBlockedUsersModal.vue";
+    import OkDeleteAccountModal from "~/pages/home/components/modals/components/OkDeleteAccountModal.vue";
+    import OkFollowListsModal from "~/pages/home/components/modals/components/follow-lists/OkFollowListsModal.vue";
 
     @Component({
         name: "OkModals",
         components: {
+            OkDeleteAccountModal,
+            OkBlockedUsersModal,
+            OkChangePasswordModal,
+            OkChangeEmailModal,
+            OkAccountSettingsModal,
             OkPostReactionUsersModal,
             OkFullScreenImageModal,
             OkPostStudioModal,
@@ -288,6 +319,7 @@
             OkCircleDetailsModal,
             OkEditCircleModal,
             OkConfirmationModal,
+            OkFollowListsModal
         },
         subscriptions: function () {
             return {
@@ -347,6 +379,12 @@
         confirmationModalOpen: boolean = false;
         fullScreenImageModalOpen: boolean = false;
         postReactionUsersModalOpen: boolean = false;
+        accountSettingsModalOpen: boolean = false;
+        changeEmailModalOpen: boolean = false;
+        changePasswordModalOpen: boolean = false;
+        blockedUsersModalOpen: boolean = false;
+        deleteAccountModalOpen: boolean = false;
+        listsModalOpen: boolean = false;
 
         private modalService: IModalService = okunaContainer.get<IModalService>(TYPES.ModalService);
 
@@ -422,6 +460,12 @@
             this.confirmationModalOpen = activeModalValue === ModalType.confirmationModal;
             this.fullScreenImageModalOpen = activeModalValue === ModalType.fullScreenImageModal;
             this.postReactionUsersModalOpen = activeModalValue === ModalType.postReactionUsersModal;
+            this.accountSettingsModalOpen = activeModalValue === ModalType.accountSettingsModal;
+            this.changeEmailModalOpen = activeModalValue === ModalType.changeEmailModal;
+            this.changePasswordModalOpen = activeModalValue === ModalType.changePasswordModal;
+            this.blockedUsersModalOpen = activeModalValue === ModalType.blockedUsersModal;
+            this.deleteAccountModalOpen = activeModalValue === ModalType.deleteAccountModal;
+            this.listsModalOpen = activeModalValue === ModalType.listsModal;
         }
     }
 </script>

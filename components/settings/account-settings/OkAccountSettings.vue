@@ -2,39 +2,51 @@
     <div class="ok-has-background-primary is-semi-rounded">
         <div
                 class="box ok-has-background-primary-highlight is-paddingless">
-            <ok-tile :onClick="openAccountSettings" v-if="loggedInUser">
+            <ok-tile :onClick="openChangeEmailSettings">
                 <template v-slot:leading>
-                    <ok-account-icon
-                            class="ok-svg-icon-primary-invert"></ok-account-icon>
+                    <ok-email-icon
+                            class="ok-svg-icon-primary-invert"></ok-email-icon>
                 </template>
 
                 <template v-slot:content>
                     <span class="ok-has-text-primary-invert">
-                                {{$t('global.snippets.account_settings')}}
+                                {{$t('global.snippets.change_email')}}
                             </span>
                 </template>
             </ok-tile>
-            <ok-tile :onClick="openApplicationSettings">
+            <ok-tile :onClick="openChangePasswordSettings">
                 <template v-slot:leading>
-                    <ok-cellphone-icon
-                            class="ok-svg-icon-primary-invert"></ok-cellphone-icon>
+                    <ok-lock-open
+                            class="ok-svg-icon-primary-invert"></ok-lock-open>
                 </template>
 
                 <template v-slot:content>
                     <span class="ok-has-text-primary-invert">
-                                {{$t('global.snippets.application_settings')}}
+                                {{$t('global.snippets.change_password')}}
                             </span>
                 </template>
             </ok-tile>
-            <ok-tile :disabled="true">
+            <ok-tile :onClick="openBlockedUsersModal">
                 <template v-slot:leading>
-                    <ok-developer-icon
-                            class="ok-svg-icon-primary-invert"></ok-developer-icon>
+                    <ok-blocked-icon
+                            class="ok-svg-icon-primary-invert"></ok-blocked-icon>
                 </template>
 
                 <template v-slot:content>
                     <span class="ok-has-text-primary-invert">
-                                {{$t('global.snippets.developer_settings')}}
+                                {{$t('global.snippets.blocked_users')}}
+                            </span>
+                </template>
+            </ok-tile>
+            <ok-tile :onClick="openDeleteAccountSettings">
+                <template v-slot:leading>
+                    <ok-delete-icon
+                        class="ok-svg-icon-primary-invert"></ok-delete-icon>
+                </template>
+
+                <template v-slot:content>
+                    <span class="ok-has-text-primary-invert">
+                                {{$t('global.snippets.delete_account')}}
                             </span>
                 </template>
             </ok-tile>
@@ -54,7 +66,7 @@
     import { IModalService } from "~/services/modal/IModalService";
 
     @Component({
-        name: "OkSettings",
+        name: "OkAccountSettings",
         components: {
             OkTile
         },
@@ -64,7 +76,7 @@
             }
         }
     })
-    export default class OkSettings extends Vue {
+    export default class OkAccountSettings extends Vue {
 
         $observables!: {
             loggedInUser: BehaviorSubject<IUser | undefined>
@@ -73,11 +85,19 @@
         private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
         private modalService: IModalService = okunaContainer.get<IModalService>(TYPES.ModalService);
 
-        openApplicationSettings() {
-            this.modalService.openApplicationSettingsModal();
+        openChangePasswordSettings() {
+            this.modalService.openChangePasswordModal();
         }
-        openAccountSettings() {
-            this.modalService.openAccountSettingsModal();
+        openChangeEmailSettings() {
+            this.modalService.openChangeEmailModal();
+        }
+
+        openBlockedUsersModal() {
+            this.modalService.openBlockedUsersModal();
+        }
+
+        openDeleteAccountSettings() {
+            this.modalService.openDeleteAccountModal();
         }
 
     }

@@ -52,6 +52,22 @@ export interface UpdateUserApiParams {
     visibility?: UserVisibility;
 }
 
+export interface UpdateUserSettingsApiParams {
+    email?: string;
+    currentPassword?: string;
+    newPassword?: string;
+}
+
+export interface DeleteUserApiParams {
+    password: string;
+}
+
+export interface BlockedUsersApiParams {
+    count?: number;
+    maxId?: number;
+    query?: string;
+}
+
 export interface SearchUsersApiParams {
     query: string;
     appendAuthorizationTokenIfExists: boolean;

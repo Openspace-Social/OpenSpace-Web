@@ -190,6 +190,8 @@ export default {
     },
     "manage_user": {
         "profile": {
+            "change_email_confirmation": "We've sent a confirmation link to your new email address, click it to verify your new email",
+            "change_password_confirmation": "All good! Your password has been updated",
             "change_cover": "Change Cover Photo",
             "remove_cover": "Remove Cover Photo",
             "change_avatar": "Change Avatar",
@@ -197,7 +199,10 @@ export default {
 
             "remove_cover_confirmation": "Are you sure you want to remove your cover?",
             "remove_avatar_confirmation": "Are you sure you want to remove your avatar?",
-
+            "email": {
+                "label": "Email",
+                "placeholder": "e.g. example@website.com"
+            },
             "username": {
                 "label": "Username",
                 "placeholder": "e.g. johntravolta"
@@ -217,7 +222,8 @@ export default {
             "bio": {
                 "label": "Bio",
                 "placeholder": "Write a few words about yourself!"
-            }
+            },
+
         },
         "visibility": {
             "title": "Visibility",
@@ -519,6 +525,8 @@ export default {
             "email": "E-mail",
             "follow": "Follow",
             "unfollow": "Unfollow",
+            "block": "Block",
+            "unblock": "Unblock",
             "password": "Password",
             "username": "Username",
             "about": "About",
@@ -527,6 +535,7 @@ export default {
             "all": 'All',
             "explore": 'Explore',
             "trending": 'Trending',
+            "public": "Public",
             "posts": "posts",
             "search": "Search",
             "hashtag": "Hashtag",
@@ -557,7 +566,10 @@ export default {
             "rotate_90deg_left": "Rotate 90° counter-clockwise",
             "rotate_90deg_right": "Rotate 90° clockwise",
             "zoom_in": "Zoom In",
-            "zoom_out": "Zoom Out"
+            "zoom_out": "Zoom Out",
+            "delete": "Delete",
+            "goodbye": "Goodbye 😢",
+            "lists": "Lists",
         },
         "models": {
             "post": "post",
@@ -685,6 +697,14 @@ export default {
             "welcome_to_okuna_thanks": "Thanks for being part of Openspace! We hope you have a fun, friendly and joyful experience.",
             "welcome_to_okuna_signature": "- ❤️ Openspace Team",
             "account_settings": "Account settings",
+            "change_email": "Change email",
+            "current_email": "Current email",
+            "new_email": "New email",
+            "change_password": "Change password",
+            "current_password": "Current password",
+            "new_password": "New password",
+            "blocked_users": "Blocked users",
+            "delete_account": "Delete account",
             "application_settings": "Application settings",
             "developer_settings": "Developer settings",
             "about": "About",

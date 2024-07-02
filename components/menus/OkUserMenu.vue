@@ -40,8 +40,8 @@
                 </a>
             </li>
             <li>
-                <nuxt-link :to="'/'"
-                           class="is-disabled has-no-hover-text-decoration ok-has-background-primary-highlight-hover">
+                <a href="javascript://" @click="onFollowListsClick"
+                           class="has-no-hover-text-decoration ok-has-background-primary-highlight-hover">
                             <span class="icon has-padding-right-10">
                                  <ok-lists-icon
                                          class="ok-svg-icon-primary-invert"></ok-lists-icon>
@@ -49,7 +49,7 @@
                     <span class="ok-has-text-primary-invert">
                                 {{$t('components.user_dropdown.lists')}}
                             </span>
-                </nuxt-link>
+                </a>
             </li>
             <li>
                 <a href="javascript://"
@@ -277,6 +277,11 @@
             await this.modalService.openUsefulLinksModal({
                 title: this.$t("components.user_dropdown.useful_links").toString()
             });
+        }
+
+        async onFollowListsClick() {
+            this.$emit("leaveMenu");
+            await this.modalService.openFollowListsModal();
         }
 
         async onFollowersClick() {

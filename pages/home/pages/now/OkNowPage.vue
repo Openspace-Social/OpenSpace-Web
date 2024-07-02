@@ -51,6 +51,20 @@
                         <b-tab-item>
                             <template slot="header">
                                 <div class="is-flex align-items-center ok-now-page-tab-header">
+                                    <ok-public-visibility-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-public-visibility-icon>
+                                    <span class="has-padding-left-10"> {{$t('global.keywords.public')}} </span>
+                                </div>
+                            </template>
+                            <ok-public-posts-stream
+                                class="has-padding-top-30-tablet"
+                                ref=publicPostsStream
+                                post-container-class="has-padding-bottom-30-tablet has-padding-right-30-tablet has-padding-left-30-tablet"
+                                v-if="shouldPublicTabRender"
+                            ></ok-public-posts-stream>
+                        </b-tab-item>
+                        <b-tab-item>
+                            <template slot="header">
+                                <div class="is-flex align-items-center ok-now-page-tab-header">
                                     <ok-explore-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-explore-icon>
                                     <span class="has-padding-left-10"> {{$t('global.keywords.explore')}}</span>
                                 </div>
@@ -154,10 +168,11 @@
     import { IEnvironmentService } from "~/services/environment/IEnvironmentService";
     import OkSearch from "~/components/search/OkSearch.vue";
     import OkPostsStream from "~/components/posts-stream/OkPostsStream.vue";
+    import OkPublicPostsStream from "~/components/posts-stream/OkPublicPostsStream.vue";
 
     @Component({
         name: "OkNowNowPage",
-        components: {OkSearch, OkMobileHeader, OkTrendingPostsStream, OkTopPostsStream},
+        components: {OkPublicPostsStream, OkSearch, OkMobileHeader, OkTrendingPostsStream, OkTopPostsStream},
         subscriptions: function () {
             return {
                 loggedInUser: this["userService"].loggedInUser,
@@ -177,6 +192,7 @@
             okSearch: OkSearch,
             topPostsStream: OkPostsStream,
             trendingPostsStream: OkPostsStream,
+            publicPostsStream: OkPostsStream,
             tabs: any,
         };
 
@@ -189,6 +205,7 @@
         private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
 
         shouldTopTabRender = false;
+        shouldPublicTabRender = false;
 
         searchQuery = "";
         searchIsOpen = false;
@@ -245,6 +262,9 @@
 
         onTabChange(idx) {
             if (idx === 1) {
+                this.shouldPublicTabRender = true;
+            }
+            if (idx === 2) {
                 this.shouldTopTabRender = true;
             }
         }
@@ -277,7 +297,10 @@
         }
 
         getActivePostsStream() {
-            return this.activeTab === 0 ? this.$refs.trendingPostsStream : this.$refs.topPostsStream;
+            console.log(this.activeTab);
+            if (this.activeTab === 0) return this.$refs.trendingPostsStream;
+            if (this.activeTab === 1) return this.$refs.publicPostsStream;
+            return this.$refs.topPostsStream;
         }
     }
 </script>

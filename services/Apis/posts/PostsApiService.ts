@@ -50,11 +50,13 @@ import { EmojiGroupData } from '~/types/models-data/common/EmojiGroupData';
 import { TrendingPostData } from '~/types/models-data/posts/TrendingPostData';
 import { TopPostData } from '~/types/models-data/posts/TopPostData';
 import { LinkPreviewData } from '~/types/models-data/link-previews/LinkPreviewData';
+import {GetPublicPostsParams} from "~/services/user/UserServiceTypes";
 
 @injectable()
 export class PostsApiService implements IPostsApiService {
 
     static GET_TIMELINE_POSTS_PATH = 'api/posts/';
+    static GET_PUBLIC_POSTS_PATH = 'api/posts/';
     static GET_TOP_POSTS_PATH = 'api/posts/top/';
     static EXCLUDED_TOP_POSTS_COMMUNITIES_PATH =
         'api/posts/top/excluded-communities/';
@@ -176,6 +178,21 @@ export class PostsApiService implements IPostsApiService {
         if (params.listIds) queryParams['list_id'] = params.listIds;
 
         return this.httpService.get(PostsApiService.GET_TIMELINE_POSTS_PATH,
+            {appendAuthorizationToken: true, queryParams: queryParams, isApiRequest: true});
+    }
+
+
+    getPublicPosts(params: GetPublicPostsParams): Promise<AxiosResponse<PostData[]>> {
+        let queryParams = {};
+        if (params.count) queryParams['count'] = params.count;
+
+        if (params.maxId) queryParams['max_id'] = params.maxId;
+
+        if (params.minId) queryParams['min_id'] = params.minId;
+
+        queryParams["is_public"] = true;
+
+        return this.httpService.get(PostsApiService.GET_PUBLIC_POSTS_PATH,
             {appendAuthorizationToken: true, queryParams: queryParams, isApiRequest: true});
     }
 
