@@ -38,21 +38,35 @@
                         <b-tab-item>
                             <template slot="header">
                                 <div class="is-flex align-items-center ok-now-page-tab-header">
+                                    <ok-home-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-home-icon>
+                                    <span class="not-on-phone has-padding-left-10"> {{$t('global.keywords.home')}} </span>
+                                </div>
+                            </template>
+                            <ok-timeline-page
+                                class=""
+                                ref=timelinePostsStream
+                                post-container-class="has-padding-bottom-30-tablet has-padding-left-30-tablet"
+                            ></ok-timeline-page>
+                        </b-tab-item>
+                        <b-tab-item>
+                            <template slot="header">
+                                <div class="is-flex align-items-center ok-now-page-tab-header">
                                     <ok-trending-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-trending-icon>
-                                    <span class="has-padding-left-10"> {{$t('global.keywords.trending')}} </span>
+                                    <span class="not-on-phone has-padding-left-10"> {{$t('global.keywords.trending')}} </span>
                                 </div>
                             </template>
                             <ok-trending-posts-stream
                                     class="has-padding-top-30-tablet"
                                     ref=trendingPostsStream
                                     post-container-class="has-padding-bottom-30-tablet has-padding-right-30-tablet has-padding-left-30-tablet"
+                                    v-if="shouldTrendingTabRender"
                             ></ok-trending-posts-stream>
                         </b-tab-item>
                         <b-tab-item>
                             <template slot="header">
                                 <div class="is-flex align-items-center ok-now-page-tab-header">
                                     <ok-public-visibility-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-public-visibility-icon>
-                                    <span class="has-padding-left-10"> {{$t('global.keywords.public')}} </span>
+                                    <span class="not-on-phone has-padding-left-10"> {{$t('global.keywords.public')}} </span>
                                 </div>
                             </template>
                             <ok-public-posts-stream
@@ -66,7 +80,7 @@
                             <template slot="header">
                                 <div class="is-flex align-items-center ok-now-page-tab-header">
                                     <ok-explore-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-explore-icon>
-                                    <span class="has-padding-left-10"> {{$t('global.keywords.explore')}}</span>
+                                    <span class="not-on-phone has-padding-left-10"> {{$t('global.keywords.explore')}}</span>
                                 </div>
                             </template>
                             <ok-top-posts-stream
@@ -90,6 +104,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+    }
+    .not-on-phone {
+        @include for-size(phone-only) {
+            display: none;
         }
     }
 
@@ -169,10 +188,13 @@
     import OkSearch from "~/components/search/OkSearch.vue";
     import OkPostsStream from "~/components/posts-stream/OkPostsStream.vue";
     import OkPublicPostsStream from "~/components/posts-stream/OkPublicPostsStream.vue";
+    import OkTimelinePage from "~/pages/home/pages/timeline/OkTimelinePage.vue";
 
     @Component({
         name: "OkNowNowPage",
-        components: {OkPublicPostsStream, OkSearch, OkMobileHeader, OkTrendingPostsStream, OkTopPostsStream},
+        components: {
+            OkTimelinePage,
+            OkPublicPostsStream, OkSearch, OkMobileHeader, OkTrendingPostsStream, OkTopPostsStream},
         subscriptions: function () {
             return {
                 loggedInUser: this["userService"].loggedInUser,
@@ -190,6 +212,7 @@
 
         $refs!: {
             okSearch: OkSearch,
+            timelinePostsStream: OkPostsStream,
             topPostsStream: OkPostsStream,
             trendingPostsStream: OkPostsStream,
             publicPostsStream: OkPostsStream,
@@ -206,6 +229,7 @@
 
         shouldTopTabRender = false;
         shouldPublicTabRender = false;
+        shouldTrendingTabRender = false;
 
         searchQuery = "";
         searchIsOpen = false;
@@ -220,9 +244,9 @@
 
         mounted() {
             if (this.scrollToTopEventRemover) this.scrollToTopEventRemover();
-            const nowButton = this.getNowButton();
-            nowButton.addEventListener("click", this.onWantsToScrollToTop);
-            this.scrollToTopEventRemover = () => nowButton.removeEventListener("click", this.onWantsToScrollToTop);
+            // const nowButton = this.getNowButton();
+            // nowButton.addEventListener("click", this.onWantsToScrollToTop);
+            // this.scrollToTopEventRemover = () => nowButton.removeEventListener("click", this.onWantsToScrollToTop);
         }
 
 
@@ -262,9 +286,12 @@
 
         onTabChange(idx) {
             if (idx === 1) {
-                this.shouldPublicTabRender = true;
+                this.shouldTrendingTabRender = true;
             }
             if (idx === 2) {
+                this.shouldPublicTabRender = true;
+            }
+            if (idx === 3) {
                 this.shouldTopTabRender = true;
             }
         }
@@ -297,9 +324,9 @@
         }
 
         getActivePostsStream() {
-            console.log(this.activeTab);
-            if (this.activeTab === 0) return this.$refs.trendingPostsStream;
-            if (this.activeTab === 1) return this.$refs.publicPostsStream;
+            if (this.activeTab === 0) return this.$refs.timelinePostsStream;
+            if (this.activeTab === 1) return this.$refs.trendingPostsStream;
+            if (this.activeTab === 2) return this.$refs.publicPostsStream;
             return this.$refs.topPostsStream;
         }
     }

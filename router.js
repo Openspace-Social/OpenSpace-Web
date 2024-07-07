@@ -38,7 +38,8 @@ export function createRouter() {
                     {
                         name: 'timeline',
                         path: '',
-                        component: OkTimelinePage,
+                        component: OkNowPage,
+                        // component: OkTimelinePage,
                     },
                     {
                         path: 'm',
