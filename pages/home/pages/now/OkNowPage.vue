@@ -39,7 +39,7 @@
                             <template slot="header">
                                 <div class="is-flex align-items-center ok-now-page-tab-header">
                                     <ok-home-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-home-icon>
-                                    <span class="has-padding-left-10"> {{$t('global.keywords.home')}} </span>
+                                    <span class="not-on-phone has-padding-left-10"> {{$t('global.keywords.home')}} </span>
                                 </div>
                             </template>
                             <ok-timeline-page
@@ -52,7 +52,7 @@
                             <template slot="header">
                                 <div class="is-flex align-items-center ok-now-page-tab-header">
                                     <ok-trending-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-trending-icon>
-                                    <span class="has-padding-left-10"> {{$t('global.keywords.trending')}} </span>
+                                    <span class="not-on-phone has-padding-left-10"> {{$t('global.keywords.trending')}} </span>
                                 </div>
                             </template>
                             <ok-trending-posts-stream
@@ -66,7 +66,7 @@
                             <template slot="header">
                                 <div class="is-flex align-items-center ok-now-page-tab-header">
                                     <ok-public-visibility-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-public-visibility-icon>
-                                    <span class="has-padding-left-10"> {{$t('global.keywords.public')}} </span>
+                                    <span class="not-on-phone has-padding-left-10"> {{$t('global.keywords.public')}} </span>
                                 </div>
                             </template>
                             <ok-public-posts-stream
@@ -80,7 +80,7 @@
                             <template slot="header">
                                 <div class="is-flex align-items-center ok-now-page-tab-header">
                                     <ok-explore-icon class="ok-svg-icon-primary-invert is-icon-2x"></ok-explore-icon>
-                                    <span class="has-padding-left-10"> {{$t('global.keywords.explore')}}</span>
+                                    <span class="not-on-phone has-padding-left-10"> {{$t('global.keywords.explore')}}</span>
                                 </div>
                             </template>
                             <ok-top-posts-stream
@@ -104,6 +104,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+    }
+    .not-on-phone {
+        @include for-size(phone-only) {
+            display: none;
         }
     }
 
@@ -239,9 +244,9 @@
 
         mounted() {
             if (this.scrollToTopEventRemover) this.scrollToTopEventRemover();
-            const nowButton = this.getNowButton();
-            nowButton.addEventListener("click", this.onWantsToScrollToTop);
-            this.scrollToTopEventRemover = () => nowButton.removeEventListener("click", this.onWantsToScrollToTop);
+            // const nowButton = this.getNowButton();
+            // nowButton.addEventListener("click", this.onWantsToScrollToTop);
+            // this.scrollToTopEventRemover = () => nowButton.removeEventListener("click", this.onWantsToScrollToTop);
         }
 
 
