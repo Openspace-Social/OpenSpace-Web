@@ -109,6 +109,10 @@ export interface GetJoinedCommunitiesParams {
     offset?: number;
 }
 
+export interface GetMemberJoinedCommunitiesParams {
+    offset?: number;
+    username: string;
+}
 
 export interface SearchJoinedCommunitiesParams {
     query?: string;

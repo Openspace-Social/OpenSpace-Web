@@ -20,6 +20,7 @@ import {
     GetModeratedCommunitiesApiParams,
     GetFavoriteCommunitiesApiParams,
     GetJoinedCommunitiesApiParams,
+    GetMemberJoinedCommunitiesApiParams,
     GetSuggestedCommunitiesApiParams,
     SearchJoinedCommunitiesApiParams,
     CreateCommunityPostApiParams,
@@ -37,7 +38,11 @@ import {
     CreateCommunityApiParams
 } from '~/services/Apis/communities/CommunitiesApiServiceTypes';
 import { CommunityData } from '~/types/models-data/communities/CommunityData';
+import { CommunityMemberJoinedData } from '~/types/models-data/communities/CommunityMemberJoinedData'; // Adjust the path as necessary
+import { ICommunityMemberJoined } from '~/models/communities/community/ICommunityMemberJoined';
+
 import { PostData } from '~/types/models-data/posts/PostData';
+
 
 export interface ICommunitiesApiService {
 
@@ -52,6 +57,8 @@ export interface ICommunitiesApiService {
     getSuggestedCommunities(params?: GetSuggestedCommunitiesApiParams): Promise<AxiosResponse<CommunityData[]>>;
 
     getJoinedCommunities(params?: GetJoinedCommunitiesApiParams): Promise<AxiosResponse<CommunityData[]>>;
+
+    getMemberJoinedCommunities(params?: GetMemberJoinedCommunitiesApiParams): Promise<AxiosResponse<ICommunityMemberJoined[]>>;
 
     searchJoinedCommunities(params?: SearchJoinedCommunitiesApiParams): Promise<AxiosResponse<CommunityData[]>>;
 
