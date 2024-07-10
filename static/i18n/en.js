@@ -569,6 +569,7 @@ export default {
             "delete": "Delete",
             "goodbye": "Goodbye 😢",
             "lists": "Lists",
+            "home": "Home"
         },
         "models": {
             "post": "post",

@@ -6,7 +6,7 @@
                 :posts-display-context="postDisplayContext"
                 :refresher="postsRefresher"
                 :on-scroll-loader="postsOnScrollLoader"
-                post-container-class="has-padding-bottom-30-tablet has-padding-right-30-tablet has-padding-left-30-tablet"
+                post-container-class="has-padding-bottom-30-tablet has-padding-left-30-tablet"
         >
             <template v-slot:leading>
                 <div class="has-padding-bottom-30-tablet has-padding-right-30-tablet has-padding-left-30-tablet">
