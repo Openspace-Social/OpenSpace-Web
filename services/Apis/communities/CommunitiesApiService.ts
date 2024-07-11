@@ -58,7 +58,7 @@ export class CommunitiesApiService implements ICommunitiesApiService {
     static GET_SUGGESTED_COMMUNITIES_PATH = 'api/communities/suggested/';
     static GET_JOINED_COMMUNITIES_PATH = 'api/communities/joined/';
 
-    static GET_MEMBER_JOINED_COMMUNITIES_PATH = 'api/communities/user_communities/{username}';
+    static GET_MEMBER_JOINED_COMMUNITIES_PATH = 'api/communities/user_communities/{username}/';
 
     static SEARCH_JOINED_COMMUNITIES_PATH =
         'api/communities/joined/search/';
