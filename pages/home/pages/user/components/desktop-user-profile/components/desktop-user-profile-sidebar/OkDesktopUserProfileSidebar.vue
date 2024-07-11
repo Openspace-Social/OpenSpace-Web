@@ -180,7 +180,7 @@ export default class OkDesktopUserProfileSidebar extends Vue {
             this.joinedCommunities = communities; // Assign fetched data to reactive property
 
             const communitiesJson = JSON.stringify(communities); // Convert to JSON string
-            console.log('Joined Communities:', communities);
+//            console.log('Joined Communities:', communities);
         }
     }
 
@@ -205,18 +205,18 @@ export default class OkDesktopUserProfileSidebar extends Vue {
             return require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
         }
         const url = `${this.environmentService.apiAppBucketUrl}/media/${avatar}`;
-        console.log('Generated Avatar URL:', url);
+//        console.log('Generated Avatar URL:', url);
         return url;
     }
 
     onImageError(event: Event) {
         const target = event.target as HTMLImageElement;
         target.src = require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
-        console.error('Image failed to load:', target.src);
+//        console.error('Image failed to load:', target.src);
     }
 
-    onImageLoad(event: Event) {
-        console.log('Image loaded successfully:', (event.target as HTMLImageElement).src);
-    }
+//    onImageLoad(event: Event) {
+//        console.log('Image loaded successfully:', (event.target as HTMLImageElement).src);
+//    }
 }
 </script>
