@@ -196,7 +196,6 @@ export default {
             "remove_cover": "Remove Cover Photo",
             "change_avatar": "Change Avatar",
             "remove_avatar": "Remove Avatar",
-
             "remove_cover_confirmation": "Are you sure you want to remove your cover?",
             "remove_avatar_confirmation": "Are you sure you want to remove your avatar?",
             "email": {
@@ -221,7 +220,7 @@ export default {
             },
             "bio": {
                 "label": "Bio",
-                "placeholder": "Write a few words about yourself!"
+                "placeholder": "Write a few words about yourself!",
             },
 
         },
@@ -581,6 +580,7 @@ export default {
             "fallback": "item"
         },
         "snippets": {
+            "content_contributor": "Communities I've joined:",
             "a_community": "A community",
             "my_circles": "My circles",
             "share_to_circles_description": "Share the post to one of multiple of your circles.",

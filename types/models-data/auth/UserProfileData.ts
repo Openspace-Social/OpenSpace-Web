@@ -10,4 +10,5 @@ export interface UserProfileData extends ModelData {
     badges: string,
     followers_count_visible: boolean,
     community_posts_visible: boolean,
+    username?: string,
 }

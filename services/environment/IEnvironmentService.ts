@@ -11,6 +11,8 @@ export interface IEnvironmentService {
 
     contentProxyUrl: string;
 
+    apiAppBucketUrl: string;
+
     loggingIsEnabled: boolean;
 
     environment: Environment;

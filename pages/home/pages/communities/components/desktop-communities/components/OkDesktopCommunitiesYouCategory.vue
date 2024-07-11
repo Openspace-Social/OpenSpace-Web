@@ -89,12 +89,6 @@
                     <ok-community-card :community="props.item"></ok-community-card>
                 </nuxt-link>
             </ok-http-list>
-            <div role="button" @click="openJoinedCommunitiesModal()">
-              <span class="is-size-6 ok-has-text-primary-invert-60 has-cursor-pointer" role="button">
-                {{$t('pages.home.communities.joined.see_all_communities')}}
-              </span>
-                <ok-chevron-right-icon></ok-chevron-right-icon>
-            </div>
         </div>
     </div>
 </template>

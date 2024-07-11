@@ -1,6 +1,8 @@
 import { BehaviorSubject } from '~/node_modules/rxjs';
 import { IUser } from '~/models/auth/user/IUser';
 import { ICommunity } from '~/models/communities/community/ICommunity';
+import { ICommunityMemberJoined } from '~/models/communities/community/ICommunityMemberJoined';
+
 import {
     ApproveFollowRequestFromUserParams,
     BlockUserParams,
@@ -31,6 +33,7 @@ import {
     GetHashtagParams,
     GetHashtagPostsParams,
     GetJoinedCommunitiesParams,
+    GetMemberJoinedCommunitiesParams,
     GetModeratedCommunitiesParams,
     GetNotificationsParams,
     GetPostCommentReactionsEmojiApiCountParams,
@@ -232,6 +235,8 @@ export interface IUserService {
     getModeratedCommunities(params?: GetModeratedCommunitiesParams): Promise<ICommunity[]>;
 
     getJoinedCommunities(params?: GetJoinedCommunitiesParams): Promise<ICommunity[]>;
+
+    getMemberJoinedCommunities(params?: GetMemberJoinedCommunitiesParams): Promise<ICommunityMemberJoined[]>;
 
     searchJoinedCommunities(params?: SearchJoinedCommunitiesParams): Promise<ICommunity[]>;
 

@@ -21,6 +21,9 @@ import {
     GetFavoriteCommunitiesApiParams,
     GetModeratedCommunitiesApiParams,
     GetJoinedCommunitiesApiParams,
+
+    GetMemberJoinedCommunitiesApiParams,
+
     GetAdministratedCommunitiesApiParams,
     GetSuggestedCommunitiesApiParams,
     SearchJoinedCommunitiesApiParams,
@@ -39,10 +42,14 @@ import {
     CreateCommunityApiParams
 } from '~/services/Apis/communities/CommunitiesApiServiceTypes';
 import { AxiosResponse } from '~/node_modules/axios';
+import { CommunityMemberJoinedData } from '~/types/models-data/communities/CommunityMemberJoinedData'; // Adjust the path as necessary
+import { ICommunityMemberJoined } from '~/models/communities/community/ICommunityMemberJoined';
+
 import { CommunityData } from '~/types/models-data/communities/CommunityData';
 import { ICommunitiesApiService } from '~/services/Apis/communities/ICommunitiesApiService';
 import { CreatePostApiParams } from '~/services/Apis/posts/PostsApiServiceTypes';
 import { PostData } from '~/types/models-data/posts/PostData';
+
 
 @injectable()
 export class CommunitiesApiService implements ICommunitiesApiService {
@@ -50,6 +57,9 @@ export class CommunitiesApiService implements ICommunitiesApiService {
     static GET_TRENDING_COMMUNITIES_PATH = 'api/communities/trending/';
     static GET_SUGGESTED_COMMUNITIES_PATH = 'api/communities/suggested/';
     static GET_JOINED_COMMUNITIES_PATH = 'api/communities/joined/';
+
+    static GET_MEMBER_JOINED_COMMUNITIES_PATH = 'api/communities/user_communities/{username}/';
+
     static SEARCH_JOINED_COMMUNITIES_PATH =
         'api/communities/joined/search/';
     static CHECK_COMMUNITY_NAME_PATH = 'api/communities/name-check/';
@@ -193,17 +203,32 @@ export class CommunitiesApiService implements ICommunitiesApiService {
     }
 
     getJoinedCommunities(params: GetJoinedCommunitiesApiParams = {}): Promise<AxiosResponse<CommunityData[]>> {
-        let queryParams = {};
+            let queryParams = {};
 
-        if (params.offset) queryParams['offset'] = params.offset;
+            if (params.offset) queryParams['offset'] = params.offset;
 
-        return this.httpService.get(CommunitiesApiService.GET_JOINED_COMMUNITIES_PATH,
-            {
-                queryParams: queryParams,
-                appendAuthorizationToken: true,
-                isApiRequest: true
-            });
+            return this.httpService.get(CommunitiesApiService.GET_JOINED_COMMUNITIES_PATH,
+                {
+                    queryParams: queryParams,
+                    appendAuthorizationToken: true,
+                    isApiRequest: true
+                });
+        }
+
+    getMemberJoinedCommunities(params: GetMemberJoinedCommunitiesApiParams): Promise<AxiosResponse<ICommunityMemberJoined[]>> {
+        const { username, offset } = params;
+        const path = this.stringTemplateService.parse(CommunitiesApiService.GET_MEMBER_JOINED_COMMUNITIES_PATH, { username });
+        const queryParams = offset ? { offset } : {};
+
+        console.log(`Parsed path: ${path}`);  // Added console print
+
+        return this.httpService.get(path, {
+            queryParams,
+            appendAuthorizationToken: true,
+            isApiRequest: true
+        });
     }
+
 
     searchJoinedCommunities(params: SearchJoinedCommunitiesApiParams): Promise<AxiosResponse<CommunityData[]>> {
         let queryParams = {'query': params.query};
