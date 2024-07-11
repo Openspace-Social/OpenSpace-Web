@@ -3,7 +3,7 @@
         <div class="columns flex-direction-column is-gapless">
             <div class="column" :style="barCssStyle"
                  v-if="activeTheme">
-                <div class="ok-destop-community-profile-header-bar-line"></div>
+                <div class="ok-desktop-community-profile-header-bar-line"></div>
             </div>
             <div class="column">
                 <div class="columns is-gapless">
@@ -40,7 +40,7 @@
 
 
 <style lang="scss">
-    .ok-destop-community-profile-header-bar-line {
+    .ok-desktop-community-profile-header-bar-line {
         height: 1rem;
         width: 100%;
     }

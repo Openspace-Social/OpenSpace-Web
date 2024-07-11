@@ -192,7 +192,7 @@
           if (avatar === "") {
               return require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
           }
-          return `${this.environmentService.apiUrl}/media/${avatar}/`;
+          return `${this.environmentService.contentProxyUrl}/media/${avatar}/`;
         }
 
         onImageError(event: Event) {
