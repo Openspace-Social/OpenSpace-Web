@@ -150,7 +150,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: '/',
-      env: {"LOGGING":"true","SENTRY_DSN":"https://c39e7ae67bf90aba5eade713519787a4@o4505669431197696.ingest.sentry.io/4505669435850752","ENVIRONMENT":"development","API_URL":"http://localhost:8000","CONTENT_PROXY_URL":"http://localhost:8000","TERMS_OF_USE_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/tos.md","PRIVACY_POLICY_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/PrivacyPolicy.md","COMMUNITY_GUIDELINES_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/Guidelines.md"}
+      env: {"LOGGING":"true","SENTRY_DSN":"https://c39e7ae67bf90aba5eade713519787a4@o4505669431197696.ingest.sentry.io/4505669435850752","ENVIRONMENT":"development","API_URL":"https://api.openspace.social","CONTENT_PROXY_URL":"https://api.openspace.social/proxy","API_APP_BUCKET_URL":"https://openspace-app-bucket.s3.amazonaws.com","TERMS_OF_USE_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/tos.md","PRIVACY_POLICY_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/PrivacyPolicy.md","COMMUNITY_GUIDELINES_MD_URL":"https://openspace-app-bucket.s3.us-east-2.amazonaws.com/docs/Guidelines.md"}
     }
     // Only set once
     if (!process.static && context.req) {
