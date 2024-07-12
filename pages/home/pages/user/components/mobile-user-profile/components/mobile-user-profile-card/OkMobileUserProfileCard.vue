@@ -104,7 +104,6 @@
         width: calc((100% / var(--columns))); /* Set width to 1/3rd of container width */
         max-width: calc((100% / var(--columns)) - 20px); /* Limit maximum width of each community */
         text-align: center; /* Center the text */
-        margin-bottom: 20px; /* Space below each community */
         word-break: break-all; /* Text wrapping */
     }
 
