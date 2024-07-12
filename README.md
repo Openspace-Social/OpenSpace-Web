@@ -16,7 +16,9 @@ Openspace is coming to the web.
 
 ## Requirements
 
-* [node](https://nodejs.org/en/)
+* [node](https://nodejs.org/en/) 18.18.2
+
+*You must use node.js 18.18.2. Newer versions break on downloading node_modules*.
 
 ## Project overview
 
