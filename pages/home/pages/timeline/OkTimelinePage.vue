@@ -2,7 +2,6 @@
     <section id="home-timeline-posts" class="is-flex flex-column align-items-center" v-if="loggedInUser">
         <ok-posts-stream
                 ref="postsStream"
-                class="has-padding-top-30-tablet"
                 :posts-display-context="postDisplayContext"
                 :refresher="postsRefresher"
                 :on-scroll-loader="postsOnScrollLoader"
