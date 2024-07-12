@@ -100,8 +100,8 @@
 
     .community {
         --columns: 3;
-        flex: 1 0 calc((100% / var(--columns)) - 20px - 1px); /* Each community takes up to 20% of the container width, but can shrink */
-        width: calc((100% / var(--columns))); /* Set width to 1/4th of container width */
+        flex: 1 0 calc((100% / var(--columns)) - 20px - 1px); /* Each community takes up 1/3rd of the container width */
+        width: calc((100% / var(--columns))); /* Set width to 1/3rd of container width */
         max-width: calc((100% / var(--columns)) - 20px); /* Limit maximum width of each community */
         text-align: center; /* Center the text */
         margin-bottom: 20px; /* Space below each community */
