@@ -5,7 +5,7 @@
                 :posts-display-context="postDisplayContext"
                 :refresher="postsRefresher"
                 :on-scroll-loader="postsOnScrollLoader"
-                post-container-class="has-padding-bottom-30-tablet has-padding-left-30-tablet"
+                :post-container-class="postContainerClass"
         >
             <template v-slot:leading>
                 <div class="has-padding-bottom-30-tablet has-padding-right-30-tablet has-padding-left-30-tablet">
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-    import { Component, Vue, Watch } from "nuxt-property-decorator"
+    import { Component, Prop, Vue, Watch } from "nuxt-property-decorator"
     import { Route } from "vue-router";
     import { IUserService } from "~/services/user/IUserService";
     import { TYPES } from "~/services/inversify-types";
@@ -49,6 +49,12 @@
         $observables!: {
             loggedInUser: BehaviorSubject<IUser | undefined>
         };
+
+        @Prop({
+            type: String,
+            required: false,
+            default: ""
+        }) readonly postContainerClass: string;
 
         $refs: {
             postsStream: OkPostsStream
