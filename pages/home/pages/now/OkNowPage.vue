@@ -24,6 +24,31 @@
             </div>
         </ok-mobile-header>
         <div class="ok-now-page-content">
+
+<div :class="['ok-left-section', { minimized: isMinimized, 'ok-has-background-primary': true }]">
+    <button class="toggle-btn ok-has-background-primary" @click="toggleSidebar">
+      <template v-if="isMinimized">
+        <ok-plus-icon class="ok-svg-icon-primary-invert is-icon-1x"></ok-plus-icon>
+      </template>
+      <template v-else>
+        <ok-close-icon class="ok-svg-icon-primary-invert is-icon-1x"></ok-close-icon>
+      </template>
+    </button>
+    <p class="p-6 mb-4 ok-has-text-primary-invert-80" v-if="!isMinimized">
+      {{$t('global.snippets.my_joined_communities')}}
+    </p>
+    <div v-if="!isMinimized">
+        <ul class="community-list">
+            <li v-for="community in joinedCommunities" :key="community.id" class="community-item">
+                <a :href="`/c/${community.name}`">
+                    <img :src="getAvatarUrl(community.avatar)" @error="onImageError" class="community-avatar">
+                    <span class="community-name">{{ community.name }}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+  </div>
+
             <div class="ok-now-page-content-scroll-container" id="ok-now-page-scroll-container">
                 <keep-alive>
                     <ok-search class="ok-now-page-content-search ok-has-background-primary"
@@ -129,6 +154,58 @@
         overflow-x: hidden;
     }
 
+    .ok-left-section {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20%;
+      height: 100%;
+      background-color: #ffffff;
+      transition: width 0.3s ease;
+      z-index: 2;
+    }
+
+    .ok-left-section.minimized {
+      width: 2%;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      padding: 15px;
+      top: 10px;
+      right: -30px;
+      background: #ffffff;
+      border: none;
+      border-radius: 25%;
+      cursor: pointer;
+      outline: none;
+      z-index: 2;
+    }
+
+    .community-list {
+        list-style-type: none;
+        padding: 15px;
+        margin: 0;
+    }
+
+    .community-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .community-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 25%;
+        margin-right: 10px;
+    }
+
+    .community-name {
+        font-size: 16px;
+        font-weight: bold;
+    }
+
     .ok-now-page-content-search {
         min-height: 100%;
 
@@ -140,7 +217,6 @@
             width: 100%;
         }
     }
-
 
     .ok-now-page-content-tabs {
         .tab-content {
@@ -174,12 +250,13 @@
 </style>
 
 <script lang="ts">
-    import { Component, Vue, Watch } from "nuxt-property-decorator"
+    import { Component, Vue, Watch } from "nuxt-property-decorator";
     import { TYPES } from "~/services/inversify-types";
     import { okunaContainer } from "~/services/inversify";
     import { BehaviorSubject } from "rxjs";
     import { IUserService } from "~/services/user/IUserService";
     import { IUser } from "~/models/auth/user/IUser";
+    import { ICommunity } from "~/models/communities/community/ICommunity";
     import OkTrendingPostsStream from "~/components/posts-stream/OkTrendingPostsStream.vue";
     import OkTopPostsStream from "~/components/posts-stream/OkTopPostsStream.vue";
     import OkMobileHeader from "~/components/mobile-only/OkMobileHeader.vue";
@@ -191,143 +268,169 @@
     import OkTimelinePage from "~/pages/home/pages/timeline/OkTimelinePage.vue";
 
     @Component({
-        name: "OkNowNowPage",
-        components: {
-            OkTimelinePage,
-            OkPublicPostsStream, OkSearch, OkMobileHeader, OkTrendingPostsStream, OkTopPostsStream},
-        subscriptions: function () {
-            return {
-                loggedInUser: this["userService"].loggedInUser,
-                environmentResolution: this["environmentService"].environmentResolution,
-            }
+      name: "OkNowNowPage",
+      components: {
+        OkTimelinePage,
+        OkPublicPostsStream,
+        OkSearch,
+        OkMobileHeader,
+        OkTrendingPostsStream,
+        OkTopPostsStream
+      },
+      subscriptions: function () {
+        return {
+          loggedInUser: this["userService"].loggedInUser,
+          environmentResolution: this["environmentService"].environmentResolution,
         }
+      }
     })
+
     export default class OkExplorePage extends Vue {
-        $route!: any;
+      EnvironmentResolution = EnvironmentResolution;
+      private environmentService: IEnvironmentService = okunaContainer.get<IEnvironmentService>(TYPES.EnvironmentService);
+      private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
+      public joinedCommunities: ICommunity[] = [];
 
-        $observables!: {
-            environmentResolution: BehaviorSubject<EnvironmentResolution | undefined>,
-            loggedInUser: BehaviorSubject<IUser | undefined>
-        };
+      shouldTopTabRender = false;
+      shouldPublicTabRender = false;
+      shouldTrendingTabRender = false;
 
-        $refs!: {
-            okSearch: OkSearch,
-            timelinePostsStream: OkPostsStream,
-            topPostsStream: OkPostsStream,
-            trendingPostsStream: OkPostsStream,
-            publicPostsStream: OkPostsStream,
-            tabs: any,
-        };
+      searchQuery = "";
+      searchIsOpen = false;
 
+      scrollPosition = 0;
+      activeTab = 0;
 
-        EnvironmentResolution = EnvironmentResolution;
-
-        private environmentService: IEnvironmentService = okunaContainer.get<IEnvironmentService>(TYPES.EnvironmentService);
+      private scrollContainer: HTMLElement = null;
+      private nowButton: HTMLElement = null;
+      private scrollToTopEventRemover;
 
 
-        private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
+      async mounted() {
+            try {
+                const communities = await this.userService.getJoinedCommunities();
+                this.joinedCommunities = communities; // Assign fetched data to reactive property
 
-        shouldTopTabRender = false;
-        shouldPublicTabRender = false;
-        shouldTrendingTabRender = false;
-
-        searchQuery = "";
-        searchIsOpen = false;
-
-        scrollPosition = 0;
-        activeTab = 0;
-
-        private scrollContainer: HTMLElement = null;
-        private nowButton: HTMLElement = null;
-        private scrollToTopEventRemover;
-
-
-        mounted() {
-            if (this.scrollToTopEventRemover) this.scrollToTopEventRemover();
-            // const nowButton = this.getNowButton();
-            // nowButton.addEventListener("click", this.onWantsToScrollToTop);
-            // this.scrollToTopEventRemover = () => nowButton.removeEventListener("click", this.onWantsToScrollToTop);
-        }
-
-
-        destroyed() {
-            if (this.scrollToTopEventRemover) this.scrollToTopEventRemover();
-        }
-
-        onWantsToScrollToTop() {
-            if (this.$route.name === "now") {
-                const currentScrollTop = this.getScrollContainer().scrollTop;
-
-                if (currentScrollTop === 0) {
-                    // Refresh
-                    this.getActivePostsStream().refresh();
-                } else {
-                    // Scroll to top
-                    this.$scrollTo(this.$refs.tabs.$el, 300, {
-                        container: this.getScrollContainer()
-                    });
-                }
+                console.log('Communities fetched successfully:', communities); // Log the actual array
+            } catch (error) {
+                console.error('Failed to fetch joined communities:', error);
             }
+      }
+
+      getAvatarUrl(avatar: string): string {
+        if (!avatar) {
+          return require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
         }
+        return avatar;
+      }
+
+      onImageError(event: Event) {
+        const target = event.target as HTMLImageElement;
+        target.src = require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
+      }
+
+      $route!: any;
+
+      isMinimized: boolean = false;
+
+      toggleSidebar() {
+        this.isMinimized = !this.isMinimized;
+      }
+
+      $observables!: {
+        environmentResolution: BehaviorSubject<EnvironmentResolution | undefined>,
+        loggedInUser: BehaviorSubject<IUser | undefined>
+      };
+
+      $refs!: {
+        okSearch: OkSearch,
+        timelinePostsStream: OkPostsStream,
+        topPostsStream: OkPostsStream,
+        trendingPostsStream: OkPostsStream,
+        publicPostsStream: OkPostsStream,
+        tabs: any,
+      };
 
 
-        @Watch("$route")
-        onRouteChanged(to: any, from: any) {
-            if (from.name === "now") {
-                this.scrollPosition = this.getScrollContainer().scrollTop;
-            } else if (to.name === "now") {
-                setTimeout(() => {
-                    if (this.scrollPosition) {
-                        this.getScrollContainer().scrollTop = this.scrollPosition;
-                    }
-                }, 100);
+
+
+      destroyed() {
+        if (this.scrollToTopEventRemover) this.scrollToTopEventRemover();
+      }
+
+      onWantsToScrollToTop() {
+        if (this.$route.name === "now") {
+          const currentScrollTop = this.getScrollContainer().scrollTop;
+
+          if (currentScrollTop === 0) {
+            this.getActivePostsStream().refresh();
+          } else {
+            this.$scrollTo(this.$refs.tabs.$el, 300, {
+              container: this.getScrollContainer()
+            });
+          }
+        }
+      }
+
+      @Watch("$route")
+      onRouteChanged(to: any, from: any) {
+        if (from.name === "now") {
+          this.scrollPosition = this.getScrollContainer().scrollTop;
+        } else if (to.name === "now") {
+          setTimeout(() => {
+            if (this.scrollPosition) {
+              this.getScrollContainer().scrollTop = this.scrollPosition;
             }
+          }, 100);
         }
+      }
 
-        onTabChange(idx) {
-            if (idx === 1) {
-                this.shouldTrendingTabRender = true;
-            }
-            if (idx === 2) {
-                this.shouldPublicTabRender = true;
-            }
-            if (idx === 3) {
-                this.shouldTopTabRender = true;
-            }
+      onTabChange(idx: number) {
+        if (idx === 1) {
+          this.shouldTrendingTabRender = true;
         }
-
-        @Watch("searchQuery")
-        onSearchQueryChanged(val: string, oldVal: string) {
-            if (!this.$refs.okSearch) {
-                // Has to be created
-                this.$nextTick(() => this.onSearchQueryChanged(val, oldVal));
-            } else {
-                if (val) {
-                    this.searchIsOpen = true;
-                    this.$refs.okSearch.searchWithQuery(val);
-                } else {
-                    this.$refs.okSearch.clearSearch();
-                }
-            }
+        if (idx === 2) {
+          this.shouldPublicTabRender = true;
         }
-
-        getScrollContainer() {
-            if (this.scrollContainer) return this.scrollContainer;
-
-            return this.scrollContainer = document.querySelector("#ok-now-page-scroll-container");
+        if (idx === 3) {
+          this.shouldTopTabRender = true;
         }
+      }
 
-        getNowButton() {
-            if (this.nowButton) return this.nowButton;
-
-            return this.nowButton = document.querySelector("#now-button");
+      @Watch("searchQuery")
+      onSearchQueryChanged(val: string, oldVal: string) {
+        if (!this.$refs.okSearch) {
+          this.$nextTick(() => this.onSearchQueryChanged(val, oldVal));
+        } else {
+          if (val) {
+            this.searchIsOpen = true;
+            this.$refs.okSearch.searchWithQuery(val);
+          } else {
+            this.$refs.okSearch.clearSearch();
+          }
         }
+      }
 
-        getActivePostsStream() {
-            if (this.activeTab === 0) return this.$refs.timelinePostsStream;
-            if (this.activeTab === 1) return this.$refs.trendingPostsStream;
-            if (this.activeTab === 2) return this.$refs.publicPostsStream;
-            return this.$refs.topPostsStream;
-        }
+      getScrollContainer() {
+        if (this.scrollContainer) return this.scrollContainer;
+
+        return this.scrollContainer = document.querySelector("#ok-now-page-scroll-container");
+      }
+
+      getNowButton() {
+        if (this.nowButton) return this.nowButton;
+
+        return this.nowButton = document.querySelector("#now-button");
+      }
+
+      getActivePostsStream() {
+        if (this.activeTab === 0) return this.$refs.timelinePostsStream;
+        if (this.activeTab === 1) return this.$refs.trendingPostsStream;
+        if (this.activeTab === 2) return this.$refs.publicPostsStream;
+        return this.$refs.topPostsStream;
+      }
     }
 </script>
+
+
+
