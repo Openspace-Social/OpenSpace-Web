@@ -70,7 +70,7 @@
                             <ok-timeline-page
                                 class=""
                                 ref=timelinePostsStream
-                                post-container-class="has-padding-bottom-30-tablet has-padding-left-30-tablet"
+                                post-container-class="has-padding-bottom-30-tablet has-padding-right-30-tablet has-padding-left-30-tablet"
                             ></ok-timeline-page>
                         </b-tab-item>
                         <b-tab-item>
