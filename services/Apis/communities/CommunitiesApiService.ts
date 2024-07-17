@@ -212,7 +212,7 @@ export class CommunitiesApiService implements ICommunitiesApiService {
                     queryParams: queryParams,
                     appendAuthorizationToken: true,
                     isApiRequest: true
-                });
+                })
         }
 
     getMemberJoinedCommunities(params: GetMemberJoinedCommunitiesApiParams): Promise<AxiosResponse<ICommunityMemberJoined[]>> {

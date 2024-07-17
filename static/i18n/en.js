@@ -581,6 +581,7 @@ export default {
         },
         "snippets": {
             "content_contributor": "Communities I've joined:",
+            "my_joined_communities": "My Joined Communities:",
             "a_community": "A community",
             "my_circles": "My circles",
             "share_to_circles_description": "Share the post to one of multiple of your circles.",

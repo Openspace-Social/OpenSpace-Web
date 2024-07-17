@@ -23,7 +23,43 @@
                 </div>
             </div>
         </ok-mobile-header>
+
         <div class="ok-now-page-content">
+
+            <div :class="['ok-left-section', { minimized: isMinimized, 'ok-has-background-primary': true }]">
+                <button class="toggle-btn ok-has-background-primary" @click="toggleSidebar">
+                  <component :is="isMinimized ? 'ok-plus-icon' : 'ok-close-icon'"></component>
+                </button>
+                <span class="ok-has-text-primary-invert">
+                  <p v-if="!isMinimized" class="p-4 mt-4 ok-has-text-primary-invert-80">
+                    {{$t('global.snippets.my_joined_communities')}}
+                  </p>
+                  <div class="joined-communities">
+                    <span v-if="loading" class="community-list">
+                      <ok-loading-indicator></ok-loading-indicator>
+                    </span>
+                    <ul class="community-list">
+                      <li class="community-item" v-for="community in displayedCommunities" :key="community.id">
+                        <a :href="`/c/${community.community_name}`" :title="community.community_name">
+                          <img :src="getAvatarUrl(community.community_avatar)" alt="Community Avatar" :class="['community-avatar', { 'small-avatar': isMinimized }]" @error="onImageError">
+                          <span v-if="!isMinimized" class="community-name" style="vertical-align: -webkit-baseline-middle;">{{ community.community_name }}</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div v-if="hasMoreCommunities && !isMinimized" @click="showMore" class="more-button">
+                    More
+                  </div>
+                  <div v-if="displayCount > 9 && !isMinimized" @click="showLess" class="more-button">
+                    Less
+                  </div>
+                </span>
+            </div>
+
+
+
+
+
             <div class="ok-now-page-content-scroll-container" id="ok-now-page-scroll-container">
                 <keep-alive>
                     <ok-search class="ok-now-page-content-search ok-has-background-primary"
@@ -141,7 +177,6 @@
         }
     }
 
-
     .ok-now-page-content-tabs {
         .tab-content {
             padding: 0 !important;
@@ -151,7 +186,6 @@
             padding-top: 30px;
             padding-left: 30px;
             padding-right: 30px;
-
 
             ul {
                 li {
@@ -169,8 +203,92 @@
         height: 40px;
         padding-left: 15px;
         padding-right: 15px;
-
     }
+
+    .ok-left-section {
+      border-top: solid 1px var(--primary-highlight-color);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 17%;
+      height: 100%;
+      background-color: #ffffff;
+      transition: width 0.3s ease;
+      z-index: 2;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .ok-left-section.minimized {
+      width: 5%;
+    }
+
+    .toggle-btn {
+      position: absolute;
+      background: #ffffff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      outline: none;
+      z-index: 3;
+      padding: 15px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ok-close-icon, .ok-plus-circle-outline-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .community-list {
+      padding: 15px;
+      height: 80%;
+      word-break: break-all;
+    }
+
+    .community-item {
+      display: flex;
+      margin-bottom: 10px;
+      margin-top: 15px;
+    }
+
+    .community-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 25%;
+      margin-right: 10px;
+      float: left;
+    }
+
+    .community-avatar.small-avatar {
+      width: 25px;
+      height: 25px;
+    }
+
+    .community-name {
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .more-button {
+      width: auto;
+      display: inline-block;
+      margin-right: 25px;
+      padding: 5px 10px;
+    }
+
+    /* Media query to hide the section on mobile devices */
+    @media (max-width: 768px) {
+      .ok-left-section {
+        display: none;
+      }
+    }
+
+
+
 </style>
 
 <script lang="ts">
@@ -180,6 +298,7 @@
     import { BehaviorSubject } from "rxjs";
     import { IUserService } from "~/services/user/IUserService";
     import { IUser } from "~/models/auth/user/IUser";
+    import { ICommunityMemberJoined } from '~/models/communities/community/ICommunityMemberJoined';
     import OkTrendingPostsStream from "~/components/posts-stream/OkTrendingPostsStream.vue";
     import OkTopPostsStream from "~/components/posts-stream/OkTopPostsStream.vue";
     import OkMobileHeader from "~/components/mobile-only/OkMobileHeader.vue";
@@ -190,11 +309,21 @@
     import OkPublicPostsStream from "~/components/posts-stream/OkPublicPostsStream.vue";
     import OkTimelinePage from "~/pages/home/pages/timeline/OkTimelinePage.vue";
 
+    import InfiniteLoading from "vue-infinite-loading";
+    import OkLoadingIndicator from "~/components/utils/OkLoadingIndicator.vue";
+
+
     @Component({
         name: "OkNowNowPage",
         components: {
             OkTimelinePage,
-            OkPublicPostsStream, OkSearch, OkMobileHeader, OkTrendingPostsStream, OkTopPostsStream},
+            OkPublicPostsStream,
+            OkSearch,
+            OkMobileHeader,
+            OkTrendingPostsStream,
+            OkTopPostsStream,
+            OkLoadingIndicator
+        },
         subscriptions: function () {
             return {
                 loggedInUser: this["userService"].loggedInUser,
@@ -207,10 +336,11 @@
 
         $observables!: {
             environmentResolution: BehaviorSubject<EnvironmentResolution | undefined>,
-            loggedInUser: BehaviorSubject<IUser | undefined>
+            loggedInUser: BehaviorSubject<IUser | undefined>,
         };
 
         $refs!: {
+            infiniteLoading: InfiniteLoading,
             okSearch: OkSearch,
             timelinePostsStream: OkPostsStream,
             topPostsStream: OkPostsStream,
@@ -219,13 +349,12 @@
             tabs: any,
         };
 
-
-        EnvironmentResolution = EnvironmentResolution;
-
-        private environmentService: IEnvironmentService = okunaContainer.get<IEnvironmentService>(TYPES.EnvironmentService);
-
-
         private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
+        private environmentService: IEnvironmentService = okunaContainer.get<IEnvironmentService>(TYPES.EnvironmentService);
+        EnvironmentResolution = EnvironmentResolution;
+        public joinedCommunities: ICommunityMemberJoined[] = [];
+        loading: boolean = true;
+        public displayCount: number = 9;
 
         shouldTopTabRender = false;
         shouldPublicTabRender = false;
@@ -241,13 +370,74 @@
         private nowButton: HTMLElement = null;
         private scrollToTopEventRemover;
 
-
-        mounted() {
+        async mounted() {
+            setTimeout(async () => {
+                await this.checkAndFetchCommunities();
+            }, 2000);
             if (this.scrollToTopEventRemover) this.scrollToTopEventRemover();
             // const nowButton = this.getNowButton();
             // nowButton.addEventListener("click", this.onWantsToScrollToTop);
             // this.scrollToTopEventRemover = () => nowButton.removeEventListener("click", this.onWantsToScrollToTop);
         }
+
+        @Watch('$observables.loggedInUser', { immediate: true, deep: true })
+        async checkAndFetchCommunities() {
+            const loggedInUser = this.$observables.loggedInUser.getValue();
+            const username = loggedInUser ? loggedInUser.username : '';
+
+            if (username) {
+                await this.fetchJoinedCommunities(username);
+            } else {
+                this.loading = false; // Update loading state
+            }
+        }
+
+        async fetchJoinedCommunities(username: string) {
+            try {
+                const communities = await this.userService.getMemberJoinedCommunities({ username });
+                this.joinedCommunities = communities;
+            } catch (error) {
+                console.error('Error fetching joined communities:', error);
+            } finally {
+                this.loading = false;
+            }
+        }
+
+        get displayedCommunities() {
+            return this.joinedCommunities.slice(0, this.displayCount);
+        }
+
+        get hasMoreCommunities() {
+            return this.displayCount < this.joinedCommunities.length;
+        }
+
+        showMore() {
+            this.displayCount += 9;
+        }
+
+        showLess() {
+            this.displayCount = 9;
+        }
+
+        getAvatarUrl(avatar: string): string {
+                if (!avatar) {
+                    return require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
+                }
+                const url = `${this.environmentService.apiAppBucketUrl}/media/${avatar}`;
+                return url;
+        }
+
+        onImageError(event: Event) {
+            const target = event.target as HTMLImageElement;
+            target.src = require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
+        }
+
+        isMinimized: boolean = false;
+
+        toggleSidebar() {
+            this.isMinimized = !this.isMinimized;
+        }
+
 
 
         destroyed() {
