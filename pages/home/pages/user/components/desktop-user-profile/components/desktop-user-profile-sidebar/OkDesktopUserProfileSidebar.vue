@@ -127,98 +127,92 @@
 
 
 <script lang="ts">
-import { Component, Prop, Vue } from "nuxt-property-decorator";
-import { IUser } from "~/models/auth/user/IUser";
-import { IEnvironmentService } from '~/services/environment/IEnvironmentService';
-import { ICommunityMemberJoined } from '~/models/communities/community/ICommunityMemberJoined';
-import { TYPES } from "~/services/inversify-types";
-import { IUserService } from "~/services/user/IUserService";
-import { okunaContainer } from "~/services/inversify";
-import OkDesktopUserProfileSidebarDetails
-    from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-sidebar/components/OkDesktopUserProfileSidebarDetails.vue";
-import OkDesktopUserProfileSidebarActions
-    from '~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-sidebar/components/OkDesktopUserProfileSidebarActions.vue';
-import OkSmartText from '~/components/smart-text/OkSmartText.vue';
-import OkUserProfileLocation from '~/pages/home/pages/user/components/shared/OkUserProfileLocation.vue';
-import OkUserProfileUrl from '~/pages/home/pages/user/components/shared/OkUserProfileUrl.vue';
-import OkUserProfileAge from '~/pages/home/pages/user/components/shared/OkUserProfileAge.vue';
-import OkUserAvatar from '~/components/avatars/user-avatar/OkUserAvatar.vue';
-import OkUserProfileName from '~/pages/home/pages/user/components/shared/OkUserProfileName.vue';
-import OkUserProfileUsername from '~/pages/home/pages/user/components/shared/OkUserProfileUsername.vue';
-import OkUserProfileActionButtons from '~/pages/home/pages/user/components/shared/OkUserProfileActionButtons.vue';
+    import { Component, Prop, Vue } from "nuxt-property-decorator";
+    import { IUser } from "~/models/auth/user/IUser";
+    import { IEnvironmentService } from '~/services/environment/IEnvironmentService';
+    import { ICommunityMemberJoined } from '~/models/communities/community/ICommunityMemberJoined';
+    import { TYPES } from "~/services/inversify-types";
+    import { IUserService } from "~/services/user/IUserService";
+    import { okunaContainer } from "~/services/inversify";
+    import OkDesktopUserProfileSidebarDetails
+        from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-sidebar/components/OkDesktopUserProfileSidebarDetails.vue";
+    import OkDesktopUserProfileSidebarActions
+        from '~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-sidebar/components/OkDesktopUserProfileSidebarActions.vue';
+    import OkSmartText from '~/components/smart-text/OkSmartText.vue';
+    import OkUserProfileLocation from '~/pages/home/pages/user/components/shared/OkUserProfileLocation.vue';
+    import OkUserProfileUrl from '~/pages/home/pages/user/components/shared/OkUserProfileUrl.vue';
+    import OkUserProfileAge from '~/pages/home/pages/user/components/shared/OkUserProfileAge.vue';
+    import OkUserAvatar from '~/components/avatars/user-avatar/OkUserAvatar.vue';
+    import OkUserProfileName from '~/pages/home/pages/user/components/shared/OkUserProfileName.vue';
+    import OkUserProfileUsername from '~/pages/home/pages/user/components/shared/OkUserProfileUsername.vue';
+    import OkUserProfileActionButtons from '~/pages/home/pages/user/components/shared/OkUserProfileActionButtons.vue';
 
-@Component({
-    name: "OkDesktopUserProfileSidebar",
-    components: {
-        OkUserProfileActionButtons,
-        OkUserProfileUsername,
-        OkUserProfileName,
-        OkUserAvatar,
-        OkUserProfileAge,
-        OkUserProfileUrl,
-        OkUserProfileLocation,
-        OkSmartText,
-    },
-})
-export default class OkDesktopUserProfileSidebar extends Vue {
-    private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
-    private environmentService: IEnvironmentService = okunaContainer.get<IEnvironmentService>(TYPES.EnvironmentService);
-    public joinedCommunities: ICommunityMemberJoined[] = [];
-    public displayCount: number = 9;
+    @Component({
+        name: "OkDesktopUserProfileSidebar",
+        components: {
+            OkUserProfileActionButtons,
+            OkUserProfileUsername,
+            OkUserProfileName,
+            OkUserAvatar,
+            OkUserProfileAge,
+            OkUserProfileUrl,
+            OkUserProfileLocation,
+            OkSmartText,
+        },
+    })
 
-    @Prop({
-        type: Object,
-        required: true
-    }) readonly user!: IUser;
+    export default class OkDesktopUserProfileSidebar extends Vue {
+        private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
+        private environmentService: IEnvironmentService = okunaContainer.get<IEnvironmentService>(TYPES.EnvironmentService);
+        public joinedCommunities: ICommunityMemberJoined[] = [];
+        public displayCount: number = 9;
 
-    @Prop({
-        type: Boolean,
-        required: true
-    }) readonly headerVisible!: boolean;
+        @Prop({
+            type: Object,
+            required: true
+        }) readonly user!: IUser;
 
-    async mounted() {
-        if (this.user.username) {
-            const communities = await this.userService.getMemberJoinedCommunities({ username: this.user.username });
-            this.joinedCommunities = communities; // Assign fetched data to reactive property
+        @Prop({
+            type: Boolean,
+            required: true
+        }) readonly headerVisible!: boolean;
 
-            const communitiesJson = JSON.stringify(communities); // Convert to JSON string
-            //console.log('Joined Communities:', communities);
+        async mounted() {
+            if (this.user.username) {
+                const communities = await this.userService.getMemberJoinedCommunities({ username: this.user.username });
+                this.joinedCommunities = communities;
+                const communitiesJson = JSON.stringify(communities);
+            }
+        }
+
+        get displayedCommunities() {
+            return this.joinedCommunities.slice(0, this.displayCount);
+        }
+
+        get hasMoreCommunities() {
+            return this.displayCount < this.joinedCommunities.length;
+        }
+
+        showMore() {
+            this.displayCount += 9;
+        }
+
+        showLess() {
+            this.displayCount = 9;
+        }
+
+        getAvatarUrl(avatar: string): string {
+            if (!avatar) {
+                return require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
+            }
+            const url = `${this.environmentService.apiAppBucketUrl}/media/${avatar}`;
+            return url;
+        }
+
+        onImageError(event: Event) {
+            const target = event.target as HTMLImageElement;
+            target.src = require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
+            //console.error('Image failed to load:', target.src);
         }
     }
-
-    get displayedCommunities() {
-        return this.joinedCommunities.slice(0, this.displayCount);
-    }
-
-    get hasMoreCommunities() {
-        return this.displayCount < this.joinedCommunities.length;
-    }
-
-    showMore() {
-        this.displayCount += 9;
-    }
-
-    showLess() {
-        this.displayCount = 9;
-    }
-
-    getAvatarUrl(avatar: string): string {
-        if (!avatar) {
-            return require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
-        }
-        const url = `${this.environmentService.apiAppBucketUrl}/media/${avatar}`;
-       // console.log('Generated Avatar URL:', url);
-        return url;
-    }
-
-    onImageError(event: Event) {
-        const target = event.target as HTMLImageElement;
-        target.src = require('~/components/avatars/image-avatar/assets/avatar-fallback.jpg');
-        //console.error('Image failed to load:', target.src);
-    }
-
-//    onImageLoad(event: Event) {
-//        console.log('Image loaded successfully:', (event.target as HTMLImageElement).src);
-//    }
-}
 </script>

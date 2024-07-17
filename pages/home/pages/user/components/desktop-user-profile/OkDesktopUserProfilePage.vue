@@ -65,6 +65,7 @@
             required: true
         }) readonly user: IUser;
 
+
         OkAvatarSize = OkAvatarSize;
 
         sidebarHeaderIsVisible = false;
