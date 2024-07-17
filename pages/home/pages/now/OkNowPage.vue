@@ -27,33 +27,33 @@
         <div class="ok-now-page-content">
 
             <div :class="['ok-left-section', { minimized: isMinimized, 'ok-has-background-primary': true }]">
-            <button class="toggle-btn ok-has-background-primary" @click="toggleSidebar">
-              <component :is="isMinimized ? 'ok-plus-icon' : 'ok-close-icon'"></component>
-            </button>
-            <span class="ok-has-text-primary-invert">
-              <p v-if="!isMinimized" class="p-4 mt-4 ok-has-text-primary-invert-80">
-                {{$t('global.snippets.my_joined_communities')}}
-              </p>
-              <div class="joined-communities">
-                <span v-if="loading" class="community-list">
-                  <ok-loading-indicator></ok-loading-indicator>
+                <button class="toggle-btn ok-has-background-primary" @click="toggleSidebar">
+                  <component :is="isMinimized ? 'ok-plus-icon' : 'ok-close-icon'"></component>
+                </button>
+                <span class="ok-has-text-primary-invert">
+                  <p v-if="!isMinimized" class="p-4 mt-4 ok-has-text-primary-invert-80">
+                    {{$t('global.snippets.my_joined_communities')}}
+                  </p>
+                  <div class="joined-communities">
+                    <span v-if="loading" class="community-list">
+                      <ok-loading-indicator></ok-loading-indicator>
+                    </span>
+                    <ul class="community-list">
+                      <li class="community-item" v-for="community in displayedCommunities" :key="community.id">
+                        <a :href="`/c/${community.community_name}`" :title="community.community_name">
+                          <img :src="getAvatarUrl(community.community_avatar)" alt="Community Avatar" :class="['community-avatar', { 'small-avatar': isMinimized }]" @error="onImageError">
+                          <span v-if="!isMinimized" class="community-name" style="vertical-align: -webkit-baseline-middle;">{{ community.community_name }}</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div v-if="hasMoreCommunities && !isMinimized" @click="showMore" class="more-button">
+                    More
+                  </div>
+                  <div v-if="displayCount > 9 && !isMinimized" @click="showLess" class="more-button">
+                    Less
+                  </div>
                 </span>
-                <ul class="community-list">
-                  <li class="community-item" v-for="community in displayedCommunities" :key="community.id">
-                    <a :href="`/c/${community.community_name}`" :title="community.community_name">
-                      <img :src="getAvatarUrl(community.community_avatar)" alt="Community Avatar" :class="['community-avatar', { 'small-avatar': isMinimized }]" @error="onImageError">
-                      <span v-if="!isMinimized" class="community-name" style="vertical-align: -webkit-baseline-middle;">{{ community.community_name }}</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <button v-if="hasMoreCommunities && !isMinimized" @click="showMore" class="more-button">
-                Show More
-              </button>
-              <button v-if="displayCount > 9 && !isMinimized" @click="showLess" class="more-button">
-                Show Less
-              </button>
-            </span>
             </div>
 
 
@@ -206,10 +206,11 @@
     }
 
     .ok-left-section {
+      border-top: solid 1px var(--primary-highlight-color);
       position: absolute;
       top: 0;
       left: 0;
-      width: 20%;
+      width: 17%;
       height: 100%;
       background-color: #ffffff;
       transition: width 0.3s ease;
@@ -230,7 +231,7 @@
       cursor: pointer;
       outline: none;
       z-index: 3;
-      padding: 5px;
+      padding: 15px;
       width: 30px;
       height: 30px;
       display: flex;
@@ -245,6 +246,7 @@
     .community-list {
       padding: 15px;
       height: 80%;
+      word-break: break-all;
     }
 
     .community-item {
@@ -269,6 +271,13 @@
     .community-name {
       font-size: 16px;
       font-weight: bold;
+    }
+
+    .more-button {
+      width: auto;
+      display: inline-block;
+      margin-right: 25px;
+      padding: 5px 10px;
     }
 
     /* Media query to hide the section on mobile devices */
