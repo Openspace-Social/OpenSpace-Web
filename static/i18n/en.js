@@ -306,6 +306,9 @@ export default {
             "leave": {
                 "name": "Leave community",
                 "description": "Leave this community"
+            },
+            "ownership": {
+                "community_owner": "Community owner"
             }
         },
 

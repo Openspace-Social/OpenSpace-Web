@@ -31,7 +31,7 @@
                   <component :is="isMinimized ? 'ok-plus-icon' : 'ok-close-icon'"></component>
                 </button>
                 <span class="ok-has-text-primary-invert">
-                  <p v-if="!isMinimized" class="p-4 mt-4 ok-has-text-primary-invert-80">
+                  <p v-if="!isMinimized" class="p-4 mt-4 ok-has-text-primary-invert-80" style="padding-bottom: 0px;">
                     {{$t('global.snippets.my_joined_communities')}}
                   </p>
                   <div class="joined-communities">
@@ -211,6 +211,7 @@
       top: 0;
       left: 0;
       width: 17%;
+      max-width: 300px;
       height: 100%;
       background-color: #ffffff;
       transition: width 0.3s ease;
@@ -220,7 +221,7 @@
     }
 
     .ok-left-section.minimized {
-      width: 5%;
+      width: auto;
     }
 
     .toggle-btn {
