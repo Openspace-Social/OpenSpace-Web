@@ -211,6 +211,7 @@
       top: 0;
       left: 0;
       width: 17%;
+      max-width: 300px;
       height: 100%;
       background-color: #ffffff;
       transition: width 0.3s ease;
