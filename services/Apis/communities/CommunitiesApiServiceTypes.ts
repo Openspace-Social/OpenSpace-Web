@@ -16,6 +16,11 @@ export interface GetJoinedCommunitiesApiParams {
     offset?: number;
 }
 
+export interface GetCommunityCreatorNameApiParams {
+    offset?: number;
+    communityName: string;
+}
+
 export interface GetMemberJoinedCommunitiesApiParams {
     offset?: number;
     username: string;

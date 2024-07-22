@@ -181,7 +181,6 @@
             if (this.user.username) {
                 const communities = await this.userService.getMemberJoinedCommunities({ username: this.user.username });
                 this.joinedCommunities = communities;
-                const communitiesJson = JSON.stringify(communities);
             }
         }
 

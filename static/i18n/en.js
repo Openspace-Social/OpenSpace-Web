@@ -516,6 +516,7 @@ export default {
             }
         },
         "keywords": {
+            "owner": "Owner",
             "people": "People",
             "person": "Person",
             "back": "Back",
