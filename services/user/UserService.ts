@@ -73,6 +73,7 @@ import {
     GetAdministratedCommunitiesParams,
     GetModeratedCommunitiesParams,
     GetJoinedCommunitiesParams,
+    GetCommunityCreatorNameParams,
     GetMemberJoinedCommunitiesParams,
     GetHashtagParams,
     GetHashtagPostsParams,
@@ -139,6 +140,8 @@ import { IPostsApiService } from '~/services/Apis/posts/IPostsApiService';
 import { AxiosResponse } from '~/node_modules/axios';
 import { CommunityData } from '~/types/models-data/communities/CommunityData';
 import { ICommunityMemberJoined } from '~/models/communities/community/ICommunityMemberJoined';
+import { ICommunityCreatorNameGetter } from '~/models/communities/community/community-creator/ICommunityCreatorNameGetter';
+
 
 import communityFactory from '~/models/communities/community/factory';
 import { UserData } from '~/types/models-data/auth/UserData';
@@ -817,6 +820,15 @@ export class UserService implements IUserService {
         const response: AxiosResponse<CommunityData[]> = await this.communitiesApiService.getJoinedCommunities(params);
 
         return communityFactory.makeMultiple(response.data);
+    }
+
+    async getCommunityCreatorName(params: GetCommunityCreatorNameParams): Promise<ICommunityCreatorNameGetter[]> {
+        if (!params || !params.communityName) {
+            throw new Error('Username is required to fetch joined communities.');
+        }
+
+        const response: AxiosResponse<ICommunityCreatorNameGetter[]> = await this.communitiesApiService.getCommunityCreatorName(params);
+        return response.data;
     }
 
     async getMemberJoinedCommunities(params: GetMemberJoinedCommunitiesParams): Promise<ICommunityMemberJoined[]> {

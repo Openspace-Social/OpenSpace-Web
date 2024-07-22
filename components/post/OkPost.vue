@@ -130,7 +130,7 @@ export default class OkPost extends Vue {
     }
 
     updatePostElementWidth() {
-        if (window.innerWidth >= 1024) {
+        if (window.innerWidth >= 5024) {
             this.postElementWidth = 635;
         } else if (window.innerWidth >= 769) {
             this.postElementWidth = 500;

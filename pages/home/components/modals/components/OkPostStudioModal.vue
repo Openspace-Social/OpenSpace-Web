@@ -9,14 +9,14 @@
 <style lang="scss">
     .ok-post-studio-modal {
         //max-width: 390px;
-        width: 100%;
-        position: relative;
+        width: 60vh;
         height: 80vh;
+        position: relative;
         overflow: hidden;
         margin: 20px;
 
         @include for-size(tablet-portrait-up) {
-            min-width: 500px;
+            //min-width: 500px;
         }
 
         @include for-size(desktop-up) {

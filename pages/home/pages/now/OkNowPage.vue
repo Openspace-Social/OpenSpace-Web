@@ -332,6 +332,7 @@
             }
         }
     })
+
     export default class OkExplorePage extends Vue {
         $route!: any;
 
@@ -373,24 +374,19 @@
 
         async mounted() {
             setTimeout(async () => {
-                await this.checkAndFetchCommunities();
+                const loggedInUser = this.$observables.loggedInUser.getValue();
+                const username = loggedInUser ? loggedInUser.username : '';
+
+                if (username) {
+                    this.fetchJoinedCommunities(username);
+                } else {
+                    this.loading = false; // Update loading state
+                }
+                if (this.scrollToTopEventRemover) this.scrollToTopEventRemover();
+                // const nowButton = this.getNowButton();
+                // nowButton.addEventListener("click", this.onWantsToScrollToTop);
+                // this.scrollToTopEventRemover = () => nowButton.removeEventListener("click", this.onWantsToScrollToTop);
             }, 2000);
-            if (this.scrollToTopEventRemover) this.scrollToTopEventRemover();
-            // const nowButton = this.getNowButton();
-            // nowButton.addEventListener("click", this.onWantsToScrollToTop);
-            // this.scrollToTopEventRemover = () => nowButton.removeEventListener("click", this.onWantsToScrollToTop);
-        }
-
-        @Watch('$observables.loggedInUser', { immediate: true, deep: true })
-        async checkAndFetchCommunities() {
-            const loggedInUser = this.$observables.loggedInUser.getValue();
-            const username = loggedInUser ? loggedInUser.username : '';
-
-            if (username) {
-                await this.fetchJoinedCommunities(username);
-            } else {
-                this.loading = false; // Update loading state
-            }
         }
 
         async fetchJoinedCommunities(username: string) {
