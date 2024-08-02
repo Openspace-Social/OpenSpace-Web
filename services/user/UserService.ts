@@ -894,21 +894,26 @@ export class UserService implements IUserService {
     // POSTS START
 
     async commentPost(params: CommentPostParams): Promise<IPostComment> {
+        // Ensure params.image is correctly passed and matches CommentPostApiParams
         const response: AxiosResponse<PostCommentData> = await this.postsApiService.commentPost({
             postUuid: params.post.uuid,
-            text: params.text
+            text: params.text,
+            image: params.image
         });
-
+    
+        // Create a post comment object from the response data
         const postComment = postCommentFactory.make(response.data);
-
+    
+        // Update the comments count on the post
         if (typeof params.post.commentsCount === 'number') {
             params.post.commentsCount++;
         } else {
             params.post.commentsCount = 1;
         }
-
+    
         return postComment;
     }
+
 
     async editPost(params: EditPostParams): Promise<IPost> {
         const response: AxiosResponse<PostData> = await this.postsApiService.editPost({

@@ -17,7 +17,7 @@
                     <form v-if="!inviteSend" class="has-text-left" @submit.prevent="onSubmit">
                         <div class="field">
                             <label for="userEmail" class="label is-medium ok-has-text-primary-invert">
-                                {{$t('global.snippets.whats_your_email')}}
+                                {{ $t('global.snippets.whats_your_email') }}
                             </label>
                             <div class="control">
                                 <input type="email"
@@ -29,13 +29,13 @@
                             </div>
                             <div v-if="($v.userEmail.$invalid || !emailIsAvailable)" class="has-padding-top-5">
                                 <p class="help is-danger" v-if="!$v.userEmail.required">
-                                    {{$t('global.errors.email.required')}}
+                                    {{ $t('global.errors.email.required') }}
                                 </p>
                                 <p class="help is-danger" v-else-if="!$v.userEmail.email">
-                                    {{$t('global.errors.email.invalid')}}
+                                    {{ $t('global.errors.email.invalid') }}
                                 </p>
                                 <p class="help is-danger" v-else-if="!emailIsAvailable">
-                                    {{$t('global.errors.email.taken')}}
+                                    {{ $t('global.errors.email.taken') }}
                                 </p>
                             </div>
                         </div>
@@ -162,6 +162,7 @@ export default class OkRegisterPage extends Vue {
     onSignUp() {
         this.navigationService.navigateToRegister();
     }
+
     async onSubmit() {
         try {
             this.requestOperation = CancelableOperation.fromPromise<boolean>(this.userService.requestInviteToken({

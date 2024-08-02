@@ -315,14 +315,18 @@ export class PostsApiService implements IPostsApiService {
             {appendAuthorizationToken: true, queryParams, isApiRequest: true});
     }
 
-    commentPost(params: CommentPostApiParams): Promise<AxiosResponse<PostCommentData>> {
-
-        const body = {'text': params.text};
-
+    async commentPost(params: CommentPostApiParams): Promise<AxiosResponse<PostCommentData>> {
+        const formData = new FormData();
+        formData.append('text', params.text);
+        if (params.image) {
+            formData.append('image', params.image);
+        }
+    
+        // Assuming this.makeCommentPostPath is properly defined
         const path = this.makeCommentPostPath(params.postUuid);
-
-        return this.httpService.put(path, body, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.put(path, formData, { appendAuthorizationToken: true, isApiRequest: true });
     }
+
 
     editPostComment(params: EditPostCommentApiParams): Promise<AxiosResponse<PostCommentData>> {
 

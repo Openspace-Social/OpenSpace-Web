@@ -9,6 +9,7 @@ import { PostCommentReactionData } from '~/types/models-data/posts/PostCommentRe
 export interface PostCommentData extends ModelData {
     created?: string;
     text?: string;
+    image?: string;
     language?: LanguageData;
     creator_id?: number;
     commenter?: UserData;

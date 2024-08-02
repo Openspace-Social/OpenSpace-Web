@@ -45,6 +45,7 @@ export interface GetPostCommentRepliesApiParams {
 export interface CommentPostApiParams {
     postUuid: string;
     text: string;
+    image: File | null;
 }
 
 export interface EditPostCommentApiParams {
