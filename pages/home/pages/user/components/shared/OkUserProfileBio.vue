@@ -3,23 +3,22 @@
 </template>
 
 
-
 <script lang="ts">
-    import { Component, Prop, Vue } from "nuxt-property-decorator"
-    import { IUser } from "~/models/auth/user/IUser";
-    import OkSmartText from '~/components/smart-text/OkSmartText.vue';
+import {Component, Prop, Vue} from "nuxt-property-decorator"
+import {IUser} from "~/models/auth/user/IUser";
+import OkSmartText from '~/components/smart-text/OkSmartText.vue';
 
-    @Component({
-        name: "OkUserProfileBio",
-        components: {OkSmartText},
-    })
-    export default class OkUserProfileBio extends Vue {
-        @Prop({
-            type: Object,
-            required: true
-        }) readonly user: IUser;
+@Component({
+    name: "OkUserProfileBio",
+    components: {OkSmartText},
+})
+export default class OkUserProfileBio extends Vue {
+    @Prop({
+        type: Object,
+        required: true
+    }) readonly user: IUser;
 
-    }
+}
 </script>
 
 

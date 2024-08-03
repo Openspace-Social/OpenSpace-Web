@@ -1,8 +1,8 @@
-import { IPostReaction } from '~/models/posts/post-reaction/IPostReaction';
-import { EmojiData } from '~/types/models-data/common/EmojiData';
+import {IPostReaction} from '~/models/posts/post-reaction/IPostReaction';
+import {EmojiData} from '~/types/models-data/common/EmojiData';
 import reactionsEmojiCountFactory from '~/models/posts/reactions-emoji-count/factory';
-import { IPostCommentReaction } from '~/models/posts/post-comment-reaction/IPostCommentReaction';
-import { IReactionsEmojiCount } from '~/models/posts/reactions-emoji-count/IReactionsEmojiCount';
+import {IPostCommentReaction} from '~/models/posts/post-comment-reaction/IPostCommentReaction';
+import {IReactionsEmojiCount} from '~/models/posts/reactions-emoji-count/IReactionsEmojiCount';
 
 export const reactionEmojiCountsUpdater = (params: {
     existingReactionsEmojiCounts: IReactionsEmojiCount[],
