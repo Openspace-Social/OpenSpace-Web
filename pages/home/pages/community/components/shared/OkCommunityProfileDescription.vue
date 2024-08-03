@@ -3,23 +3,22 @@
 </template>
 
 
-
 <script lang="ts">
-    import { Component, Prop, Vue } from "nuxt-property-decorator"
-    import OkSmartText from '~/components/smart-text/OkSmartText.vue';
-    import { ICommunity } from '~/models/communities/community/ICommunity';
+import {Component, Prop, Vue} from "nuxt-property-decorator"
+import OkSmartText from '~/components/smart-text/OkSmartText.vue';
+import {ICommunity} from '~/models/communities/community/ICommunity';
 
-    @Component({
-        name: "OkCommunityProfileDescription",
-        components: {OkSmartText},
-    })
-    export default class OkCommunityProfileDescription extends Vue {
-        @Prop({
-            type: Object,
-            required: true
-        }) readonly community: ICommunity;
+@Component({
+    name: "OkCommunityProfileDescription",
+    components: {OkSmartText},
+})
+export default class OkCommunityProfileDescription extends Vue {
+    @Prop({
+        type: Object,
+        required: true
+    }) readonly community: ICommunity;
 
-    }
+}
 </script>
 
 

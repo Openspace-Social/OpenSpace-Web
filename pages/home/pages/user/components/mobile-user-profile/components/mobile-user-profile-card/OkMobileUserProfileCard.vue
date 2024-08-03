@@ -35,7 +35,8 @@
                     </div>
                 </div>
                 <div class="columns is-mobile is-multiline is-variable is-2 is-marginless">
-                    <div class="column is-narrow" v-if="user.profile.followersCountVisible" @click="openUserFollowersModal">
+                    <div class="column is-narrow" v-if="user.profile.followersCountVisible"
+                         @click="openUserFollowersModal">
                         <ok-mobile-user-profile-followers-count :user="user"></ok-mobile-user-profile-followers-count>
                     </div>
                     <div class="column is-narrow">
@@ -49,13 +50,14 @@
                 <div class="card-content">
                   <span class="ok-has-text-primary-invert">
                     <p class="p-1 mb-4">
-                        {{$t('global.snippets.content_contributor')}}
+                        {{ $t('global.snippets.content_contributor') }}
                     </p>
                     <div class="joined-communities">
                       <div class="community" v-for="community in displayedCommunities" :key="community.id">
                         <a :href="`/c/${community.community_name}`">
                           <figure class="image is-square">
-                            <img :src="getAvatarUrl(community.community_avatar)" alt="Community Avatar" class="thumbnail" @error="onImageError">
+                            <img :src="getAvatarUrl(community.community_avatar)" alt="Community Avatar"
+                                 class="thumbnail" @error="onImageError">
                           </figure>
                           <p>c/{{ community.community_name }}</p>
                         </a>
@@ -134,10 +136,10 @@
 </style>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "nuxt-property-decorator";
-import { IUser } from "~/models/auth/user/IUser";
+import {Component, Prop, Vue} from "nuxt-property-decorator";
+import {IUser} from "~/models/auth/user/IUser";
 import OkUserAvatar from '~/components/avatars/user-avatar/OkUserAvatar.vue';
-import { OkAvatarSize } from '~/components/avatars/lib/OkAvatarSize';
+import {OkAvatarSize} from '~/components/avatars/lib/OkAvatarSize';
 import OkUserProfileName from '~/pages/home/pages/user/components/shared/OkUserProfileName.vue';
 import OkUserProfileUsername from '~/pages/home/pages/user/components/shared/OkUserProfileUsername.vue';
 import OkUserProfileBio from '~/pages/home/pages/user/components/shared/OkUserProfileBio.vue';
@@ -145,18 +147,18 @@ import OkUserProfileLocation from '~/pages/home/pages/user/components/shared/OkU
 import OkUserProfileUrl from '~/pages/home/pages/user/components/shared/OkUserProfileUrl.vue';
 import OkUserProfileAge from '~/pages/home/pages/user/components/shared/OkUserProfileAge.vue';
 import OkMobileUserProfileFollowersCount
-        from '~/pages/home/pages/user/components/mobile-user-profile/components/mobile-user-profile-card/components/OkMobileUserProfileFollowersCount.vue';
-    import OkMobileUserProfilePostsCount
-        from '~/pages/home/pages/user/components/mobile-user-profile/components/mobile-user-profile-card/components/OkMobileUserProfilePostsCount.vue';
-    import OkMobileUserProfileFollowingCount
-        from '~/pages/home/pages/user/components/mobile-user-profile/components/mobile-user-profile-card/components/OkMobileUserProfileFollowingCount.vue';
+    from '~/pages/home/pages/user/components/mobile-user-profile/components/mobile-user-profile-card/components/OkMobileUserProfileFollowersCount.vue';
+import OkMobileUserProfilePostsCount
+    from '~/pages/home/pages/user/components/mobile-user-profile/components/mobile-user-profile-card/components/OkMobileUserProfilePostsCount.vue';
+import OkMobileUserProfileFollowingCount
+    from '~/pages/home/pages/user/components/mobile-user-profile/components/mobile-user-profile-card/components/OkMobileUserProfileFollowingCount.vue';
 
 import OkUserProfileActionButtons from '~/pages/home/pages/user/components/shared/OkUserProfileActionButtons.vue';
-import { ICommunityMemberJoined } from '~/models/communities/community/ICommunityMemberJoined';
-import { IEnvironmentService } from '~/services/environment/IEnvironmentService';
-import { IUserService } from "~/services/user/IUserService";
-import { TYPES } from "~/services/inversify-types";
-import { okunaContainer } from "~/services/inversify";
+import {ICommunityMemberJoined} from '~/models/communities/community/ICommunityMemberJoined';
+import {IEnvironmentService} from '~/services/environment/IEnvironmentService';
+import {IUserService} from "~/services/user/IUserService";
+import {TYPES} from "~/services/inversify-types";
+import {okunaContainer} from "~/services/inversify";
 
 @Component({
     name: "OkMobileUserProfileCard",
@@ -187,7 +189,7 @@ export default class OkMobileUserProfileCard extends Vue {
 
     async mounted() {
         if (this.user.username) {
-            const communities = await this.userService.getMemberJoinedCommunities({ username: this.user.username });
+            const communities = await this.userService.getMemberJoinedCommunities({username: this.user.username});
             this.joinedCommunities = communities; // Assign fetched data to reactive property
 
             const communitiesJson = JSON.stringify(communities); // Convert to JSON string
@@ -212,7 +214,7 @@ export default class OkMobileUserProfileCard extends Vue {
     }
 
     get avatarSize() {
-        return OkAvatarSize || { large: 100 }; // Provide a fallback size if OkAvatarSize is undefined
+        return OkAvatarSize || {large: 100}; // Provide a fallback size if OkAvatarSize is undefined
     }
 
     getAvatarUrl(avatar: string): string {

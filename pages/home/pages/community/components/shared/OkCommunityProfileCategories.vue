@@ -8,24 +8,24 @@
 
 
 <script lang="ts">
-    import { Component, Prop, Vue } from "nuxt-property-decorator"
-    import OkSmartText from "~/components/smart-text/OkSmartText.vue";
-    import { ICommunity } from '~/models/communities/community/ICommunity';
-    import OkCategoryButton from '~/components/buttons/OkCategoryButton.vue';
+import {Component, Prop, Vue} from "nuxt-property-decorator"
+import OkSmartText from "~/components/smart-text/OkSmartText.vue";
+import {ICommunity} from '~/models/communities/community/ICommunity';
+import OkCategoryButton from '~/components/buttons/OkCategoryButton.vue';
 
-    @Component({
-        name: "OkCommunityProfileCategories",
-        components: {OkCategoryButton, OkSmartText},
-    })
-    export default class OkCommunityProfileCategories extends Vue {
+@Component({
+    name: "OkCommunityProfileCategories",
+    components: {OkCategoryButton, OkSmartText},
+})
+export default class OkCommunityProfileCategories extends Vue {
 
-        @Prop({
-            type: Object,
-            required: true
-        }) readonly community: ICommunity;
+    @Prop({
+        type: Object,
+        required: true
+    }) readonly community: ICommunity;
 
 
-    }
+}
 </script>
 
 

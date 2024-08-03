@@ -26,8 +26,9 @@
                 {{$t('global.errors.post_comment_text.max_length')}}
             </p>
         </div>
+
         <!-- Main container -->
-        <nav class="level is-mobile" v-if="inputIsFocused || text">
+        <nav class="level is-mobile" v-if="inputIsFocused || text || image ">
             <!-- Left side -->
             <div class="level-left">
                 <div class="level-item">
@@ -54,6 +55,7 @@
     </form>
 </template>
 
+
 <style lang="scss">
     .is-circular {
         width: 35px !important;
@@ -63,237 +65,232 @@
 </style>
 
 <script lang="ts">
-    import { Validate } from "vuelidate-property-decorators";
-    import { Component, Prop, Vue, Watch } from "nuxt-property-decorator"
-    import { TYPES } from "~/services/inversify-types";
-    import { IUserService } from "~/services/user/IUserService";
-    import { okunaContainer } from "~/services/inversify";
-    import { IUtilsService } from "~/services/utils/IUtilsService";
-    import { CancelableOperation } from "~/lib/CancelableOperation";
-    import { IPost } from "~/models/posts/post/IPost";
-    import { IPostComment } from "~/models/posts/post-comment/IPostComment";
-    import { postCommentMaxLength, postCommentValidators } from "~/validators/post-comment";
-    import OkResizableTextArea from "~/components/OkResizableTextarea.vue";
-    import OkCharacterCount from "~/components/OkCharacterCount.vue";
-    import { IOkLogger } from "~/services/logging/types";
-    import { ILoggingService } from "~/services/logging/ILoggingService";
-    import TextComplete from 'v-textcomplete';
-
-    @Component({
-        name: "OkCommentPostForm",
-        components: {OkCharacterCount, OkResizableTextArea, TextComplete}
-    })
-    export default class OkCommentPostForm extends Vue {
-
-        @Prop(Object) readonly post: IPost;
-        @Prop(Object) readonly postComment: IPostComment;
-        @Prop(Object) readonly replyToPostComment: IPostComment;
-        @Prop(Object) readonly editPostComment: IPostComment;
-
-        private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
-        private utilsService: IUtilsService = okunaContainer.get<IUtilsService>(TYPES.UtilsService);
-        private loggingService: ILoggingService = okunaContainer.get<ILoggingService>(TYPES.LoggingService);
-        private logger: IOkLogger;
+import { Validate } from "vuelidate-property-decorators";
+import { Component, Prop, Vue, Watch } from "nuxt-property-decorator";
+import { TYPES } from "~/services/inversify-types";
+import { IUserService } from "~/services/user/IUserService";
+import { okunaContainer } from "~/services/inversify";
+import { IUtilsService } from "~/services/utils/IUtilsService";
+import { CancelableOperation } from "~/lib/CancelableOperation";
+import { IPost } from "~/models/posts/post/IPost";
+import { IPostComment } from "~/models/posts/post-comment/IPostComment";
+import { postCommentMaxLength, postCommentValidators } from "~/validators/post-comment";
+import OkResizableTextArea from "~/components/OkResizableTextarea.vue";
+import OkCharacterCount from "~/components/OkCharacterCount.vue";
+import { IOkLogger } from "~/services/logging/types";
+import { ILoggingService } from "~/services/logging/ILoggingService";
+import TextComplete from 'v-textcomplete';
 
 
-        commentPostOperation?: CancelableOperation<IPostComment>;
+@Component({
+    name: "OkCommentPostForm",
+    components: { OkCharacterCount, OkResizableTextArea, TextComplete }
+})
+export default class OkCommentPostForm extends Vue {
 
-        postCommentMaxLength = postCommentMaxLength;
+    @Prop(Object) readonly post: IPost;
+    @Prop(Object) readonly postComment: IPostComment;
+    @Prop(Object) readonly replyToPostComment: IPostComment;
+    @Prop(Object) readonly editPostComment: IPostComment;
+    @Prop(Function) readonly removeImagePreview: Function;
 
-        inputIsFocused = false;
-        isPostCommentReply = false;
-        isPostCommentEdit = false;
-        formWasSubmitted = false;
-        submitInProgress = false;
-
-        @Validate(postCommentValidators)
-        text = "";
+    @Prop({ type: File, default: null }) image: File | null;
 
 
-        replyToReplyPrependedMention = "";
+    private userService: IUserService = okunaContainer.get<IUserService>(TYPES.UserService);
+    private utilsService: IUtilsService = okunaContainer.get<IUtilsService>(TYPES.UtilsService);
+    private loggingService: ILoggingService = okunaContainer.get<ILoggingService>(TYPES.LoggingService);
+    private logger: IOkLogger;
 
-        mounted() {
-            this.logger = this.loggingService!.getLogger({
-                name: "PostCommenter"
-            });
-        }
+    commentPostOperation?: CancelableOperation<IPostComment>;
+    postCommentMaxLength = postCommentMaxLength;
+    inputIsFocused = false;
+    isPostCommentReply = false;
+    isPostCommentEdit = false;
+    formWasSubmitted = false;
+    submitInProgress = false;
 
-        destroyed() {
-            if (this.commentPostOperation) this.commentPostOperation.cancel();
-        }
+    @Validate(postCommentValidators)
+    text = "";
 
-        @Watch("postComment")
-        onPostCommentChanged(val: IPostComment, oldVal: IPostComment) {
-            this.isPostCommentReply = !!val;
-        }
+    replyToReplyPrependedMention = "";
 
-        @Watch("replyToPostComment")
-        onReplyToPostCommentChanged(val: IPostComment, oldVal: IPostComment) {
-            if (val) {
-                this.replyToReplyPrependedMention = `@${this.postComment.commenter.username}`;
-                this.text = `${this.replyToReplyPrependedMention} ${this.text}`
-            } else if (oldVal) {
-                // If we had a parentPostComment and all of the sudden we dont anymore
-                if (this.text.startsWith(this.replyToReplyPrependedMention)) {
-                    // Remove previously added mention on beginning of comment
-                    this.text = this.text.replace(this.replyToReplyPrependedMention, "");
-                }
-                this.replyToReplyPrependedMention = "";
+    mounted() {
+        this.logger = this.loggingService!.getLogger({
+            name: "PostCommenter"
+        });
+    }
+
+    destroyed() {
+        if (this.commentPostOperation) this.commentPostOperation.cancel();
+    }
+
+    @Watch("postComment")
+    onPostCommentChanged(val: IPostComment, oldVal: IPostComment) {
+        this.isPostCommentReply = !!val;
+    }
+
+    @Watch("replyToPostComment")
+    onReplyToPostCommentChanged(val: IPostComment, oldVal: IPostComment) {
+        if (val) {
+            this.replyToReplyPrependedMention = `@${this.postComment.commenter.username}`;
+            this.text = `${this.replyToReplyPrependedMention} ${this.text}`;
+        } else if (oldVal) {
+            if (this.text.startsWith(this.replyToReplyPrependedMention)) {
+                this.text = this.text.replace(this.replyToReplyPrependedMention, "");
             }
+            this.replyToReplyPrependedMention = "";
         }
+    }
 
-        @Watch("editPostComment")
-        onEditPostCommentChanged(val: IPostComment, oldVal: IPostComment) {
-            this.isPostCommentEdit = !!val;
-            if (val) {
-                this.text = val.text;
-            }
+    @Watch("editPostComment")
+    onEditPostCommentChanged(val: IPostComment, oldVal: IPostComment) {
+        this.isPostCommentEdit = !!val;
+        if (val) {
+            this.text = val.text;
         }
+    }
 
-        strategies = [{
-            match: /(^|\s)@([a-z0-9+\-\_]*)$/,
-            search: async (term, callback) => {
-            },
-            remote: async (term, callback) => {
-                let v = await this.loadMentionItems('@', term, callback)
-                callback(v);
-            },
-            template: (name) => {
-                return name;
-            },
-            replace: (value) => {
-                return '$1@' + value + ' '
-            },
-        }, {
-            match: /(^|\s)#([a-z0-9+\-\_]*)$/,
-            search: async (term, callback) => {
-            },
-            remote: async (term, callback) => {
-                let v = await this.loadMentionItems('#', term, callback)
-                callback(v);
-            },
-            template: (name) => {
-                return name;
-            },
-            replace: (value) => {
-                return '$1#' + value + ' '
-            },
-        }, {
-            match: /(^|\s)c\/([a-z0-9+\-\_]*)$/,
-            search: async (term, callback) => {
-            },
-            remote: async (term, callback) => {
-                let v = await this.loadMentionItems('c/', term, callback)
-                callback(v);
-            },
-            template: (name) => {
-                return name;
-            },
-            replace: (value) => {
-                return '$1c/' + value + ' '
-            },
-        }];
+    strategies = [{
+        match: /(^|\s)@([a-z0-9+\-\_]*)$/,
+        search: async (term, callback) => {},
+        remote: async (term, callback) => {
+            let v = await this.loadMentionItems('@', term, callback);
+            callback(v);
+        },
+        template: (name) => {
+            return name;
+        },
+        replace: (value) => {
+            return '$1@' + value + ' ';
+        },
+    }, {
+        match: /(^|\s)#([a-z0-9+\-\_]*)$/,
+        search: async (term, callback) => {},
+        remote: async (term, callback) => {
+            let v = await this.loadMentionItems('#', term, callback);
+            callback(v);
+        },
+        template: (name) => {
+            return name;
+        },
+        replace: (value) => {
+            return '$1#' + value + ' ';
+        },
+    }, {
+        match: /(^|\s)c\/([a-z0-9+\-\_]*)$/,
+        search: async (term, callback) => {},
+        remote: async (term, callback) => {
+            let v = await this.loadMentionItems('c/', term, callback);
+            callback(v);
+        },
+        template: (name) => {
+            return name;
+        },
+        replace: (value) => {
+            return '$1c/' + value + ' ';
+        },
+    }];
 
-        async loadMentionItems(mentionChar, searchTerm, callback) {
-            // this.mentionItems = [];
-            let values;
-            if (mentionChar === "@") {
-                let users = []
-                if (searchTerm.length === 0) {
-                    users = await this.userService.linkedUsers();
-                } else {
-                    users = await this.userService.searchUsers({
-                        query: searchTerm
-                    });
-                }
-                values = users.map((user) => {
-                    return {
-                        id: user.id,
-                        value: user.username
-                    }
+    async loadMentionItems(mentionChar, searchTerm, callback) {
+        let values;
+        if (mentionChar === "@") {
+            let users = [];
+            if (searchTerm.length === 0) {
+                users = await this.userService.linkedUsers();
+            } else {
+                users = await this.userService.searchUsers({
+                    query: searchTerm
                 });
-                values = values.splice(0, 8);
-            } else if (mentionChar === "#") {
-                if (searchTerm.length === 0) {
-                    values = [];
-                } else {
-                    let hashtags = await this.userService.searchHashtags({
-                        query: searchTerm
-                    });
-                    values = hashtags.map((tag) => {
-                        return {
-                            id: tag.id,
-                            value: tag.name
-                        }
-                    });
-                    values = values.splice(0, 8);
-                }
-            } else if (mentionChar === "c/") {
-                // this.userService.getJoinedCommunities();
-                let communities = []
-                if (searchTerm.length === 0) {
-                    communities = await this.userService.getJoinedCommunities();
-                } else {
-                    communities = await this.userService.searchCommunities({
-                        query: searchTerm
-                    });
-                }
-                values = communities.map((user) => {
+            }
+            values = users.map((user) => {
+                return {
+                    id: user.id,
+                    value: user.username
+                };
+            });
+            values = values.splice(0, 8);
+        } else if (mentionChar === "#") {
+            if (searchTerm.length === 0) {
+                values = [];
+            } else {
+                let hashtags = await this.userService.searchHashtags({
+                    query: searchTerm
+                });
+                values = hashtags.map((tag) => {
                     return {
-                        id: user.id,
-                        value: user.name
-                    }
+                        id: tag.id,
+                        value: tag.name
+                    };
                 });
                 values = values.splice(0, 8);
             }
-            return values.map((item) => {
-                return item.value
+        } else if (mentionChar === "c/") {
+            let communities = [];
+            if (searchTerm.length === 0) {
+                communities = await this.userService.getJoinedCommunities();
+            } else {
+                communities = await this.userService.searchCommunities({
+                    query: searchTerm
+                });
+            }
+            values = communities.map((user) => {
+                return {
+                    id: user.id,
+                    value: user.name
+                };
             });
-            callback(values.map((item) => {
-                return item.value
-            }));
+            values = values.splice(0, 8);
         }
+        return values.map((item) => {
+            return item.value;
+        });
+        callback(values.map((item) => {
+            return item.value;
+        }));
+    }
 
-        get placeholderText() {
-            return this.isPostCommentReply ?
-                this.$t("forms.comment_post.placeholder_reply") :
-                this.$t("forms.comment_post.placeholder")
-        }
+    get placeholderText() {
+        return this.isPostCommentReply ?
+            this.$t("forms.comment_post.placeholder_reply") :
+            this.$t("forms.comment_post.placeholder");
+    }
 
-        get submitText() {
-            return this.isPostCommentEdit ?
-                this.$t("forms.comment_post.update_comment") :
-                this.isPostCommentReply ?
+    get submitText() {
+        return this.isPostCommentEdit ?
+            this.$t("forms.comment_post.update_comment") :
+            this.isPostCommentReply ?
                 this.$t("forms.comment_post.submit_reply") :
-                this.$t("forms.comment_post.submit")
+                this.$t("forms.comment_post.submit");
+    }
+
+    get titleText() {
+        return this.isPostCommentEdit ? this.$t("forms.comment_post.edit_comment") : this.isPostCommentReply ?
+            this.$t("forms.comment_post.title_reply") :
+            this.$t("forms.comment_post.title");
+    }
+
+    async onSubmit() {
+        if (this.submitInProgress) return;
+        this.submitInProgress = true;
+
+        const formIsValid = await this._validateAll();
+
+        this.formWasSubmitted = true;
+        if (formIsValid) {
+            await this._onSubmitWithValidForm();
         }
 
-        get titleText() {
-            return this.isPostCommentEdit ? this.$t("forms.comment_post.edit_comment") : this.isPostCommentReply ?
-                this.$t("forms.comment_post.title_reply") :
-                this.$t("forms.comment_post.title")
-        }
+        this.submitInProgress = false;
+    }
 
-        async onSubmit() {
-            if (this.submitInProgress) return;
-            this.submitInProgress = true;
+    async _onSubmitWithValidForm() {
+        if (this.commentPostOperation) return;
+        this.submitInProgress=true;
 
-            const formIsValid = await this._validateAll();
-
-            this.formWasSubmitted = true;
-            if (formIsValid) {
-                await this._onSubmitWithValidForm();
-            }
-
-            this.submitInProgress = false;
-        }
-
-        async _onSubmitWithValidForm() {
-            if (this.commentPostOperation) return;
-
-            try {
-                this.commentPostOperation = CancelableOperation.fromPromise<IPostComment>(
-                    this.editPostComment ? this.userService.editPostComment({
+        try {
+            this.commentPostOperation = CancelableOperation.fromPromise<IPostComment>(
+                this.editPostComment ? this.userService.editPostComment({
                         text: this.text,
                         post: this.post,
                         postComment: this.editPostComment
@@ -304,49 +301,53 @@
                         postComment: this.postComment
                     }) : this.userService.commentPost({
                         text: this.text,
-                        post: this.post
+                        post: this.post,
+                        image: this.image || null
                     })
-                );
-                const postComment = await this.commentPostOperation.value;
-                this._onCommentedPost(postComment, this.postComment);
-                this.$v.$reset();
-                this.reset();
-            } catch (error) {
-                const handledError = this.utilsService.handleErrorWithToast(error);
-                if (handledError.isUnhandled) throw handledError.error;
-            } finally {
-                this.commentPostOperation = undefined;
-            }
-        }
-
-
-        _validateAll() {
-            this.$v.$touch();
-            return !this.$v.$invalid;
-        }
-
-        reset() {
-            this.text = "";
-            this.replyToReplyPrependedMention = "";
-        }
-
-        prependToText(value: string) {
-            this.text = value + this.text;
-        }
-
-        setText(value: string) {
-            this.text = value;
-        }
-
-        unprependFromText(value: string) {
-            if (this.text.startsWith(value)) {
-                this.text = this.text.replace(value, "");
-            }
-        }
-
-        _onCommentedPost(postComment: IPostComment, parentPostComment: IPostComment) {
-            this.logger.info("Commented post", postComment, parentPostComment);
-            this.$emit("onCommentedPost", postComment, parentPostComment);
+            );
+            const postComment = await this.commentPostOperation.value;
+            this._onCommentedPost(postComment, this.postComment);
+            console.log("The button valiation"+this.$v.$invalid);
+            this.$v.$reset();
+            this.reset();
+        } catch (error) {
+            const handledError = this.utilsService.handleErrorWithToast(error);
+            if (handledError.isUnhandled) throw handledError.error;
+        } finally {
+            this.commentPostOperation = undefined;
         }
     }
+
+    _validateAll() {
+        this.$v.$touch();
+        return !this.$v.$invalid;
+    }
+
+    reset() {
+        this.text = "";
+        this.replyToReplyPrependedMention = "";
+        this.image = null;
+        this.removeImagePreview();
+
+    }
+
+    prependToText(value: string) {
+        this.text = value + this.text;
+    }
+
+    setText(value: string) {
+        this.text = value;
+    }
+
+    unprependFromText(value: string) {
+        if (this.text.startsWith(value)) {
+            this.text = this.text.replace(value, "");
+        }
+    }
+
+    _onCommentedPost(postComment: IPostComment, parentPostComment: IPostComment) {
+        this.logger.info("Commented post", postComment, parentPostComment);
+        this.$emit("onCommentedPost", postComment, parentPostComment);
+    }
+}
 </script>

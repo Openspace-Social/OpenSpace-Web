@@ -8,8 +8,8 @@
                 <div class="column">
                     <div v-sticky on-stick="onSidebarIsSticky">
                         <ok-desktop-user-profile-sidebar
-                                :user="user"
-                                :header-visible="sidebarHeaderIsVisible"
+                            :user="user"
+                            :header-visible="sidebarHeaderIsVisible"
                         ></ok-desktop-user-profile-sidebar>
                     </div>
                 </div>
@@ -23,59 +23,59 @@
 
 
 <style lang="scss">
-    .ok-desktop-user-profile-page {
-        width: 100%;
-        max-width: 1190px;
-        position: relative;
+.ok-desktop-user-profile-page {
+    width: 100%;
+    max-width: 1190px;
+    position: relative;
 
-        .top-sticky {
-            .ok-desktop-user-profile-sidebar {
-                position: relative;
-                top: 95px !important;
-            }
+    .top-sticky {
+        .ok-desktop-user-profile-sidebar {
+            position: relative;
+            top: 95px !important;
         }
     }
+}
 
 </style>
 
 
 <script lang="ts">
-    import { Component, Prop, Vue } from "nuxt-property-decorator"
-    import { IUser } from "~/models/auth/user/IUser";
-    import OkUserCover from "~/components/covers/user-cover/OkUserCover.vue";
-    import OkUserAvatar from "~/components/avatars/user-avatar/OkUserAvatar.vue";
-    import { OkAvatarSize } from "~/components/avatars/lib/OkAvatarSize";
-    import OkDesktopUserProfileHeader
-        from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-header/OkDesktopUserProfileHeader.vue";
-    import OkDesktopUserProfileSidebar
-        from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-sidebar/OkDesktopUserProfileSidebar.vue";
-    import OkDesktopUserProfileTimeline
-        from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-timeline/OkDesktopUserProfileTimeline.vue";
+import {Component, Prop, Vue} from "nuxt-property-decorator"
+import {IUser} from "~/models/auth/user/IUser";
+import OkUserCover from "~/components/covers/user-cover/OkUserCover.vue";
+import OkUserAvatar from "~/components/avatars/user-avatar/OkUserAvatar.vue";
+import {OkAvatarSize} from "~/components/avatars/lib/OkAvatarSize";
+import OkDesktopUserProfileHeader
+    from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-header/OkDesktopUserProfileHeader.vue";
+import OkDesktopUserProfileSidebar
+    from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-sidebar/OkDesktopUserProfileSidebar.vue";
+import OkDesktopUserProfileTimeline
+    from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-timeline/OkDesktopUserProfileTimeline.vue";
 
-    @Component({
-        name: "OkDesktopUserProfilePage",
-        components: {
-            OkDesktopUserProfileTimeline,
-            OkDesktopUserProfileSidebar, OkDesktopUserProfileHeader, OkUserAvatar, OkUserCover
-        },
-    })
-    export default class OkDesktopUserProfilePage extends Vue {
-        @Prop({
-            type: Object,
-            required: true
-        }) readonly user: IUser;
-
-
-        OkAvatarSize = OkAvatarSize;
-
-        sidebarHeaderIsVisible = false;
+@Component({
+    name: "OkDesktopUserProfilePage",
+    components: {
+        OkDesktopUserProfileTimeline,
+        OkDesktopUserProfileSidebar, OkDesktopUserProfileHeader, OkUserAvatar, OkUserCover
+    },
+})
+export default class OkDesktopUserProfilePage extends Vue {
+    @Prop({
+        type: Object,
+        required: true
+    }) readonly user: IUser;
 
 
-        onSidebarIsSticky(state: {bottom: boolean, top: boolean, sticked: boolean}) {
-            this.sidebarHeaderIsVisible = state.sticked;
-        }
+    OkAvatarSize = OkAvatarSize;
 
+    sidebarHeaderIsVisible = false;
+
+
+    onSidebarIsSticky(state: { bottom: boolean, top: boolean, sticked: boolean }) {
+        this.sidebarHeaderIsVisible = state.sticked;
     }
+
+}
 </script>
 
 
