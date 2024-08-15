@@ -274,7 +274,6 @@ export default class OkCreateList extends Vue {
         this.fetchEmojis();
         this.listName = this.existingList ? this.existingList.name : '';
         this.selectedEmoji = this.existingList ? this.existingList.emoji : null;
-        console.log(this.selectedEmoji);
     }
 
 }
