@@ -1,6 +1,7 @@
 <template>
     <div class="is-flex justify-center align-items-center">
         <ok-user-more-actions :user="params.user" class="ok-actions-modal"
+                              @onFollowListsUpdated="onFollowListsUpdated"
                               @onDisconnectedFromUser="onDisconnectedFromUser"
                               @onConnectionConfirmed="onConnectionConfirmed"
                               @onUserIsBlockedChange="onUserIsBlockedChange"
@@ -30,7 +31,6 @@
             required: false
         }) readonly returnDataSetter: (data: any) => void;
 
-
         onDisconnectedFromUser(user: IUser) {
             this.$parent["close"]();
         }
@@ -39,8 +39,11 @@
             this.$parent["close"]();
         }
 
-
         onUserIsBlockedChange(isBlocked: boolean) {
+            this.$parent["close"]();
+        }
+
+        onFollowListsUpdated() {
             this.$parent["close"]();
         }
 

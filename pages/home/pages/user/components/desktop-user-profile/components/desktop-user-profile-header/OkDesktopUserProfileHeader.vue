@@ -1,7 +1,9 @@
 <template>
     <div class="card ok-has-background-primary has-overflow-hidden">
         <ok-user-cover :user="user"></ok-user-cover>
-        <ok-desktop-user-profile-header-bar :user="user"></ok-desktop-user-profile-header-bar>
+        <ok-desktop-user-profile-header-bar
+            @onUserActionsUpdated="$emit('onUserActionsUpdated')"
+            :user="user"></ok-desktop-user-profile-header-bar>
     </div>
 </template>
 

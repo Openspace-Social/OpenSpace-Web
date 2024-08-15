@@ -9,7 +9,7 @@ import { DataModelAttributeMap } from '~/models/abstract/IDataModel';
 import { ModelData } from '~/types/models-data/ModelData';
 import {
     dateDeserializer,
-    dateSerializer, languageDeserializer, languageSerializer,
+    dateSerializer, languageDeserializer, languageSerializer, listDeserializer, listSerializer,
     userProfileDeserializer,
     userProfileSerializer, userVisibilityDeserializer, userVisibilitySerializer
 } from '~/models/common/serializers';
@@ -18,6 +18,9 @@ import { ICommunity } from '~/models/communities/community/ICommunity';
 import { IPostComment } from '~/models/posts/post-comment/IPostComment';
 import { ILanguage } from '~/models/common/language/ILanguage';
 import { UserVisibility } from '~/models/auth/user/lib/UserVisibility';
+import listFactory from "~/models/lists/list/factory";
+import {IList} from "~/models/lists/list/IList";
+import {ListData} from "~/types/models-data/lists/ListData";
 
 export class User extends DataModel<User> implements IUser {
     uuid!: string;
@@ -174,6 +177,15 @@ export class User extends DataModel<User> implements IUser {
                 return rawData.map((rawDataItem) => circleFactory.make(rawDataItem));
             }
         },
+        {
+            dataKey: 'follow_lists',
+            attributeKey: 'followLists',
+            deserializer: (instance, rawData: ListData[]) => {
+                if (!rawData) return;
+                return rawData.map((rawDataItem) => listFactory.make(rawDataItem));
+            },
+            serializer: listSerializer
+        }
     ];
 
     constructor(data: ModelData) {

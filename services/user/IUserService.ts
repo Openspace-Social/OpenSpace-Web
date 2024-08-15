@@ -106,7 +106,7 @@ import {
     CreateConnectionsCircleParams,
     UpdateConnectionsCircleParams,
     DeleteConnectionsCircleParams,
-    CheckConnectionsCircleNameIsAvailableParams, GetPublicPostsParams,
+    CheckConnectionsCircleNameIsAvailableParams, GetPublicPostsParams, CreateListsParams, UpdateListParams,
 } from '~/services/user/UserServiceTypes';
 import { IPost } from '~/models/posts/post/IPost';
 import { ITopPost } from '~/models/posts/top-post/ITopPost';
@@ -461,7 +461,22 @@ export interface IUserService {
 
     // LISTS START
 
-    getLists(): Promise<IList[]>
+    getLists(): Promise<IList[]>;
+
+    getList(listId: number): Promise<IList>;
+
+    isListNameAvailable(name: string): Promise<boolean>;
+
+    createList(params: CreateListsParams): Promise<IList>;
+
+    getListEmojiGroups(): Promise<IEmojiGroup[]>;
+
+    updateList(id: number, params: UpdateListParams): Promise<IList>
+
+    updateFollowList(username: string, listIds: number[]): Promise<boolean>;
+
+    followFollowList(username: string, listIds: number[]): Promise<boolean>;
+    // deleteList(listId: number): Promise<void>
 
     // LISTS END
 }

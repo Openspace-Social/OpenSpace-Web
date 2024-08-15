@@ -281,7 +281,7 @@
 
         async onFollowListsClick() {
             this.$emit("leaveMenu");
-            await this.modalService.openFollowListsModal();
+            await this.modalService.openFollowListsModal({});
         }
 
         async onFollowersClick() {

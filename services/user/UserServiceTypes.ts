@@ -572,3 +572,16 @@ export interface ReportHashtagParams {
 
 
 // HASHTAGS END
+
+// LIST START
+export interface CreateListsParams {
+    name: string;
+    emojiId: number;
+}
+
+export interface UpdateListParams {
+    usernames: string[];
+    name: string;
+    emojiId: number;
+}
+// LIST END

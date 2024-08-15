@@ -55,8 +55,8 @@ export default {
             "replies_count": "{repliesCount}+ Replies",
         },
         "posts": {
-          "long_post": "Long post",
-          "short_post": "Short post",
+            "long_post": "Long post",
+            "short_post": "Short post",
         },
         "post_comments": {
             "load_more": "Load more comments"
@@ -437,6 +437,14 @@ export default {
             "user_delete": "Delete"
         }
     },
+    "manage_list": {
+        "name": "Name",
+        "placeholder": "e.g. Travel, Photography, Gaming",
+        "create": "Create",
+        "save": "Save",
+        "emoji": "Emoji",
+        "edit": "Edit"
+    },
     "global": {
         "errors": {
             "generic": {
@@ -495,6 +503,13 @@ export default {
                 "required": "Title cannot be empty",
                 "max_length": "Title can't be longer than {max} characters",
                 "min_length": "Title can't be shorter than {min} characters",
+            },
+            "list_name": {
+                "required": "Name cannot be empty",
+                "max_length": "Name can't be longer than {max} characters",
+                "min_length": "Name can't be shorter than {min} characters",
+                "taken": "This list name is already taken",
+                "emoji_required": "Emoji is required"
             },
             "community_description": {
                 "max_length": "Description can't be longer than {max} characters",
@@ -570,7 +585,12 @@ export default {
             "delete": "Delete",
             "goodbye": "Goodbye 😢",
             "lists": "Lists",
-            "home": "Home"
+            "create_list": "Create list",
+            "edit_list": "Edit list",
+            "edit": "Edit",
+            "create": "Create",
+            "update": "Update",
+            "home": "Home",
         },
         "models": {
             "post": "post",
@@ -720,16 +740,18 @@ export default {
             "post_published": "Post published",
             "you_shared_with": "You shared with",
             "post_shared_privately_in": "Post shared privately in",
-            "buy_us_coffee" : "Help fund the vision @ BuyMeACoffee.com",
-            "feature_and_bugs" : "Request a new feature, or report a bug",
-            "openspace_docs" : "User Guide - Official Openspace documentation",
-            "contact_us" : "Contact us",
-            "how_to_post" : "Discover the different ways you can post on Openspace.Social",
-            "how_to_communities" : "Get to know the concept behind Communities and how to use them",
-            "how_to_followers_vs_connections" : "What are the differences between Follwers and Connections?",
-            "how_to_lists_and_circles" : "Understand the differences between Lists and Circles",
-            "how_to_profile_options" : "Get to know your Profile options",
-            "how_to_learn_more" : "Search the official User Guide",
+            "buy_us_coffee": "Help fund the vision @ BuyMeACoffee.com",
+            "feature_and_bugs": "Request a new feature, or report a bug",
+            "openspace_docs": "User Guide - Official Openspace documentation",
+            "contact_us": "Contact us",
+            "how_to_post": "Discover the different ways you can post on Openspace.Social",
+            "how_to_communities": "Get to know the concept behind Communities and how to use them",
+            "how_to_followers_vs_connections": "What are the differences between Follwers and Connections?",
+            "how_to_lists_and_circles": "Understand the differences between Lists and Circles",
+            "how_to_profile_options": "Get to know your Profile options",
+            "how_to_learn_more": "Search the official User Guide",
+            "add_account_to_lists": "Add account to lists",
+            "update_account_in_lists": "Update account in lists",
 
         },
     },

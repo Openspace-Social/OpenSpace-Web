@@ -130,7 +130,7 @@ import {
     UpdateConnectionsCircleParams,
     DeleteConnectionsCircleParams,
     CheckConnectionsCircleNameIsAvailableParams,
-    GetPublicPostsParams
+    GetPublicPostsParams, CreateListsParams, UpdateListParams
 } from '~/services/user/UserServiceTypes';
 import { ICommunity } from '~/models/communities/community/ICommunity';
 import { ICommunitiesApiService } from '~/services/Apis/communities/ICommunitiesApiService';
@@ -208,6 +208,7 @@ import {IGenericFile} from "~/models/common/generic/IGenericFile";
 import {IList} from "~/models/lists/list/IList";
 import {List} from "~/models/lists/list/List";
 import listFactory from "~/models/lists/list/factory";
+import {ListData} from "~/types/models-data/lists/ListData";
 
 
 @injectable()
@@ -1326,6 +1327,66 @@ export class UserService implements IUserService {
     async getLists(): Promise<IList[]> {
         const response: AxiosResponse<List[]> = await this.followsApiService.getLists();
         return listFactory.makeMultiple(response.data);
+    }
+
+    async getList(listId: number): Promise<IList> {
+        const response: AxiosResponse<ListData> = await this.followsApiService.getSingleList(listId);
+        return listFactory.make(response.data);
+    }
+
+    async isListNameAvailable(name: string): Promise<boolean> {
+        try {
+            await this.followsApiService.listNameCheck(name);
+            return true;
+        } catch (error) {
+            if (!error || (error.response && error.response.status === 400)) return false;
+            throw error;
+        }
+    }
+
+    async createList(params: CreateListsParams): Promise<IList> {
+        const response: AxiosResponse<ListData> = await this.followsApiService.createList(
+            params.name,
+            params.emojiId
+        );
+
+        return listFactory.make(response.data);
+    }
+
+    async updateList(id: number, params: UpdateListParams): Promise<IList> {
+        const response: AxiosResponse<ListData> = await this.followsApiService.updateList(
+            id,
+            params.name,
+            params.emojiId,
+            params.usernames
+        );
+
+        return listFactory.make(response.data);
+    }
+
+    async updateFollowList(username: string, listIds: number[]): Promise<boolean> {
+        try {
+            await this.followsApiService.updateFollowList(username, listIds);
+            return true;
+        } catch (error) {
+            if (!error || (error.response && error.response.status === 400)) return false;
+            throw error;
+        }
+    }
+
+    async followFollowList(username: string, listIds: number[]): Promise<boolean> {
+        try {
+            await this.followsApiService.followFollowList(username, listIds);
+            return true;
+        } catch (error) {
+            if (!error || (error.response && error.response.status === 400)) return false;
+            throw error;
+        }
+    }
+
+    async getListEmojiGroups(): Promise<IEmojiGroup[]> {
+        const response: AxiosResponse<EmojiGroupData[]> = await this.followsApiService.getListEmojiGroups();
+        return emojiGroupFactory.makeMultiple(response.data);
     }
 
     // LISTS END

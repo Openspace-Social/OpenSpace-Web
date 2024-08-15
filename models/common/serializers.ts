@@ -95,6 +95,9 @@ import { IDataModel } from '~/models/abstract/IDataModel';
 import { LinkPreviewDetailsData } from '~/types/models-data/link-previews/LinkPreviewData';
 import linkPreviewTwitterDetailsFactory from '~/models/link-previews/link-preview-twitter-details/factory';
 import linkPreviewYoutubeDetailsFactory from '~/models/link-previews/link-preview-youtube-details/factory';
+import {ListData} from "~/types/models-data/lists/ListData";
+import listFactory from "~/models/lists/list/factory";
+import {IList} from "~/models/lists/list/IList";
 
 export const colorDeserializer = (instance, rawData: string) => {
     if (!rawData) return;
@@ -281,6 +284,13 @@ export const userProfileSerializer = (instance, attribute: IUserProfile) => {
     return attribute.serialize();
 };
 
+export const listDeserializer = (instance, rawData: ListData) => {
+    return listFactory.make(rawData);
+}
+
+export const listSerializer = (instance, attribute: IList) => {
+    return attribute.serialize();
+}
 
 export const reactionsEmojiCountDeserializer = (instance, rawData: ReactionsEmojiCountData) => {
     return reactionsEmojiCountFactory.make(rawData);

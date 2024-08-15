@@ -12,10 +12,6 @@
     import { Component, Prop, Vue } from "nuxt-property-decorator"
     import { okunaContainer } from "~/services/inversify";
     import { TYPES } from "~/services/inversify-types";
-    import { ICategory } from "~/models/common/category/ICategory";
-    import { BehaviorSubject } from "~/node_modules/rxjs";
-    import { ITheme } from "~/models/common/theme/ITheme";
-    import { IThemeService } from "~/services/theme/IThemeService";
     import { IUser } from "~/models/auth/user/IUser";
     import { IModalService } from "~/services/modal/IModalService";
 
@@ -33,10 +29,11 @@
 
         private modalService: IModalService = okunaContainer.get<IModalService>(TYPES.ModalService);
 
-        onClicked() {
-            this.modalService.openUserActionsModal({
+        async onClicked() {
+            await this.modalService.openUserActionsModal({
                 user: this.user
             });
+            this.$emit("onUserActionsUpdated");
         }
 
 

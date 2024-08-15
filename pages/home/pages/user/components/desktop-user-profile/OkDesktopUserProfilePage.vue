@@ -2,7 +2,9 @@
     <div class="columns flex-direction-column is-vcentered">
         <div class="column ok-desktop-user-profile-page">
             <div class="has-padding-30">
-                <ok-desktop-user-profile-header :user="user"></ok-desktop-user-profile-header>
+                <ok-desktop-user-profile-header
+                    @onUserActionsUpdated="$emit('onUserActionsUpdated')"
+                    :user="user"></ok-desktop-user-profile-header>
             </div>
             <div class="columns has-padding-bottom-30 has-padding-left-30 has-padding-right-30" sticky-container>
                 <div class="column">

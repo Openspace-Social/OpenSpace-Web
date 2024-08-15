@@ -361,9 +361,9 @@ export class ModalService implements IModalService {
         return this.openModal(ModalType.deleteAccountModal);
     }
 
-    async openFollowListsModal(): Promise<void> {
+    async openFollowListsModal(params: any): Promise<void> {
         this.ensureHasNoActiveModal();
-        return this.openModal(ModalType.listsModal);
+        return this.openModal(ModalType.listsModal, params);
     }
 
     notifyModalClosed(): void {
