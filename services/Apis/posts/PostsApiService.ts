@@ -50,7 +50,7 @@ import { EmojiGroupData } from '~/types/models-data/common/EmojiGroupData';
 import { TrendingPostData } from '~/types/models-data/posts/TrendingPostData';
 import { TopPostData } from '~/types/models-data/posts/TopPostData';
 import { LinkPreviewData } from '~/types/models-data/link-previews/LinkPreviewData';
-import {GetPublicPostsParams} from "~/services/user/UserServiceTypes";
+import { GetPublicPostsParams } from "~/services/user/UserServiceTypes";
 
 @injectable()
 export class PostsApiService implements IPostsApiService {
@@ -146,7 +146,7 @@ export class PostsApiService implements IPostsApiService {
             queryParams['exclude_joined_communities'] = params.excludeJoinedCommunities;
 
         return this.httpService.get(PostsApiService.GET_TOP_POSTS_PATH,
-            {appendAuthorizationToken: true, queryParams, isApiRequest: true});
+            { appendAuthorizationToken: true, queryParams, isApiRequest: true });
     }
 
 
@@ -159,7 +159,7 @@ export class PostsApiService implements IPostsApiService {
         if (params.minId) queryParams['min_id'] = params.minId;
 
         return this.httpService.get(PostsApiService.GET_TRENDING_POSTS_PATH,
-            {appendAuthorizationToken: true, queryParams, isApiRequest: true});
+            { appendAuthorizationToken: true, queryParams, isApiRequest: true });
     }
 
 
@@ -178,7 +178,7 @@ export class PostsApiService implements IPostsApiService {
         if (params.listIds) queryParams['list_id'] = params.listIds;
 
         return this.httpService.get(PostsApiService.GET_TIMELINE_POSTS_PATH,
-            {appendAuthorizationToken: true, queryParams: queryParams, isApiRequest: true});
+            { appendAuthorizationToken: true, queryParams: queryParams, isApiRequest: true });
     }
 
 
@@ -193,25 +193,25 @@ export class PostsApiService implements IPostsApiService {
         queryParams["is_public"] = true;
 
         return this.httpService.get(PostsApiService.GET_PUBLIC_POSTS_PATH,
-            {appendAuthorizationToken: true, queryParams: queryParams, isApiRequest: true});
+            { appendAuthorizationToken: true, queryParams: queryParams, isApiRequest: true });
     }
 
     getPostMedia(params: GetPostMediaApiParams): Promise<AxiosResponse<PostMediaData[]>> {
         const path = this.makeGetPostMediaPath(params.postUuid);
 
-        return this.httpService.get(path, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.get(path, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     getPost(params: GetPostApiParams): Promise<AxiosResponse<PostData>> {
         const path = this.makePostPath(params.postUuid);
 
-        return this.httpService.get(path, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.get(path, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     deletePost(params: DeletePostApiParams): Promise<AxiosResponse<void>> {
         const path = this.makePostPath(params.postUuid);
 
-        return this.httpService.delete(path, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.delete(path, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
 
@@ -224,7 +224,7 @@ export class PostsApiService implements IPostsApiService {
 
         const path = this.makeEditPostPath(params.postUuid);
 
-        return this.httpService.patch(path, bodyFormData, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.patch(path, bodyFormData, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     createPost(params: CreatePostApiParams): Promise<AxiosResponse<PostData>> {
@@ -269,14 +269,14 @@ export class PostsApiService implements IPostsApiService {
     publishPost(params: PublishPostApiParams): Promise<AxiosResponse<void>> {
         const path = this.makePublishPostPath(params.postUuid);
 
-        return this.httpService.post(path, null, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.post(path, null, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     getPostStatus(params: GetPostStatusApiParams): Promise<AxiosResponse<PostData>> {
         const path = this.makeGetPostStatusPath(params.postUuid);
 
         return this.httpService.get(path,
-            {appendAuthorizationToken: true, isApiRequest: true});
+            { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     getPostComments(params: GetPostCommentsApiParams): Promise<AxiosResponse<PostCommentData[]>> {
@@ -294,7 +294,7 @@ export class PostsApiService implements IPostsApiService {
         const path = this.makeGetPostCommentsPath(params.postUuid);
 
         return this.httpService.get(path,
-            {appendAuthorizationToken: true, queryParams, isApiRequest: true});
+            { appendAuthorizationToken: true, queryParams, isApiRequest: true });
     }
 
     getPostCommentReplies(params: GetPostCommentRepliesApiParams): Promise<AxiosResponse<PostCommentData[]>> {
@@ -312,40 +312,49 @@ export class PostsApiService implements IPostsApiService {
         const path = this.makeGetReplyCommentsPostPath(params.postUuid, params.postCommentId);
 
         return this.httpService.get(path,
-            {appendAuthorizationToken: true, queryParams, isApiRequest: true});
+            { appendAuthorizationToken: true, queryParams, isApiRequest: true });
     }
 
-    commentPost(params: CommentPostApiParams): Promise<AxiosResponse<PostCommentData>> {
-
-        const body = {'text': params.text};
+    async commentPost(params: CommentPostApiParams): Promise<AxiosResponse<PostCommentData>> {
+        const formData = new FormData();
+        formData.append('text', params.text);
+        if (params.image) {
+            formData.append('image', params.image);
+        }
 
         const path = this.makeCommentPostPath(params.postUuid);
-
-        return this.httpService.put(path, body, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.put(path, formData, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
-    editPostComment(params: EditPostCommentApiParams): Promise<AxiosResponse<PostCommentData>> {
-
-        const body = {'text': params.text};
+    async editPostComment(params: EditPostCommentApiParams): Promise<AxiosResponse<PostCommentData>> {
+        // Create FormData object
+        const formData = new FormData();
+        formData.append('text', params.text);
+        if (params.image) {
+            formData.append('image', params.image);
+        }
 
         const path = this.makeEditCommentPostPath(params.postUuid, params.postCommentId);
 
-        return this.httpService.patch(path, body, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.patch(path, formData, {
+            appendAuthorizationToken: true,
+            isApiRequest: true
+        });
     }
 
     replyToPostComment(params: ReplyToPostCommentApiParams): Promise<AxiosResponse<PostCommentData>> {
 
-        const body = {'text': params.text};
+        const body = { 'text': params.text };
 
         const path = this.makeReplyCommentPostPath(params.postUuid, params.postCommentId);
 
-        return this.httpService.put(path, body, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.put(path, body, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     deletePostComment(params: DeletePostCommentApiParams): Promise<AxiosResponse<void>> {
         const path = this.makeDeletePostCommentPath(params.postCommentId, params.postUuid);
 
-        return this.httpService.delete(path, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.delete(path, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
 
@@ -362,30 +371,30 @@ export class PostsApiService implements IPostsApiService {
         const path = this.makeGetPostReactionsPath(params.postUuid);
 
         return this.httpService.get(path,
-            {appendAuthorizationToken: true, queryParams, isApiRequest: true});
+            { appendAuthorizationToken: true, queryParams, isApiRequest: true });
     }
 
 
     getPostReactionsEmojiCount(params: GetPostReactionsEmojiApiCountApiParams): Promise<AxiosResponse<ReactionsEmojiCountData[]>> {
         const path = this.makeGetPostReactionsEmojiCountPath(params.postUuid);
 
-        return this.httpService.get(path, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.get(path, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
 
     reactToPost(params: ReactToPostApiParams): Promise<AxiosResponse<PostReactionData>> {
 
-        const body = {'emoji_id': params.emojiId};
+        const body = { 'emoji_id': params.emojiId };
 
         const path = this.makeReactToPostPath(params.postUuid);
 
-        return this.httpService.put(path, body, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.put(path, body, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     deletePostReaction(params: DeletePostReactionApiParams): Promise<AxiosResponse<void>> {
         const path = this.makeDeletePostReactionPath(params.postReactionId, params.postUuid);
 
-        return this.httpService.delete(path, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.delete(path, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     getPostCommentReactions(params: GetPostCommentReactionsApiParams): Promise<AxiosResponse<PostCommentReactionData[]>> {
@@ -401,29 +410,29 @@ export class PostsApiService implements IPostsApiService {
         const path = this.makeGetPostCommentReactionsPath(params.postCommentId, params.postUuid);
 
         return this.httpService.get(path,
-            {appendAuthorizationToken: true, queryParams, isApiRequest: true});
+            { appendAuthorizationToken: true, queryParams, isApiRequest: true });
     }
 
     getPostCommentReactionsEmojiCount(params: GetPostCommentReactionsEmojiApiCountApiParams): Promise<AxiosResponse<ReactionsEmojiCountData[]>> {
         const path = this.makeGetPostCommentReactionsEmojiCountPath(params.postUuid, params.postCommentId);
 
-        return this.httpService.get(path, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.get(path, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
 
     reactToPostComment(params: ReactToPostCommentApiParams): Promise<AxiosResponse<PostCommentReactionData>> {
 
-        const body = {'emoji_id': params.emojiId};
+        const body = { 'emoji_id': params.emojiId };
 
         const path = this.makeReactToPostCommentPath(params.postCommentId, params.postUuid);
 
-        return this.httpService.put(path, body, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.put(path, body, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     deletePostCommentReaction(params: DeletePostCommentReactionApiParams): Promise<AxiosResponse<void>> {
         const path = this.makeDeletePostCommentReactionPath(params.postCommentReactionId, params.postUuid, params.postCommentId);
 
-        return this.httpService.delete(path, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.delete(path, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
 
@@ -448,7 +457,7 @@ export class PostsApiService implements IPostsApiService {
 
         const path = this.makeReportPostPath(params.postUuid);
 
-        return this.httpService.post(path, body, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.post(path, body, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
 
@@ -465,73 +474,73 @@ export class PostsApiService implements IPostsApiService {
 
         const path = this.makeReportPostCommentPath(params.postCommentId, params.postUuid);
 
-        return this.httpService.post(path, body, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.post(path, body, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     closePost(params: ClosePostApiParams): Promise<AxiosResponse<void>> {
         const path = this.makeClosePostPath(params.postUuid);
 
-        return this.httpService.post(path, null, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.post(path, null, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     openPost(params: OpenPostApiParams): Promise<AxiosResponse<void>> {
         const path = this.makeOpenPostPath(params.postUuid);
 
-        return this.httpService.post(path, null, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.post(path, null, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     disablePostComments(params: DisablePostCommentsApiParams): Promise<AxiosResponse<void>> {
         const path = this.makeDisableCommentsForPostPath(params.postUuid);
 
-        return this.httpService.post(path, null, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.post(path, null, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     enablePostComments(params: EnablePostCommentsApiParams): Promise<AxiosResponse<void>> {
         const path = this.makeEnableCommentsForPostPath(params.postUuid);
-        return this.httpService.post(path, null, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.post(path, null, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     translatePost(params: TranslatePostApiParams): Promise<AxiosResponse<Object>> {
         const path = this.makeTranslatePostPath(params.postUuid);
-        return this.httpService.post(path, null, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.post(path, null, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     translatePostComment(params: TranslatePostCommentApiParams): Promise<AxiosResponse<Object>> {
         const path = this.makeTranslatePostCommentPath(params.postUuid, params.postCommentId);
-        return this.httpService.post(path, null, {appendAuthorizationToken: true, isApiRequest: true});
+        return this.httpService.post(path, null, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
     previewLink(params: PreviewLinkApiParams): Promise<AxiosResponse<LinkPreviewData>> {
         return this.httpService.post(PostsApiService.PREVIEW_LINK_PATH,
             {
                 link: params.link
-            }, {appendAuthorizationToken: true, isApiRequest: true, progress: false});
+            }, { appendAuthorizationToken: true, isApiRequest: true, progress: false });
     }
 
     linkIsPreviewable(params: PreviewLinkApiParams): Promise<AxiosResponse<LinkIsPreviewableResponseData>> {
         return this.httpService.post(PostsApiService.LINK_IS_PREVIEWABLE_PATH,
             {
                 link: params.link
-            }, {appendAuthorizationToken: true, isApiRequest: true});
+            }, { appendAuthorizationToken: true, isApiRequest: true });
     }
 
 
     private makeExcludedCommunityFromProfilePostsPath(communityName: string) {
         return this.stringTemplateService.parse(PostsApiService.EXCLUDED_PROFILE_POSTS_COMMUNITY_PATH,
-            {'communityName': communityName});
+            { 'communityName': communityName });
     }
 
     private makePostPath(postUuid: string) {
-        return this.stringTemplateService.parse(PostsApiService.POST_PATH, {'postUuid': postUuid});
+        return this.stringTemplateService.parse(PostsApiService.POST_PATH, { 'postUuid': postUuid });
     }
 
     private makeMutePostPath(postUuid: string) {
-        return this.stringTemplateService.parse(PostsApiService.MUTE_POST_PATH, {'postUuid': postUuid});
+        return this.stringTemplateService.parse(PostsApiService.MUTE_POST_PATH, { 'postUuid': postUuid });
     }
 
     private makeUnmutePostPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.UNMUTE_POST_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.UNMUTE_POST_PATH, { 'postUuid': postUuid });
     }
 
     private makeMutePostCommentPath(
@@ -539,7 +548,7 @@ export class PostsApiService implements IPostsApiService {
         postUuid: string,
     ) {
         return this.stringTemplateService.parse(PostsApiService.MUTE_POST_COMMENT_PATH,
-            {'postCommentId': postCommentId, 'postUuid': postUuid});
+            { 'postCommentId': postCommentId, 'postUuid': postUuid });
     }
 
     private makeUnmutePostCommentPath(
@@ -547,98 +556,98 @@ export class PostsApiService implements IPostsApiService {
         postUuid: string,
     ) {
         return this.stringTemplateService.parse(PostsApiService.UNMUTE_POST_COMMENT_PATH,
-            {'postCommentId': postCommentId, 'postUuid': postUuid});
+            { 'postCommentId': postCommentId, 'postUuid': postUuid });
     }
 
     private makeDisableCommentsForPostPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.DISABLE_POST_COMMENTS_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.DISABLE_POST_COMMENTS_PATH, { 'postUuid': postUuid });
     }
 
     private makeEnableCommentsForPostPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.ENABLE_POST_COMMENTS_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.ENABLE_POST_COMMENTS_PATH, { 'postUuid': postUuid });
     }
 
     private makeOpenPostPath(postUuid: string) {
-        return this.stringTemplateService.parse(PostsApiService.OPEN_POST_PATH, {'postUuid': postUuid});
+        return this.stringTemplateService.parse(PostsApiService.OPEN_POST_PATH, { 'postUuid': postUuid });
     }
 
     private makeClosePostPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.CLOSE_POST_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.CLOSE_POST_PATH, { 'postUuid': postUuid });
     }
 
     private makeCommentPostPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.COMMENT_POST_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.COMMENT_POST_PATH, { 'postUuid': postUuid });
     }
 
     private makeEditPostPath(postUuid: string) {
         return this.stringTemplateService.parse(PostsApiService.EDIT_POST_PATH,
-            {'postUuid': postUuid});
+            { 'postUuid': postUuid });
     }
 
     private makeEditCommentPostPath(postUuid: string, postCommentId: number) {
         return this.stringTemplateService.parse(PostsApiService.EDIT_COMMENT_POST_PATH,
-            {'postUuid': postUuid, 'postCommentId': postCommentId});
+            { 'postUuid': postUuid, 'postCommentId': postCommentId });
     }
 
     private makeGetCommentPostPath(postUuid: string, postCommentId: number) {
         return this.stringTemplateService.parse(PostsApiService.GET_COMMENT_POST_PATH,
-            {'postUuid': postUuid, 'postCommentId': postCommentId});
+            { 'postUuid': postUuid, 'postCommentId': postCommentId });
     }
 
     private makeReplyCommentPostPath(postUuid: string, postCommentId: number) {
         return this.stringTemplateService.parse(PostsApiService.REPLY_COMMENT_POST_PATH,
-            {'postUuid': postUuid, 'postCommentId': postCommentId});
+            { 'postUuid': postUuid, 'postCommentId': postCommentId });
     }
 
     private makeGetReplyCommentsPostPath(postUuid: string, postCommentId: number) {
         return this.stringTemplateService.parse(PostsApiService.REPLY_COMMENT_POST_PATH,
-            {'postUuid': postUuid, 'postCommentId': postCommentId});
+            { 'postUuid': postUuid, 'postCommentId': postCommentId });
     }
 
     private makeGetPostCommentsPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.GET_POST_COMMENTS_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.GET_POST_COMMENTS_PATH, { 'postUuid': postUuid });
     }
 
     private makeDeletePostCommentPath(
         postCommentId: number, postUuid: string) {
         return this.stringTemplateService.parse(PostsApiService.DELETE_POST_COMMENT_PATH,
-            {'postCommentId': postCommentId, 'postUuid': postUuid});
+            { 'postCommentId': postCommentId, 'postUuid': postUuid });
     }
 
     private makeReactToPostPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.REACT_TO_POST_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.REACT_TO_POST_PATH, { 'postUuid': postUuid });
     }
 
     private makeGetPostParticipantsPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.GET_POST_PARTICIPANTS_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.GET_POST_PARTICIPANTS_PATH, { 'postUuid': postUuid });
     }
 
     private makeSearchPostParticipantsPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.SEARCH_POST_PARTICIPANTS_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.SEARCH_POST_PARTICIPANTS_PATH, { 'postUuid': postUuid });
     }
 
     private makeGetPostReactionsPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.GET_POST_REACTIONS_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.GET_POST_REACTIONS_PATH, { 'postUuid': postUuid });
     }
 
     private makeReactToPostCommentPath(
         postCommentId: number, postUuid: string) {
         return this.stringTemplateService.parse(PostsApiService.REACT_TO_POST_COMMENT_PATH,
-            {'postUuid': postUuid, 'postCommentId': postCommentId});
+            { 'postUuid': postUuid, 'postCommentId': postCommentId });
     }
 
     private makeGetPostCommentReactionsPath(postCommentId: number, postUuid: string) {
         return this.stringTemplateService.parse(PostsApiService.GET_POST_COMMENT_REACTIONS_PATH,
-            {'postCommentId': postCommentId, 'postUuid': postUuid});
+            { 'postCommentId': postCommentId, 'postUuid': postUuid });
     }
 
     private makeDeletePostCommentReactionPath(
@@ -656,62 +665,62 @@ export class PostsApiService implements IPostsApiService {
     private makeGetPostCommentReactionsEmojiCountPath(postUuid: string, postCommentId: number) {
         return this.stringTemplateService.parse(
             PostsApiService.GET_POST_COMMENT_REACTIONS_EMOJI_COUNT_PATH,
-            {'postUuid': postUuid, 'postCommentId': postCommentId});
+            { 'postUuid': postUuid, 'postCommentId': postCommentId });
     }
 
     private makeDeletePostReactionPath(postReactionId: number, postUuid: string) {
         return this.stringTemplateService.parse(PostsApiService.DELETE_POST_REACTION_PATH,
-            {'postReactionId': postReactionId, 'postUuid': postUuid});
+            { 'postReactionId': postReactionId, 'postUuid': postUuid });
     }
 
     private makeGetPostReactionsEmojiCountPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.GET_POST_REACTIONS_EMOJI_COUNT_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.GET_POST_REACTIONS_EMOJI_COUNT_PATH, { 'postUuid': postUuid });
     }
 
     private makeReportPostCommentPath(postCommentId: number, postUuid: string) {
         return this.stringTemplateService.parse(PostsApiService.REPORT_POST_COMMENT_PATH,
-            {'postCommentId': postCommentId, 'postUuid': postUuid});
+            { 'postCommentId': postCommentId, 'postUuid': postUuid });
     }
 
     private makeReportPostPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.REPORT_POST_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.REPORT_POST_PATH, { 'postUuid': postUuid });
     }
 
     private makeTranslatePostPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.TRANSLATE_POST_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.TRANSLATE_POST_PATH, { 'postUuid': postUuid });
     }
 
     private makePreviewPostDataPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.PREVIEW_POST_DATA_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.PREVIEW_POST_DATA_PATH, { 'postUuid': postUuid });
     }
 
     private makeAddPostMediaPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.POST_MEDIA_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.POST_MEDIA_PATH, { 'postUuid': postUuid });
     }
 
     private makeGetPostMediaPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.POST_MEDIA_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.POST_MEDIA_PATH, { 'postUuid': postUuid });
     }
 
     private makePublishPostPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.PUBLISH_POST_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.PUBLISH_POST_PATH, { 'postUuid': postUuid });
     }
 
     private makeGetPostStatusPath(postUuid: string) {
         return this.stringTemplateService
-            .parse(PostsApiService.GET_POST_STATUS_PATH, {'postUuid': postUuid});
+            .parse(PostsApiService.GET_POST_STATUS_PATH, { 'postUuid': postUuid });
     }
 
     private makeTranslatePostCommentPath(postUuid: string, postCommentId: number) {
         return this.stringTemplateService.parse(PostsApiService.TRANSLATE_POST_COMMENT_PATH,
-            {'postUuid': postUuid, 'postCommentId': postCommentId});
+            { 'postUuid': postUuid, 'postCommentId': postCommentId });
     }
 
 

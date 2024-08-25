@@ -1,0 +1,846 @@
+[33mcommit 8ef5d3085a59af0ce6f496578b9805fc00f72873[m[33m ([m[1;36mHEAD -> [m[1;32mpre-production[m[33m, [m[1;31mupstream/pre-production[m[33m)[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Sun Jul 21 21:29:31 2024 -0400
+
+    community owner, tablet rendering bug, picture rotation issue
+
+[33mcommit c63e2ac1bb098b26db0522e5ad5bedbe5895e43b[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 18 08:54:44 2024 -0400
+
+    max-width
+
+[33mcommit 560f02c09031bad09719a41e4b309a6df71b7902[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 18 08:49:57 2024 -0400
+
+    max-width
+
+[33mcommit 4267486955fd32f99da31dc094763d2b61d378ae[m
+Merge: d004b52 b348b9a
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Thu Jul 18 08:47:30 2024 -0400
+
+    Merge pull request #29 from clseibold/nowpage-sidebar-tweaks
+    
+    Now Page Sidebar: Minor tweaks so that when minimized, width is auto instead of 5%
+
+[33mcommit b348b9a03b99634b1aa6b1f83017660b951be8fd[m
+Author: Christian Lee Seibold <christian.seibold32@outlook.com>
+Date:   Wed Jul 17 21:35:24 2024 -0500
+
+    Now Page Sidebar: Tweaks so that when minimized, width is auto to fit contents, and the paragraph when not minimized has no bottom padding.
+
+[33mcommit c103cef89f69dd4522d5fb679ce6c3196f34529e[m
+Merge: 549924d d004b52
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Wed Jul 17 10:31:19 2024 -0400
+
+    Merge pull request #28 from Openspace-Social/pre-production
+    
+    Pre production
+
+[33mcommit d004b525f0e3fa4aeb749cc7970dd029997b5435[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Wed Jul 17 10:15:31 2024 -0400
+
+    added ok-left-section on okNowPage.vue
+
+[33mcommit fc6c4e7443699aa12be030f5cdc7879bf083af15[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Wed Jul 17 07:35:48 2024 -0400
+
+    added ok-left-section on okNowPage.vue
+
+[33mcommit 549924d3cf8012136679179e7a53419a8b71e55d[m
+Merge: 24032ee f6c61cd
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Sun Jul 14 06:38:40 2024 -0400
+
+    Merge pull request #27 from Openspace-Social/pre-production
+    
+    Pre production
+
+[33mcommit 92b4e66bfea2384a0f61944a908b2dc9d2fb814f[m
+Merge: f47ee0c f6c61cd
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Sat Jul 13 06:41:02 2024 -0400
+
+    Merge branch 'pre-production' of github.com:Openspace-Social/OpenSpace-Web into pre-production
+
+[33mcommit f47ee0caf1afcd69ef20ea02d6cfe2f9a4e7caeb[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Sat Jul 13 06:40:58 2024 -0400
+
+    left section to oknowpage
+
+[33mcommit f6c61cd08e838cecdd0c5838db5329593f072f37[m
+Merge: 2b28a45 90c444d
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Sat Jul 13 06:39:45 2024 -0400
+
+    Merge pull request #26 from clseibold/nowpage-timeline-center-fix
+    
+    Now Page Timeline Center Fix
+
+[33mcommit 90c444d26a11aa275d1b110cf679d711e185b3e9[m
+Author: Christian Lee Seibold <christian.seibold32@outlook.com>
+Date:   Fri Jul 12 16:56:12 2024 -0500
+
+    Now Page: Center the timeline posts stream to match the other tabs
+
+[33mcommit 24032ee2f1d809ac1a350b1f4f59383957396bda[m
+Merge: 50f27cb 2b28a45
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Fri Jul 12 09:27:55 2024 -0400
+
+    Merge pull request #25 from Openspace-Social/pre-production
+    
+    Pre production
+
+[33mcommit 2b28a45edc7bb83b079eb3a2bf5a5b3ba1e97642[m
+Merge: ac83db0 440ca41
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Fri Jul 12 09:11:22 2024 -0400
+
+    Merge pull request #22 from clseibold/userprofile-joinedcommunities-fixes
+    
+    User Profile Joined Communities: fixes differeing sized images and improves text wrapping
+
+[33mcommit ac83db02e068d5e756ff1e7dd88f099842f893d2[m
+Merge: a8f763e 39a795e
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Fri Jul 12 09:11:02 2024 -0400
+
+    Merge pull request #23 from clseibold/timeline-toppadding-fix
+    
+    Timeline: Remove top padding on home tab to match the other tabs
+
+[33mcommit a8f763e89f03a6f6c7f47ee2e928a46bc1113457[m
+Merge: d870cc2 b8ee8af
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Fri Jul 12 09:10:44 2024 -0400
+
+    Merge pull request #24 from clseibold/update-readme
+    
+    Readme: clarify that node.js 18.18.2 is required
+
+[33mcommit b8ee8af66a05ffcc515d4d04239d9ba082ea94c8[m
+Author: Christian Lee Seibold <christian.seibold32@outlook.com>
+Date:   Fri Jul 12 07:25:09 2024 -0500
+
+    Readme: clarify that node.js 18.18.2 is required
+
+[33mcommit 39a795e4eaf5190a16fd827fa6d929797590ed03[m
+Author: Christian Lee Seibold <christian.seibold32@outlook.com>
+Date:   Fri Jul 12 07:06:31 2024 -0500
+
+    Timeline: Remove top padding on home tab to match the other tabs
+
+[33mcommit 440ca413eb7956a5e0bffd716355be11c0e6eee8[m
+Author: Christian Lee Seibold <christian.seibold32@outlook.com>
+Date:   Fri Jul 12 06:45:15 2024 -0500
+
+    Mobile: Remove margin bottom from community list items to match desktop
+
+[33mcommit 190b7a2ada8061041a465b5bf4c4c06305d92770[m
+Author: Christian Lee Seibold <christian.seibold32@outlook.com>
+Date:   Fri Jul 12 06:30:08 2024 -0500
+
+    Fix comments
+
+[33mcommit 7fb1ff601025d59e0c85810496eef28417f54ec7[m
+Author: Christian Lee Seibold <christian.seibold32@outlook.com>
+Date:   Fri Jul 12 06:29:22 2024 -0500
+
+    User Profile Joined Communities List: Fix differing sized images, and improve text wrapping of community names
+
+[33mcommit 50f27cbcd2e42b1b60a40db094c9fe74d0053c16[m
+Merge: 6124017 d870cc2
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Thu Jul 11 14:29:11 2024 -0400
+
+    Merge pull request #21 from Openspace-Social/pre-production
+    
+    added code for mobile users joined communities
+
+[33mcommit d870cc2d948d2d5c8ae58ff8ca8182067d3ee33e[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 11 14:20:40 2024 -0400
+
+    added code for mobile users joined communities
+
+[33mcommit 612401781395139363a85dcb7dbec30b698513a7[m
+Merge: 2db924b 180a534
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Thu Jul 11 10:26:02 2024 -0400
+
+    Merge pull request #20 from Openspace-Social/pre-production
+    
+    updated some code for communities joined
+
+[33mcommit 180a534d239ea467c9d46c09d8348776be3cf137[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 11 10:15:16 2024 -0400
+
+    updated some code for communities joined
+
+[33mcommit 2db924b887645322112951c373d4e6b7713e0bf4[m
+Merge: 2b51b6b b9c125c
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Thu Jul 11 09:36:42 2024 -0400
+
+    Merge pull request #19 from Openspace-Social/pre-production
+    
+    updated "communities i've joined"
+
+[33mcommit b9c125c828fb57ba09d2bdc4aebb8fd10136b127[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 11 09:32:27 2024 -0400
+
+    updated some code for communities joined
+
+[33mcommit 3ec146ed99c0bc7bad5d73c6c2ea73cff43ee7eb[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 11 09:12:47 2024 -0400
+
+    updated some code for communities joined
+
+[33mcommit 6c7dc45fb90f4a4c12cb439a5a4768d793e8d866[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 11 07:47:01 2024 -0400
+
+    avatar path in okdesktopuserprofilesidbar.vue file
+
+[33mcommit 0a0cfab8035758ea9adfde21c15b86073a2ea839[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 11 07:41:15 2024 -0400
+
+    avatar path in okdesktopuserprofilesidbar.vue file
+
+[33mcommit b5727daa1d3647fc8e5d016e05b3f4751f344e94[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 11 07:17:58 2024 -0400
+
+    avatar path in okdesktopuserprofilesidbar.vue file
+
+[33mcommit c0533b93f026b36ca04ab01c2d515b5e2a317bed[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 11 07:01:09 2024 -0400
+
+    env file
+
+[33mcommit a388cc96db638df931ea2ddd29e1aae7c3731ec8[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jul 11 06:55:55 2024 -0400
+
+    updated path
+
+[33mcommit e1d37297f384d8bd74e8c49f8d7d1b173497a843[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Wed Jul 10 15:43:09 2024 -0400
+
+    update .env file
+
+[33mcommit 22a0c41d82bd89b1d6ff946cea8802af43eae0ec[m
+Merge: 3695cc7 9081420
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Wed Jul 10 15:37:08 2024 -0400
+
+    Merge branch 'pre-production' of github.com:Openspace-Social/OpenSpace-Web into pre-production
+
+[33mcommit 3695cc728b091795a3938f9f4668b28fe95cf004[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Wed Jul 10 15:36:26 2024 -0400
+
+    add communities i've contributed to under profile for user
+
+[33mcommit 90abee089fa29fdec4d92a3669284fa29e68a1c3[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Wed Jul 10 15:35:44 2024 -0400
+
+    add communities i've contributed to under profile for user
+
+[33mcommit 2b51b6b84ae76058eb5b250a490228b3768b6047[m
+Merge: 9c8a585 9081420
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Sat Jul 6 20:31:59 2024 -0400
+
+    Merge pull request #18 from Openspace-Social/pre-production
+    
+    Pre production
+
+[33mcommit 90814203bab888a3c418dc9dc47acc6b1bac0552[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun Jul 7 05:44:16 2024 +0530
+
+    updated home page to match new design
+
+[33mcommit 2b0364f5aac88c8e1b1ce3cbda90d06c453447ca[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun Jul 7 05:32:55 2024 +0530
+
+    updated home page to match new design
+
+[33mcommit 9c8a585438462ff98fa831c5e70f5c378ae1df2c[m
+Merge: b4c8da9 289ed38
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Tue Jul 2 13:32:21 2024 -0400
+
+    Merge pull request #17 from Openspace-Social/pre-production
+    
+    Pre production
+
+[33mcommit 289ed3824dd31c275b518467e38b15a0306dc27e[m
+Merge: 4ea65be bb341c4
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Tue Jul 2 19:45:22 2024 +0530
+
+    Merge remote-tracking branch 'refs/remotes/origin/pre-production' into pre-production
+
+[33mcommit 4ea65be40331138f0d884d0873badb23f7a581ba[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Tue Jul 2 19:45:08 2024 +0530
+
+    reverted modal service functionality
+
+[33mcommit bb341c4c1542837af355dc49bcd62cb9fe5bc7bb[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Tue Jul 2 09:34:13 2024 -0400
+
+    index update
+
+[33mcommit c42e12df203144ba44f97db5ef51cef9cdddf738[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Tue Jul 2 14:50:41 2024 +0530
+
+    added public posts in the explore tab
+
+[33mcommit d4e2acd693c5c1ad9d31fb8183c459a03f02dbc2[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Tue Jul 2 14:05:09 2024 +0530
+
+    open previous dialog as the new once closes
+
+[33mcommit aaf3e3aacf1b95e1b504058ef0660a6293c1436b[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun Jun 30 16:43:31 2024 +0530
+
+    [x] Lists Display
+
+[33mcommit 490c8a0c425f4da2eb71ce86924de95c03584c6f[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun Jun 30 11:49:28 2024 +0530
+
+    Settings 4 to 6 hours
+    [x] Change email
+    [x] Change password
+    [x] Blocked Users
+    [x] Delete Account
+
+[33mcommit b4c8da9060ba08fe2b39ac1e0b385b842fa22cbd[m
+Merge: 5903ee5 20d2785
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Sat Jun 29 06:59:40 2024 -0400
+
+    Merge pull request #16 from Openspace-Social/pre-production
+    
+    Need a way to determine if the post is long form. Label?
+
+[33mcommit 20d278547066a64acc1407cb9670f4878fee586a[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sat Jun 29 16:24:36 2024 +0530
+
+    Need a way to determine if the post is long form. Label?
+
+[33mcommit 5903ee551607f7f49cf8eed3d0445389045e4f15[m
+Merge: b5eeaa8 5b28aa6
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Sat Jun 29 06:46:40 2024 -0400
+
+    Merge pull request #15 from Openspace-Social/pre-production
+    
+    fixed all the minor issues
+
+[33mcommit 5b28aa6a226e0165f2920bc4d3a9a722c85da13d[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sat Jun 29 15:06:58 2024 +0530
+
+    fixed all the minor issues
+    
+    •⁠  ⁠[ ] Edit comments
+    •⁠  ⁠[ ] Image post overlay content
+    •⁠  ⁠[ ] Long form post is blank when reviewing the comments through notifications
+    •⁠  ⁠[ ] Linking to non-existent communities sometimes breaks: http://localhost:3000/p/624aa5bf-aa8e-4115-9e41-5108673655a0/?pc=18313
+    •⁠  ⁠[ ] Make photos on long form posts clickable and expandable
+    •⁠  ⁠[ ] Clicking or Hovering over reactions should display a list of people that have reacted to the post. Similar to mobile
+    •⁠  ⁠[ ] Need a way to determine if the post is long form. Label?
+    •⁠  ⁠[ ] Image not fitting in the post container
+
+[33mcommit b5eeaa8b6fc77c77ddee2905df572486109865aa[m
+Merge: 0955d70 ef3e2d5
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Thu Jun 27 14:59:24 2024 -0400
+
+    Merge pull request #14 from Openspace-Social/pre-production
+    
+    Pre production
+
+[33mcommit ef3e2d5fcae44c604efb88e964705d38c81ae64f[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jun 27 14:44:18 2024 -0400
+
+    popup css for mentions etc
+
+[33mcommit cc13e1b0d1535aae1ba5bcf35c0a76e460a75d5d[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Wed Jun 26 11:43:11 2024 -0400
+
+    text area css
+
+[33mcommit 31d3b4a966b365157f2f2246368f83837cdff025[m
+Merge: b24b3b9 699d0c9
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Wed Jun 26 19:28:16 2024 +0530
+
+    Merge remote-tracking branch 'origin/pre-production' into pre-production
+
+[33mcommit b24b3b91e3f6c26c4e1022527f7c094d2e74bf06[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Wed Jun 26 19:28:01 2024 +0530
+
+    updated popups for @, # and c/ for comments and normal post
+
+[33mcommit 78ba0631b32985cd7bca3f885c2e6cc7db8bf7f0[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Wed Jun 26 19:27:44 2024 +0530
+
+    updated popups for @, # and c/ for comments and normal post
+
+[33mcommit 699d0c95708b890468e0d254c9565380477ba9f8[m
+Merge: 5021073 0955d70
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Wed Jun 26 09:28:00 2024 -0400
+
+    Merge pull request #13 from Openspace-Social/main
+    
+    Merge pull request #12 from Openspace-Social/pre-production
+
+[33mcommit 0955d707c79751d7dc7702cf57c35f8cb54a8740[m
+Merge: 5a80f03 5021073
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Tue Jun 25 10:50:39 2024 -0400
+
+    Merge pull request #12 from Openspace-Social/pre-production
+    
+    Pre production
+
+[33mcommit 502107338bbdcd98be1de59190a8c644a9165455[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Tue Jun 25 10:42:19 2024 -0400
+
+    dark mode update theme
+
+[33mcommit bfda47bd117abf3c0e1929cd0547d542303bf2d1[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Tue Jun 25 10:41:27 2024 +0530
+
+    added #, @ and c/ popup
+
+[33mcommit 5a80f0357fbe40ad266e3bfd4a3c2d88c2826650[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Tue Jun 18 19:51:26 2024 -0400
+
+    x display
+
+[33mcommit f9fa100983581d3b00a6bc65abc0535c3f3b154f[m
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Tue Jun 18 14:33:48 2024 -0400
+
+    Revert "Revert "Merge pull request #4 from Openspace-Social/test""
+    
+    This reverts commit 5b15c0a4b479dced8c0a3f841aa24f59451a3eea.
+
+[33mcommit c9c4a6599a05a3e842f7cf0d0a71987c88f1b036[m
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Tue Jun 18 14:18:02 2024 -0400
+
+    Revert "Merge pull request #5 from Openspace-Social/test"
+    
+    This reverts commit 127e72da68d66247984d9fa3b8fad4c53aeeadcb, reversing
+    changes made to ca2825ef532be70afe0c1ce7773a78b655d04451.
+
+[33mcommit 5b15c0a4b479dced8c0a3f841aa24f59451a3eea[m
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Tue Jun 18 14:11:08 2024 -0400
+
+    Revert "Merge pull request #4 from Openspace-Social/test"
+    
+    This reverts commit ca2825ef532be70afe0c1ce7773a78b655d04451, reversing
+    changes made to f4f38fdd2761b43f399622952f7b1c7088f58017.
+
+[33mcommit 127e72da68d66247984d9fa3b8fad4c53aeeadcb[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Merge: ca2825e b15d001
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Sun Jun 9 21:40:52 2024 +0530
+
+    Merge pull request #5 from Openspace-Social/test
+    
+    updated .ok-modal class to display 'x' better
+
+[33mcommit b15d001e4981b7477226fe6b43bd62005b9ede28[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Sun Jun 9 12:10:06 2024 -0400
+
+    updated .ok-modal class to display 'x' better
+
+[33mcommit ca2825ef532be70afe0c1ce7773a78b655d04451[m
+Merge: f4f38fd 426d79a
+Author: Max <80904736+mem1984@users.noreply.github.com>
+Date:   Thu Jun 6 22:52:53 2024 +0530
+
+    Merge pull request #4 from Openspace-Social/test
+    
+    useful links and support and feedback menu - new
+
+[33mcommit 426d79ab6ff3dd720923c7cd7c0a6506cde30027[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Jun 6 12:32:17 2024 -0400
+
+    useful links and support and feedback menu
+
+[33mcommit f4f38fdd2761b43f399622952f7b1c7088f58017[m
+Merge: be77e61 cf5172f
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu May 30 20:52:27 2024 +0530
+
+    Merge pull request #2 from Openspace-Social/test
+    
+    Test
+
+[33mcommit cf5172f3fd9899ba45106332676bd0e5434ceeae[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu May 30 19:14:43 2024 +0530
+
+    updated duration
+
+[33mcommit e3b7ca7b332aac05f85e01b16ea34b7d3a4e80a4[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu May 30 18:56:32 2024 +0530
+
+    fixed error message
+
+[33mcommit 1f01fd1dea3ee35dbdc916201a5b15925f9bf272[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu May 30 18:48:07 2024 +0530
+
+    added error message
+
+[33mcommit 6bed62c35440f47d2161ea93994815718871df03[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu May 30 18:12:44 2024 +0530
+
+    updated signup flow in web
+
+[33mcommit 41c16c0e707f17a81cc229d5279d8a6e1bf1fbb0[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu May 30 15:18:19 2024 +0530
+
+    can translate post
+
+[33mcommit 4655a7d7bcb73f46a4d365d6fe2499fd6d59565c[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Wed May 29 17:33:54 2024 +0530
+
+    Test
+
+[33mcommit be77e61d3d8825b718405ec572714da53e2e2522[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Mon May 27 07:11:17 2024 +0530
+
+    minor fixes
+
+[33mcommit def167d3325e3837b1a355167f9b331e7d5e0500[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Mon May 27 07:09:44 2024 +0530
+
+    fixed more issues
+
+[33mcommit 45111ec9e60aebd572a29fad77b451fcb7ddf2e4[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Mon May 27 07:09:11 2024 +0530
+
+    fixed more issues
+
+[33mcommit eb7f73f1e8d67db3633110ee2320eddf34f293d8[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Mon May 27 07:08:32 2024 +0530
+
+    translation fix and other updates
+
+[33mcommit da421a58053b45c1f7ee9e1639d8d444b207fb25[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 20:47:05 2024 +0530
+
+    request to follow fix
+
+[33mcommit 14e927b4e78e6a45429b43d81fa7c95ec3e6fe8d[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 20:38:12 2024 +0530
+
+    community and hash and mentions fix
+
+[33mcommit dadac778cada71b388f0aeff3a8e21374196876a[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 19:42:30 2024 +0530
+
+    fixed issue with community posting
+
+[33mcommit adb48ea62e1bf50b88f01a681c158f0ce2d12e9b[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 17:26:51 2024 +0530
+
+    minrof ixes
+
+[33mcommit 1707a53c028b340ebb352e8a24fded46ee3a54e2[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 17:00:19 2024 +0530
+
+    updated
+
+[33mcommit d133d05d89ce63432b495e6a11f26cc2232dffa1[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 15:43:07 2024 +0530
+
+    edit post fix and edit from error message
+
+[33mcommit d5ad0ba7ad72894999e5e73cc27f09bdca36e456[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 08:53:16 2024 +0530
+
+    added turndown
+
+[33mcommit fdaddd01df6d3778671320305a8013378d51f6c9[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 08:47:16 2024 +0530
+
+    added turndown types
+
+[33mcommit 9cca9a2acb43ee9943736897e47c5b3baaea08cb[m
+Merge: c1b09c0 f90754b
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 08:21:15 2024 +0530
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+[33mcommit c1b09c0e7fb10161bcd854da73ad8d32872d53f7[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sun May 26 08:19:04 2024 +0530
+
+    long post added
+
+[33mcommit 07016b2a34181b3c8e088dba0047df783b8e4769[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Sat May 25 17:20:43 2024 +0530
+
+    before adding tailwind
+
+[33mcommit f90754baee6fb3c81515b21829e76c17a24c92fc[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Tue May 21 20:11:59 2024 -0400
+
+    updated login screen text
+
+[33mcommit a6c12e8082027982be4b6f1193fdb373607126d0[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Tue May 21 19:55:27 2024 -0400
+
+    request a token from signup page, re-route to contact page
+
+[33mcommit e5d47e0434c32109b155369a515f0107fe00cc68[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Tue May 21 19:50:07 2024 -0400
+
+    request a token from signup page, re-route to contact page
+
+[33mcommit 6dd29cd39b4038bb755691a48f9704c65bf18cf0[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Tue May 7 07:20:18 2024 +0530
+
+    dummy push
+
+[33mcommit 173d12da8fba680faf8aa443b99f39fb5e9c6ac5[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Tue May 7 07:16:38 2024 +0530
+
+    fixed issues with token
+
+[33mcommit 0db256929f1943b4adc306bc8798f17332331ef7[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Sat Mar 30 16:05:00 2024 -0400
+
+    ads.txt
+
+[33mcommit 4fa057dcd853a5bb4993b4014c4353783f29e5ab[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Sat Mar 30 15:50:22 2024 -0400
+
+    fixed Missing Required Prop console error for communities page
+
+[33mcommit 6f6155f0e94317a135e3002468d32e4b83e5d30e[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Sat Mar 30 15:47:09 2024 -0400
+
+    fixed Missing Required Prop console error for communities page
+
+[33mcommit fd0ed82e9c1d3c1bdf45381372982c63a8bc9bd9[m
+Merge: 47816a3 c919390
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Tue Mar 19 20:42:31 2024 +0530
+
+    Merge remote-tracking branch 'refs/remotes/origin/main'
+
+[33mcommit 47816a3d28df6e612cb05cbe7ac84af0ceba5a27[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Tue Mar 19 20:40:53 2024 +0530
+
+    updated notifiction timer
+
+[33mcommit c9193909eddc855da6943151005a874091493c31[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Sat Mar 16 08:20:11 2024 -0400
+
+    fix fonts
+
+[33mcommit 8f1d11cbf3c1caa7c0918cc0cf334fa6e26d3c8c[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Sat Mar 16 08:11:59 2024 -0400
+
+    netlify test
+
+[33mcommit 6423fcae2953287f20741885a5b9046b158858a0[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Fri Mar 15 08:27:15 2024 +0530
+
+    fixes with proxy links
+
+[33mcommit fab16a19de1df9dabee876589b86cff132af5e92[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Fri Mar 15 06:21:49 2024 +0530
+
+    updated http links
+
+[33mcommit 339c5b1d55221fc0facde9ff57a9a06624164bba[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Mar 14 10:20:01 2024 +0530
+
+    updated new route
+
+[33mcommit 48fa4f51baba669ae9974e27fd15f13ae95a95d1[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Mar 14 10:13:41 2024 +0530
+
+    updated config
+
+[33mcommit dfe73ca3eb9b2e38a24c5cbfd6eca66db4f1bd1f[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Mar 14 10:06:51 2024 +0530
+
+    aded base path
+
+[33mcommit 728e880e1acd9bd76396851473dee32b0a25337d[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Mar 14 09:58:40 2024 +0530
+
+    updated proxy
+
+[33mcommit ad738d07665cf0454b584591dfa19a5599ba8344[m
+Merge: fb73454 4b3b25d
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Mar 14 09:51:32 2024 +0530
+
+    fixed
+
+[33mcommit fb7345420653c4065e154db30b5c9245aef71140[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Mar 14 09:49:19 2024 +0530
+
+    fixed issues with proxy
+
+[33mcommit 4b3b25d34e184f3202d2f1ca61c0518831582362[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Mon Mar 11 16:22:42 2024 -0400
+
+    changed path to twemoji
+
+[33mcommit b5fa3ce65726bb37f679cc0a2a6f232ed8f2ba75[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Thu Mar 7 11:48:14 2024 -0500
+
+    update directives
+
+[33mcommit 91ff3e9ec210dd8628299ebd83af1ee65966fd43[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Feb 29 07:34:53 2024 +0530
+
+    added https
+
+[33mcommit 54bd5dbb6cafdfb1102814bbd07bcfbd6a1dd160[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Feb 29 07:18:40 2024 +0530
+
+    added redirects
+
+[33mcommit e02e7285510c1e5fb34e535c0a2e6a6fe30b51d5[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Feb 29 07:10:10 2024 +0530
+
+    updated deps
+
+[33mcommit 7ed85e2176b14a52a7f859b81bbdfee19c0fef85[m
+Author: Karthik Ponnam <ponnamkarthik3@gmail.com>
+Date:   Thu Feb 29 07:01:59 2024 +0530
+
+    fixes issues with node 18
+
+[33mcommit 0cd33d49450465fe483743baa519e25eb5b96c3f[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Wed Feb 28 09:31:47 2024 -0500
+
+    update package.json
+
+[33mcommit 912d8c8725bc949114047734f060c5f381b80652[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Wed Feb 28 08:42:04 2024 -0500
+
+    added dist folder for netlify deploy
+
+[33mcommit 659f0104f699ff4eb123b4c632e73490611b0d13[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Tue Feb 27 14:15:02 2024 -0500
+
+    static folder
+
+[33mcommit 93f800f1a6f1702e1b8f6113944bfc0067fbc8b2[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Tue Feb 27 09:46:49 2024 -0500
+
+    nuxt folder
+
+[33mcommit 64d520bb6fe0117b63fa17ce7d9d20c6eae27e64[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Tue Feb 27 09:44:43 2024 -0500
+
+    added nuxt folder
+
+[33mcommit 726fec1ea8fa3bafeeb5c3632126654027e0a5b5[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Mon Feb 26 11:03:35 2024 -0500
+
+    initial commit
+
+[33mcommit 33dc012c8e07a8574b8651bd66ad352cde197b10[m
+Author: massimoraimondi <massimo.raimondi@gmail.com>
+Date:   Mon Feb 26 09:02:35 2024 -0500
+
+    initial commit

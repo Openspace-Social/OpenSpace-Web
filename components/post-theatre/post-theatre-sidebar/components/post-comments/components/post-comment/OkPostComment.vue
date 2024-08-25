@@ -23,6 +23,7 @@
                         {{ postComment.created | moment("from", "now") }}
                     </span>
                     </p>
+                    
                     <p class="subtitle" style="margin-bottom: 0;">
                         <ok-translatable-smart-text class="ok-has-text-primary-invert is-size-6"
                                                     :initial-text="postComment.text"
@@ -31,6 +32,9 @@
                         >
                         </ok-translatable-smart-text>
                     </p>
+
+                    <img v-if="postComment.image" :src="postComment.image" class="comment-image" alt="comment_image"/>
+
                     <ok-post-comment-reactions :post="post" :post-comment="postComment" v-if="showReactions"
                                                class="has-padding-top-10"></ok-post-comment-reactions>
                 </div>
@@ -52,6 +56,15 @@
                                  @onWantsToReplyToReply="onWantsToReplyToReply"></ok-post-comment-replies>
     </div>
 </template>
+<style>
+.comment-image{
+    width: 50%;
+    height: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+</style>
 
 <script lang="ts">
     import { Component, Prop, Vue, Watch } from "nuxt-property-decorator"
@@ -217,5 +230,6 @@
             const user = this.$observables.loggedInUser?.value;
             return user?.canEditPostComment(this.postComment);
         }
+
     }
 </script>

@@ -340,6 +340,7 @@ export interface GetPostCommentRepliesParams {
 export interface CommentPostParams {
     post: IPost;
     text: string;
+    image?: File | null;
 }
 
 export interface EditPostParams {
@@ -353,6 +354,7 @@ export interface EditPostCommentParams {
     postComment: IPostComment;
     post: IPost;
     text: string;
+    image?: File | null;
 }
 
 export interface ReplyToPostCommentParams {
