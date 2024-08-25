@@ -52,7 +52,8 @@ export interface EditPostCommentApiParams {
     postCommentId: number;
     postUuid: string;
     text: string;
-}
+    image?: File | null;
+    }
 
 export interface ReplyToPostCommentApiParams {
     postCommentId: number;

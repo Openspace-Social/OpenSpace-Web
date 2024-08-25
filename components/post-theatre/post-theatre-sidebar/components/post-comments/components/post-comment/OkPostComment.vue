@@ -23,6 +23,7 @@
                         {{ postComment.created | moment("from", "now") }}
                     </span>
                     </p>
+                    
                     <p class="subtitle" style="margin-bottom: 0;">
                         <ok-translatable-smart-text class="ok-has-text-primary-invert is-size-6"
                                                     :initial-text="postComment.text"
@@ -31,6 +32,7 @@
                         >
                         </ok-translatable-smart-text>
                     </p>
+
                     <img v-if="postComment.image" :src="postComment.image" class="comment-image" alt="comment_image"/>
 
                     <ok-post-comment-reactions :post="post" :post-comment="postComment" v-if="showReactions"

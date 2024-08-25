@@ -214,4 +214,4 @@ export default class OkDesktopUserProfileSidebar extends Vue {
         //console.error('Image failed to load:', target.src);
     }
 }
-</script>
+</script>npm

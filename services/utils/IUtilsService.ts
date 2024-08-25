@@ -1,4 +1,6 @@
 export interface IUtilsService {
+    dataURLtoFile(url: string): Promise<File>
+
     generateUuid(): string;
 
     handleError(error: any): HandledError;

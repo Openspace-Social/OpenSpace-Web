@@ -210,9 +210,9 @@ import { LinkPreviewData } from '~/types/models-data/link-previews/LinkPreviewDa
 import linkPreviewFactory from '~/models/link-previews/link-preview/factory';
 import { LinkIsPreviewableResponseData } from '~/services/Apis/posts/PostsApiServiceTypes';
 import { ILinkPreview } from '~/models/link-previews/link-preview/ILinkPreview';
-import {IGenericFile} from "~/models/common/generic/IGenericFile";
-import {IList} from "~/models/lists/list/IList";
-import {List} from "~/models/lists/list/List";
+import { IGenericFile } from "~/models/common/generic/IGenericFile";
+import { IList } from "~/models/lists/list/IList";
+import { List } from "~/models/lists/list/List";
 import listFactory from "~/models/lists/list/factory";
 
 
@@ -226,18 +226,18 @@ export class UserService implements IUserService {
     loggedInUser = new BehaviorSubject<IUser | undefined | null>(undefined);
 
     constructor(@inject(TYPES.AuthApiService) private authApiService?: IAuthApiService,
-                @inject(TYPES.CommunitiesApiService) private communitiesApiService?: ICommunitiesApiService,
-                @inject(TYPES.HashtagsApiService) private hashtagsApiService?: IHashtagsApiService,
-                @inject(TYPES.ModerationApiService) private moderationApiService?: IModerationApiService,
-                @inject(TYPES.CategoriesApiService) private categoriesApiService?: ICategoriesApiService,
-                @inject(TYPES.PostsApiService) private postsApiService?: IPostsApiService,
-                @inject(TYPES.FollowsApiService) private followsApiService?: IFollowsApiService,
-                @inject(TYPES.ConnectionsApiService) private connectionsApiService?: IConnectionsApiService,
-                @inject(TYPES.NotificationsApiService) private notificationsApiService?: INotificationsApiService,
-                @inject(TYPES.HttpService) private httpService?: IHttpService,
-                @inject(TYPES.UserPreferencesService) private userPreferencesService?: IUserPreferencesService,
-                @inject(TYPES.StorageService)  storageService?: IStorageService,
-                @inject(TYPES.LoggingService)  loggingService?: ILoggingService
+        @inject(TYPES.CommunitiesApiService) private communitiesApiService?: ICommunitiesApiService,
+        @inject(TYPES.HashtagsApiService) private hashtagsApiService?: IHashtagsApiService,
+        @inject(TYPES.ModerationApiService) private moderationApiService?: IModerationApiService,
+        @inject(TYPES.CategoriesApiService) private categoriesApiService?: ICategoriesApiService,
+        @inject(TYPES.PostsApiService) private postsApiService?: IPostsApiService,
+        @inject(TYPES.FollowsApiService) private followsApiService?: IFollowsApiService,
+        @inject(TYPES.ConnectionsApiService) private connectionsApiService?: IConnectionsApiService,
+        @inject(TYPES.NotificationsApiService) private notificationsApiService?: INotificationsApiService,
+        @inject(TYPES.HttpService) private httpService?: IHttpService,
+        @inject(TYPES.UserPreferencesService) private userPreferencesService?: IUserPreferencesService,
+        @inject(TYPES.StorageService) storageService?: IStorageService,
+        @inject(TYPES.LoggingService) loggingService?: ILoggingService
     ) {
         this.tokenStorage = storageService!.getStorage('userTokenStorage');
         this.logger = loggingService!.getLogger({
@@ -906,23 +906,22 @@ export class UserService implements IUserService {
     // POSTS START
 
     async commentPost(params: CommentPostParams): Promise<IPostComment> {
-        // Ensure params.image is correctly passed and matches CommentPostApiParams
         const response: AxiosResponse<PostCommentData> = await this.postsApiService.commentPost({
             postUuid: params.post.uuid,
             text: params.text,
             image: params.image
         });
-    
+
         // Create a post comment object from the response data
         const postComment = postCommentFactory.make(response.data);
-    
+
         // Update the comments count on the post
         if (typeof params.post.commentsCount === 'number') {
             params.post.commentsCount++;
         } else {
             params.post.commentsCount = 1;
         }
-    
+
         return postComment;
     }
 
@@ -967,11 +966,15 @@ export class UserService implements IUserService {
     }
 
     async editPostComment(params: EditPostCommentParams): Promise<IPostComment> {
+        console.log("The edit post comment params : " + JSON.stringify(params.text+" , "+params.image));
+
         const response: AxiosResponse<PostCommentData> = await this.postsApiService.editPostComment({
             postUuid: params.post.uuid,
             postCommentId: params.postComment.id,
-            text: params.text
+            text: params.text,
+            image: params.image
         });
+        console.log("The edit post comment response : " + JSON.stringify(response.data));
 
         return postCommentFactory.make(response.data);
     }
@@ -1245,7 +1248,7 @@ export class UserService implements IUserService {
     }
 
     async translatePost(params: TranslatePostParams): Promise<String> {
-        const response: AxiosResponse<Object> = await this.postsApiService.translatePost({postUuid: params.post.uuid});
+        const response: AxiosResponse<Object> = await this.postsApiService.translatePost({ postUuid: params.post.uuid });
         return response.data['translated_text'];
     }
 

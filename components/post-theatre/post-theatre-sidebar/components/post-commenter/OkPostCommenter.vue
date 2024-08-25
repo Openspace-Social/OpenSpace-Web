@@ -3,46 +3,44 @@
         <div v-if="postComment" class="has-padding-bottom-20">
             <div class="card ok-has-background-primary-highlight">
                 <header class="card-header">
-                    <div class="card-header-icon has-padding-10" aria-label="remove reply"
-                         @click="reset" role="button">
+                    <div class="card-header-icon has-padding-10" aria-label="remove reply" @click="reset" role="button">
                         <ok-close-icon class="ok-svg-icon-primary-invert"></ok-close-icon>
                     </div>
                 </header>
                 <div>
-                    <p v-if="editComment" class="has-padding-top-20 has-padding-left-20 font-bold ok-has-text-primary-invert is-size-6">
+                    <p v-if="editComment"
+                        class="has-padding-top-20 has-padding-left-20 font-bold ok-has-text-primary-invert is-size-6">
                         <span>{{ $t("forms.comment_post.edit_comment") }}</span>
                     </p>
                     <ok-post-comment :post="post" :post-comment="displayedPostComment" :show-actions="false"
-                                     :show-reactions="false" class=""></ok-post-comment>
+                        :show-reactions="false" class=""></ok-post-comment>
                 </div>
             </div>
         </div>
         <div class="media">
             <div class="media-left">
-                <ok-user-avatar
-                    :user="loggedInUser"
-                    :avatar-size="this.OkAvatarSize.medium">
+                <ok-user-avatar :user="loggedInUser" :avatar-size="this.OkAvatarSize.medium">
                 </ok-user-avatar>
             </div>
             <div class="media-content">
-                <ok-comment-post-form ref="commentPostForm" :post="post"
-                                      :image="image"
-                                      :post-comment="postComment"
-                                      :edit-post-comment="editComment"
-                                      :remove-image-preview= "removeImagePreview"
-                                      @onCommentedPost="onCommentedPost"></ok-comment-post-form>
+                <ok-comment-post-form ref="commentPostForm" :post="post" :image="image" :post-comment="postComment"
+                    :edit-post-comment="editComment" :remove-image-preview="removeImagePreview"
+                    @onCommentedPost="onCommentedPost"></ok-comment-post-form>
 
-                <div v-if="imagePreview" class="image-preview-container">
+                <!-- <div v-if="imagePreview" class="image-preview-container">
                     <img :src="imagePreview" class="image-preview" />
                     <button @click="removeImagePreview" class="delete-image-button">✕</button>
-                </div>
+                </div> -->
+
+                <ImagePreview :imagePreview="imagePreview" :isVisible="isPostCommentEdit"
+                    @remove-image-preview="removeImagePreview" />
             </div>
 
             <label class="card-header-icon has-padding-5" aria-label="attach file" role="button" for="fileInput">
                 <span class="material-symbols-outlined">attach_file</span>
             </label>
             <input type="file" id="fileInput" ref="fileInput" @change="handleFileUpload" accept="image/*"
-                   style="display: none;" />
+                style="display: none;" />
         </div>
     </section>
 </template>
@@ -124,6 +122,7 @@ import { OkAvatarSize } from "~/components/avatars/lib/OkAvatarSize";
 import { IUser } from "~/models/auth/user/IUser";
 import OkCommentPostForm from "~/components/forms/OkCommentPostForm.vue";
 import { IPostComment } from "~/models/posts/post-comment/IPostComment";
+
 import OkPostComment from "~/components/post-theatre/post-theatre-sidebar/components/post-comments/components/post-comment/OkPostComment.vue";
 import {
     EditCommentParams,
@@ -131,10 +130,11 @@ import {
     ReplyToCommentParams,
     ReplyToReplyParams
 } from "~/components/post-theatre/post-theatre-sidebar/lib/PostTheatreEventParams";
+import ImagePreview from "./ImagePreview.vue";
 
 @Component({
     name: "OkPostCommenter",
-    components: { OkPostComment, OkCommentPostForm, OkUserAvatar },
+    components: { OkPostComment, OkCommentPostForm, OkUserAvatar, ImagePreview },
     subscriptions: function () {
         return {
             loggedInUser: this["userService"].loggedInUser
@@ -143,6 +143,8 @@ import {
 })
 export default class OkPostCommenter extends Vue {
     @Prop(Object) readonly post: IPost;
+    @Prop(Boolean) readonly isPostCommentEdit!: boolean;
+    
 
     postComment: IPostComment = null;
     displayedPostComment: IPostComment = null;
@@ -154,7 +156,7 @@ export default class OkPostCommenter extends Vue {
 
     $refs!: {
         commentPostForm: OkCommentPostForm;
-        
+
         fileInput: HTMLInputElement; // Ensure TypeScript recognizes fileInput as an HTMLInputElement
     };
 
@@ -207,6 +209,7 @@ export default class OkPostCommenter extends Vue {
         this.prependedUsernameMention = "";
         this.displayedPostComment = null;
         this.imagePreview = null;
+        this.image = null;
     }
 
     handleFileUpload() {
@@ -222,9 +225,11 @@ export default class OkPostCommenter extends Vue {
     }
 
     public removeImagePreview() {
+
         this.imagePreview = null;
         this.image = null;
         this.$refs.fileInput.value = null;
+    
     }
 }
 </script>

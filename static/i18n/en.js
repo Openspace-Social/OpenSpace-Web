@@ -163,7 +163,7 @@ export default {
             "title": "Comment post",
             "title_reply": "Reply to comment",
             "edit_comment": "Edit comment",
-            "update_comment": "Update comment",
+            "update_comment": "Update Comment",
         },
     },
     "user_preferences": {

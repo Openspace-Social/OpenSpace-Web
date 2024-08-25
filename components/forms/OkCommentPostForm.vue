@@ -1,67 +1,66 @@
 <template>
-    <form @submit.prevent="onSubmit">
-        <div class="field">
-            <label for="text" class="label has-text-left ok-has-text-primary-invert-80 is-hidden">
-                {{ titleText }}
-            </label>
-            <div class="control">
-                <ok-resizable-text-area>
-                    <text-complete
-                        name="text"
-                        id="commentPostPopup"
-                        required
-                        :placeholder="placeholderText"
-                        ref="textareaInput"
-                        @focus="inputIsFocused = true"
-                        @blur="inputIsFocused = false"
-                        :style="{width: '100%', height: '100%'}"
-                        v-model="text" areaClass="textcomplete"
-                        :strategies="strategies"></text-complete>
-                </ok-resizable-text-area>
-            </div>
-            <p class="help is-danger has-text-left" v-if="!$v.text.required && $v.text.$dirty">
-                {{$t('global.errors.post_comment_text.required')}}
-            </p>
-            <p class="help is-danger has-text-left" v-if="!$v.text.maxLength && $v.text.$dirty">
-                {{$t('global.errors.post_comment_text.max_length')}}
-            </p>
-        </div>
+    <div>
+        <ImagePreview v-if="imagePreview_path" :imagePreview="imagePreview_path"
+            @remove-image-preview="handleRemoveImagePreview" ref="imagePreviewComponent" />
 
-        <!-- Main container -->
-        <nav class="level is-mobile" v-if="inputIsFocused || text || image ">
-            <!-- Left side -->
-            <div class="level-left">
-                <div class="level-item">
-                    <p class="subtitle is-5">
-                        <ok-character-count :max-characters="postCommentMaxLength"
-                                            :character-count="text.length"></ok-character-count>
-                    </p>
+        <form @submit.prevent="onSubmit">
+            <div class="field">
+                <label for="text" class="label has-text-left ok-has-text-primary-invert-80 is-hidden">
+                    {{ titleText }}
+                </label>
+                <div class="control">
+                    <ok-resizable-text-area>
+                        <text-complete name="text" id="commentPostPopup" required :placeholder="placeholderText"
+                            ref="textareaInput" @focus="inputIsFocused = true" @blur="inputIsFocused = false"
+                            :style="{ width: '100%', height: '100%' }" v-model="text" areaClass="textcomplete"
+                            :strategies="strategies"></text-complete>
+                    </ok-resizable-text-area>
                 </div>
+                <p class="help is-danger has-text-left" v-if="!$v.text.required && $v.text.$dirty">
+                    {{ $t('global.errors.post_comment_text.required') }}
+                </p>
+                <p class="help is-danger has-text-left" v-if="!$v.text.maxLength && $v.text.$dirty">
+                    {{ $t('global.errors.post_comment_text.max_length') }}
+                </p>
             </div>
 
-            <!-- Right side -->
-            <div class="level-right">
-                <div class="level-item">
-                    <button class="button is-success is-rounded ok-has-background-accent-gradient has-text-weight-bold is-small"
-                            type="submit"
-                            :class="{'is-disabled' : submitInProgress}"
-                            :disabled="this.$v.$invalid || submitInProgress"
-                    >
-                        {{ submitText }}
-                    </button>
+
+
+            <!-- Main container -->
+            <nav class="level is-mobile" v-if="inputIsFocused || text || image">
+                <!-- Left side -->
+                <div class="level-left">
+                    <div class="level-item">
+                        <p class="subtitle is-5">
+                            <ok-character-count :max-characters="postCommentMaxLength"
+                                :character-count="text.length"></ok-character-count>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </form>
+
+                <!-- Right side -->
+                <div class="level-right">
+                    <div class="level-item">
+                        <button
+                            class="button is-success is-rounded ok-has-background-accent-gradient has-text-weight-bold is-small"
+                            type="submit" :class="{ 'is-disabled': submitInProgress }"
+                            :disabled="this.$v.$invalid || submitInProgress">
+                            {{ submitText }}
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </form>
+    </div>
 </template>
 
 
 <style lang="scss">
-    .is-circular {
-        width: 35px !important;
-        height: 35px !important;
-        border-radius: 500px !important;
-    }
+.is-circular {
+    width: 35px !important;
+    height: 35px !important;
+    border-radius: 500px !important;
+}
 </style>
 
 <script lang="ts">
@@ -80,11 +79,13 @@ import OkCharacterCount from "~/components/OkCharacterCount.vue";
 import { IOkLogger } from "~/services/logging/types";
 import { ILoggingService } from "~/services/logging/ILoggingService";
 import TextComplete from 'v-textcomplete';
+import OkPostCommenter from '@/components/post-theatre/post-theatre-sidebar/components/post-commenter/OkPostCommenter.vue';
+import ImagePreview from "../post-theatre/post-theatre-sidebar/components/post-commenter/ImagePreview.vue";
 
 
 @Component({
     name: "OkCommentPostForm",
-    components: { OkCharacterCount, OkResizableTextArea, TextComplete }
+    components: { OkCharacterCount, OkResizableTextArea, TextComplete, OkPostCommenter, ImagePreview }
 })
 export default class OkCommentPostForm extends Vue {
 
@@ -93,7 +94,6 @@ export default class OkCommentPostForm extends Vue {
     @Prop(Object) readonly replyToPostComment: IPostComment;
     @Prop(Object) readonly editPostComment: IPostComment;
     @Prop(Function) readonly removeImagePreview: Function;
-
     @Prop({ type: File, default: null }) image: File | null;
 
 
@@ -109,6 +109,11 @@ export default class OkCommentPostForm extends Vue {
     isPostCommentEdit = false;
     formWasSubmitted = false;
     submitInProgress = false;
+
+    imagePreview_path: string | null = null;
+
+    image_edit: File | null = null;
+
 
     @Validate(postCommentValidators)
     text = "";
@@ -144,16 +149,35 @@ export default class OkCommentPostForm extends Vue {
     }
 
     @Watch("editPostComment")
-    onEditPostCommentChanged(val: IPostComment, oldVal: IPostComment) {
+    async onEditPostCommentChanged(val: IPostComment, oldVal: IPostComment) {
         this.isPostCommentEdit = !!val;
         if (val) {
             this.text = val.text;
+            if (val.image) {
+                this.imagePreview_path = val.image.toString();
+                // convert the string to a file
+                this.image_edit = await this.utilsService.dataURLtoFile(val.image.toString());
+                console.log("The image edit is", this.image_edit);
+
+            } 
+
         }
     }
 
+
+    handleRemoveImagePreview() {
+        console.log("The handleremoveimagepreview is called");
+        this.imagePreview_path = null;
+        this.image = null;
+        this.image_edit = null;
+        this.removeImagePreview();
+        this.$emit("update:imagePreview", null); // If needed to sync with parent
+    }
+
+
     strategies = [{
         match: /(^|\s)@([a-z0-9+\-\_]*)$/,
-        search: async (term, callback) => {},
+        search: async (term, callback) => { },
         remote: async (term, callback) => {
             let v = await this.loadMentionItems('@', term, callback);
             callback(v);
@@ -166,7 +190,7 @@ export default class OkCommentPostForm extends Vue {
         },
     }, {
         match: /(^|\s)#([a-z0-9+\-\_]*)$/,
-        search: async (term, callback) => {},
+        search: async (term, callback) => { },
         remote: async (term, callback) => {
             let v = await this.loadMentionItems('#', term, callback);
             callback(v);
@@ -179,7 +203,7 @@ export default class OkCommentPostForm extends Vue {
         },
     }, {
         match: /(^|\s)c\/([a-z0-9+\-\_]*)$/,
-        search: async (term, callback) => {},
+        search: async (term, callback) => { },
         remote: async (term, callback) => {
             let v = await this.loadMentionItems('c/', term, callback);
             callback(v);
@@ -277,6 +301,7 @@ export default class OkCommentPostForm extends Vue {
         const formIsValid = await this._validateAll();
 
         this.formWasSubmitted = true;
+
         if (formIsValid) {
             await this._onSubmitWithValidForm();
         }
@@ -286,15 +311,16 @@ export default class OkCommentPostForm extends Vue {
 
     async _onSubmitWithValidForm() {
         if (this.commentPostOperation) return;
-        this.submitInProgress=true;
+        this.submitInProgress = true;
 
         try {
             this.commentPostOperation = CancelableOperation.fromPromise<IPostComment>(
                 this.editPostComment ? this.userService.editPostComment({
-                        text: this.text,
-                        post: this.post,
-                        postComment: this.editPostComment
-                    }) :
+                    text: this.text,
+                    post: this.post,
+                    image:  this.image_edit || this.image || null,
+                    postComment: this.editPostComment
+                }) :
                     this.postComment ? this.userService.replyToPostComment({
                         text: this.text,
                         post: this.post,
@@ -305,9 +331,9 @@ export default class OkCommentPostForm extends Vue {
                         image: this.image || null
                     })
             );
+
             const postComment = await this.commentPostOperation.value;
             this._onCommentedPost(postComment, this.postComment);
-            console.log("The button valiation"+this.$v.$invalid);
             this.$v.$reset();
             this.reset();
         } catch (error) {
@@ -327,8 +353,9 @@ export default class OkCommentPostForm extends Vue {
         this.text = "";
         this.replyToReplyPrependedMention = "";
         this.image = null;
+        this.imagePreview_path = null;
+        this.image_edit = null;
         this.removeImagePreview();
-
     }
 
     prependToText(value: string) {

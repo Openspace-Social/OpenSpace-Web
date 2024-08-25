@@ -354,6 +354,7 @@ export interface EditPostCommentParams {
     postComment: IPostComment;
     post: IPost;
     text: string;
+    image?: File | null;
 }
 
 export interface ReplyToPostCommentParams {
