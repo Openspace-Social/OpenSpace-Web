@@ -21,6 +21,7 @@ import { UserVisibility } from '~/models/auth/user/lib/UserVisibility';
 import listFactory from "~/models/lists/list/factory";
 import {IList} from "~/models/lists/list/IList";
 import {ListData} from "~/types/models-data/lists/ListData";
+import {data} from "autoprefixer";
 
 export class User extends DataModel<User> implements IUser {
     uuid!: string;
@@ -202,21 +203,21 @@ export class User extends DataModel<User> implements IUser {
     }
 
     canDeletePost(post: IPost): boolean {
-        return (post.isCreator(this)) || (post.community && post.community.isStaff(this));
+        return (post.isCreator(this as any)) || (post.community && post.community.isStaff(this as any));
     }
 
     canReportPost(post: IPost): boolean {
-        return !post.isCreator(this);
+        return !post.isCreator(this as any);
     }
 
     canEditPost(post: IPost) {
-        return post.isCreator(this) && !post.isClosed;
+        return post.isCreator(this as any) && !post.isClosed;
     }
 
     canCommentPost(post: IPost): boolean {
         if (post.community) {
             if (!post.commentsEnabled) {
-                return post.community.isStaff(this);
+                return post.community.isStaff(this as any);
             }
         }
 
@@ -224,15 +225,15 @@ export class User extends DataModel<User> implements IUser {
     }
 
     canDeletePostComment(postComment: IPostComment, post: IPost): boolean {
-        return (postComment.isCommenter(this)) || (post.community && post.community.isStaff(this));
+        return (postComment.isCommenter(this as any)) || (post.community && post.community.isStaff(this as any));
     }
 
     canReportPostComment(postComment: IPostComment, post: IPost): boolean {
-        return !postComment.isCommenter(this);
+        return !postComment.isCommenter(this as any);
     }
 
     canEditPostComment(postComment: IPostComment): boolean {
-        return postComment.isCommenter(this);
+        return postComment.isCommenter(this as any);
     }
 
     canBlockOrUnblockUser(user: IUser): boolean {
@@ -255,11 +256,11 @@ export class User extends DataModel<User> implements IUser {
     }
 
     canCloseOrOpenPostInCommunity(community: ICommunity): boolean {
-        return community.isAdministrator(this) || community.isModerator(this);
+        return community.isAdministrator(this as any) || community.isModerator(this as any);
     }
 
     canBanOrUnbanUsersInCommunity(community: ICommunity): boolean {
-        return community.isAdministrator(this) || community.isModerator(this);
+        return community.isAdministrator(this as any) || community.isModerator(this as any);
     }
 
     isCreatorOfCommunity(community: ICommunity): boolean {
@@ -267,25 +268,25 @@ export class User extends DataModel<User> implements IUser {
     }
 
     canChangeDetailsOfCommunity(community: ICommunity): boolean {
-        return community.isAdministrator(this);
+        return community.isAdministrator(this as any);
     }
 
     canManageCommunityAdministrators(community: ICommunity): boolean {
-        return community.canManageAdministrators(this);
+        return community.canManageAdministrators(this as any);
     }
 
     canManageCommunityModerators(community: ICommunity): boolean {
-        return community.canManageModerators(this);
+        return community.canManageModerators(this as any);
     }
 
     canEnableOrDisablePostComments(post: IPost): boolean {
-        if (post.community) return post.community.canManagePosts(this);
+        if (post.community) return post.community.canManagePosts(this as any);
 
         return false;
     }
 
     canCloseOrOpenPost(post: IPost): boolean {
-        if (post.community) return post.community.canManagePosts(this);
+        if (post.community) return post.community.canManagePosts(this as any);
 
         return false;
     }
@@ -298,5 +299,5 @@ export class User extends DataModel<User> implements IUser {
         return !user.isReported;
     }
 
-
+    followLists: IList[];
 }

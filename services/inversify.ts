@@ -59,6 +59,8 @@ import { IPostUploaderService } from '~/services/post-uploader/IPostSubmitterSer
 import { PostUploaderService } from '~/services/post-uploader/PostSubmitterService';
 import { VideoPlaybackService } from '~/services/video-playback/VideoPlaybackService';
 import { IVideoPlaybackService } from '~/services/video-playback/IVideoPlaybackService';
+import {IInvitesApiService} from "~/services/Apis/invites/IInvitesApiService";
+import {InvitesApiService} from "~/services/Apis/invites/InvitesApiService";
 
 const okunaContainer = new Container();
 
@@ -91,5 +93,6 @@ okunaContainer.bind<IWindowService>(TYPES.WindowService).to(WindowService).inSin
 okunaContainer.bind<IUserPreferencesService>(TYPES.UserPreferencesService).to(UserPreferencesService).inSingletonScope();
 okunaContainer.bind<IBootstrapService>(TYPES.BootstrapService).to(BootstrapService).inSingletonScope();
 okunaContainer.bind<IVideoPlaybackService>(TYPES.VideoPlaybackService).to(VideoPlaybackService).inSingletonScope();
+okunaContainer.bind<IInvitesApiService>(TYPES.InvitesApiService).to(InvitesApiService).inSingletonScope();
 
 export { okunaContainer };

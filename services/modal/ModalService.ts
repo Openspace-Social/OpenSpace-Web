@@ -366,6 +366,11 @@ export class ModalService implements IModalService {
         return this.openModal(ModalType.listsModal, params);
     }
 
+    async openUserInvitesModal(): Promise<void> {
+        this.ensureHasNoActiveModal();
+        return this.openModal(ModalType.userInvitesModal);
+    }
+
     notifyModalClosed(): void {
         this.ensureHasActiveModal();
         this.logModalClosed();

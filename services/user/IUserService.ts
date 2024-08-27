@@ -143,6 +143,16 @@ import { PostStatus } from '~/models/posts/post/lib/PostStatus';
 import { ILinkPreview } from '~/models/link-previews/link-preview/ILinkPreview';
 import {IGenericFile} from "~/models/common/generic/IGenericFile";
 import {IList} from "~/models/lists/list/IList";
+import {
+    CreateUserInviteApiParams,
+    DeleteUserInviteApiParams,
+    GetUserInvitesApiParams,
+    SearchUserInvitesApiParams, SendUserInviteEmailApiParams, UpdateUserInviteApiParams
+} from "~/services/Apis/invites/InvitesApiServiceTypes";
+import {AxiosResponse} from "axios";
+import {UserInvite} from "~/models/invites/UserInvite";
+import {UserInviteData} from "~/types/models-data/user-invites/UserInviteData";
+import {IUserInvite} from "~/models/invites/IUserInvite";
 
 
 export interface IUserService {
@@ -476,7 +486,20 @@ export interface IUserService {
     updateFollowList(username: string, listIds: number[]): Promise<boolean>;
 
     followFollowList(username: string, listIds: number[]): Promise<boolean>;
-    // deleteList(listId: number): Promise<void>
-
     // LISTS END
+
+
+    // Invites
+
+    getUserInvites(params: GetUserInvitesApiParams): Promise<IUserInvite[]>;
+
+    searchUserInvites(params: SearchUserInvitesApiParams): Promise<IUserInvite[]>;
+
+    deleteUserInvite(params: DeleteUserInviteApiParams): Promise<void>;
+
+    sendUserInviteEmail(params: SendUserInviteEmailApiParams): Promise<void>;
+
+    createUserInvite(params: CreateUserInviteApiParams): Promise<IUserInvite>;
+
+    updateUserInvite(params: UpdateUserInviteApiParams): Promise<IUserInvite>;
 }

@@ -445,6 +445,32 @@ export default {
         "emoji": "Emoji",
         "edit": "Edit"
     },
+    "manage_invites": {
+        "title": "My Invites",
+        "invite": "Invite",
+        "send": "Send",
+        "create_invite": "Create invite",
+        "nickname": "Nickname",
+        "create": "Create",
+        "placeholder_nickname": "e.g. John Doe",
+        "nickname_required": "Nickname is required",
+        "delete_confirm": "Are you sure you want to delete this invite?",
+        "email_invite": "Email invite",
+        "accepted": "Accepted",
+        "pending": "Pending",
+        "joined_with_username": "Joined with username @{username}",
+        "share_invite_helper": "Share invite, click to copy",
+        "share_invite_email_helper": "Share invite by email,<br/>we will send the invitation mail for you",
+        "invite_share_message": `Hey, I'd like to invite you to Openspace.
+
+First download the app on your preferred app store: Apple (https://apps.apple.com/in/app/openspace/id6467404678)
+
+Android (https://play.google.com/store/apps/details?id=social.openspace.app).
+
+or visit the website: https://web.openspace.social/
+
+Second, paste this personalised invite code in the 'Sign up' form in the Openspace App/Web: {tokenCode}`
+    },
     "global": {
         "errors": {
             "generic": {

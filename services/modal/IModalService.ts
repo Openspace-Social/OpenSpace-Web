@@ -129,6 +129,8 @@ export interface IModalService {
 
     openFollowListsModal(params: any): Promise<void>;
 
+    openUserInvitesModal(): Promise<void>;
+
     // Methods for OkModals component
     activeModal: BehaviorSubject<ModalType | undefined>
 

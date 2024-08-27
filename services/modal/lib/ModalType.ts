@@ -55,6 +55,7 @@ export class ModalType {
     static blockedUsersModal = new ModalType('BlockedUsersModal');
     static deleteAccountModal = new ModalType('DeleteAccountModal');
     static listsModal = new ModalType('ListsModal');
+    static userInvitesModal = new ModalType('UserInvitesModal');
 
 
     static _values: ModalType[] = [
@@ -112,6 +113,7 @@ export class ModalType {
         ModalType.blockedUsersModal,
         ModalType.deleteAccountModal,
         ModalType.listsModal,
+        ModalType.userInvitesModal
     ];
 
     static values() {
