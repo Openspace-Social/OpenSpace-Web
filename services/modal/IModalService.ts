@@ -127,7 +127,9 @@ export interface IModalService {
 
     openDeleteAccountModal(): Promise<void>;
 
-    openFollowListsModal(): Promise<void>;
+    openFollowListsModal(params: any): Promise<void>;
+
+    openUserInvitesModal(): Promise<void>;
 
     // Methods for OkModals component
     activeModal: BehaviorSubject<ModalType | undefined>

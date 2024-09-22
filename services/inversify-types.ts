@@ -1,3 +1,5 @@
+import { InvitesApiService } from "./Apis/invites/InvitesApiService";
+
 const TYPES = {
     UserService: Symbol.for('UserService'),
     ToastService: Symbol.for('ToastService'),
@@ -29,6 +31,7 @@ const TYPES = {
     PostUploaderService: Symbol.for('PostUploaderService'),
     BootstrapService: Symbol.for('BootstrapService'),
     VideoPlaybackService: Symbol.for('VideoPlaybackService'),
+    InvitesApiService: Symbol.for('InvitesApiService'),
 };
 
 export { TYPES };

@@ -4,7 +4,13 @@ import { DataModel } from '~/models/abstract/DataModel';
 import { DataModelAttributeMap } from '~/models/abstract/IDataModel';
 import { ModelData } from 'types/models-data/ModelData';
 import { IEmoji } from '~/models/common/emoji/IEmoji';
-import { emojiDeserializer, emojiSerializer, userDeserializer, userSerializer } from '~/models/common/serializers';
+import {
+    emojiDeserializer,
+    emojiSerializer,
+    userDeserializer,
+    usersDeserializer,
+    userSerializer, usersSerializer
+} from '~/models/common/serializers';
 
 export class List extends DataModel<List> implements IList {
     creator: IUser;
@@ -25,8 +31,8 @@ export class List extends DataModel<List> implements IList {
         {
             dataKey: 'users',
             attributeKey: 'users',
-            deserializer: userDeserializer,
-            serializer: userSerializer
+            deserializer: usersDeserializer,
+            serializer: usersSerializer
         },
         {
             dataKey: 'creator',

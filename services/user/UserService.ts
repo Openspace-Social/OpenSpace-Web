@@ -132,7 +132,7 @@ import {
     UpdateConnectionsCircleParams,
     DeleteConnectionsCircleParams,
     CheckConnectionsCircleNameIsAvailableParams,
-    GetPublicPostsParams
+    GetPublicPostsParams, CreateListsParams, UpdateListParams
 } from '~/services/user/UserServiceTypes';
 import { ICommunity } from '~/models/communities/community/ICommunity';
 import { ICommunitiesApiService } from '~/services/Apis/communities/ICommunitiesApiService';
@@ -214,6 +214,18 @@ import {IGenericFile} from "~/models/common/generic/IGenericFile";
 import {IList} from "~/models/lists/list/IList";
 import {List} from "~/models/lists/list/List";
 import listFactory from "~/models/lists/list/factory";
+import {ListData} from "~/types/models-data/lists/ListData";
+import {IUserInvite} from "~/models/invites/IUserInvite";
+import {UserInvite} from "~/models/invites/UserInvite";
+import {IInvitesApiService} from "~/services/Apis/invites/IInvitesApiService";
+import {
+    CreateUserInviteApiParams,
+    DeleteUserInviteApiParams,
+    GetUserInvitesApiParams,
+    SearchUserInvitesApiParams, SendUserInviteEmailApiParams, UpdateUserInviteApiParams
+} from "~/services/Apis/invites/InvitesApiServiceTypes";
+import userInviteFactory from "~/models/invites/factory";
+import {UserInviteData} from "~/types/models-data/user-invites/UserInviteData";
 
 
 @injectable()
@@ -237,7 +249,8 @@ export class UserService implements IUserService {
                 @inject(TYPES.HttpService) private httpService?: IHttpService,
                 @inject(TYPES.UserPreferencesService) private userPreferencesService?: IUserPreferencesService,
                 @inject(TYPES.StorageService)  storageService?: IStorageService,
-                @inject(TYPES.LoggingService)  loggingService?: ILoggingService
+                @inject(TYPES.LoggingService)  loggingService?: ILoggingService,
+                @inject(TYPES.InvitesApiService) private invitesApiService?: IInvitesApiService,
     ) {
         this.tokenStorage = storageService!.getStorage('userTokenStorage');
         this.logger = loggingService!.getLogger({
@@ -343,6 +356,7 @@ export class UserService implements IUserService {
         if (!this.loggedInUser.value || this.loggedInUser.value.username !== user.username) {
             this.setLoggedInUser(user);
         }
+        this.setLoggedInUser(user);
 
         return user;
     }
@@ -1352,6 +1366,66 @@ export class UserService implements IUserService {
         return listFactory.makeMultiple(response.data);
     }
 
+    async getList(listId: number): Promise<IList> {
+        const response: AxiosResponse<ListData> = await this.followsApiService.getSingleList(listId);
+        return listFactory.make(response.data);
+    }
+
+    async isListNameAvailable(name: string): Promise<boolean> {
+        try {
+            await this.followsApiService.listNameCheck(name);
+            return true;
+        } catch (error) {
+            if (!error || (error.response && error.response.status === 400)) return false;
+            throw error;
+        }
+    }
+
+    async createList(params: CreateListsParams): Promise<IList> {
+        const response: AxiosResponse<ListData> = await this.followsApiService.createList(
+            params.name,
+            params.emojiId
+        );
+
+        return listFactory.make(response.data);
+    }
+
+    async updateList(id: number, params: UpdateListParams): Promise<IList> {
+        const response: AxiosResponse<ListData> = await this.followsApiService.updateList(
+            id,
+            params.name,
+            params.emojiId,
+            params.usernames
+        );
+
+        return listFactory.make(response.data);
+    }
+
+    async updateFollowList(username: string, listIds: number[]): Promise<boolean> {
+        try {
+            await this.followsApiService.updateFollowList(username, listIds);
+            return true;
+        } catch (error) {
+            if (!error || (error.response && error.response.status === 400)) return false;
+            throw error;
+        }
+    }
+
+    async followFollowList(username: string, listIds: number[]): Promise<boolean> {
+        try {
+            await this.followsApiService.followFollowList(username, listIds);
+            return true;
+        } catch (error) {
+            if (!error || (error.response && error.response.status === 400)) return false;
+            throw error;
+        }
+    }
+
+    async getListEmojiGroups(): Promise<IEmojiGroup[]> {
+        const response: AxiosResponse<EmojiGroupData[]> = await this.followsApiService.getListEmojiGroups();
+        return emojiGroupFactory.makeMultiple(response.data);
+    }
+
     // LISTS END
 
     // CATEGORIES START
@@ -1428,5 +1502,34 @@ export class UserService implements IUserService {
         )
 
         return response.data;
+    }
+
+    // Invites
+    async getUserInvites(params: GetUserInvitesApiParams): Promise<IUserInvite[]> {
+        const response: AxiosResponse<UserInviteData[]> = await this.invitesApiService.getUserInvites(params);
+        return userInviteFactory.makeMultiple(response.data);
+    }
+
+    async searchUserInvites(params: SearchUserInvitesApiParams): Promise<IUserInvite[]> {
+        const response: AxiosResponse<UserInviteData[]> = await this.invitesApiService.searchUserInvites(params);
+        return userInviteFactory.makeMultiple(response.data);
+    }
+
+    async deleteUserInvite(params: DeleteUserInviteApiParams): Promise<void> {
+        await this.invitesApiService.deleteUserInvite(params);
+    }
+
+    async sendUserInviteEmail(params: SendUserInviteEmailApiParams): Promise<void> {
+        await this.invitesApiService.sendUserInviteEmail(params);
+    }
+
+    async createUserInvite(params: CreateUserInviteApiParams): Promise<IUserInvite> {
+        const response: AxiosResponse<UserInviteData> = await this.invitesApiService.createUserInvite(params);
+        return userInviteFactory.make(response.data);
+    }
+
+    async updateUserInvite(params: UpdateUserInviteApiParams): Promise<IUserInvite> {
+        const response: AxiosResponse<UserInviteData> = await this.invitesApiService.updateUserInvite(params);
+        return userInviteFactory.make(response.data);
     }
 }

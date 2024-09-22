@@ -7,4 +7,5 @@ export interface ListData extends ModelData {
     emoji: EmojiData;
     name: string;
     follows_count: number;
+    users: UserData[];
 }

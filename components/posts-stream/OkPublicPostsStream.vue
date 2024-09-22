@@ -63,7 +63,6 @@
         }
 
         refresh() {
-            console.log('Refreshing public posts stream');
             this.$refs.postsStream.refresh();
         }
     }
