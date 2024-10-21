@@ -20,7 +20,8 @@
         <div class="column is-narrow is-flex justify-center align-items-center">
             <div class="has-padding-left-20 has-padding-right-20">
                 <ok-user-profile-action-buttons
-                    :user="user"></ok-user-profile-action-buttons>
+                    @onUserActionsUpdated="$emit('onUserActionsUpdated')"
+                        :user="user"></ok-user-profile-action-buttons>
             </div>
         </div>
     </footer>

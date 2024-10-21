@@ -2,8 +2,9 @@
     <div v-if="loggedInUser && environmentResolution">
         <div v-if="user">
             <ok-desktop-user-page
-                :user="user"
-                v-if="environmentResolution !== EnvironmentResolution.mobile"></ok-desktop-user-page>
+                @onUserActionsUpdated="refreshUser"
+                    :user="user"
+                    v-if="environmentResolution !== EnvironmentResolution.mobile"></ok-desktop-user-page>
             <ok-mobile-user-page
                 :user="user"
                 v-else></ok-mobile-user-page>

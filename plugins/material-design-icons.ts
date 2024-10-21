@@ -67,6 +67,8 @@ import Palette from 'vue-material-design-icons/Palette.vue';
 import Shape from 'vue-material-design-icons/Shape.vue';
 import ArrowExpand from 'vue-material-design-icons/ArrowExpand.vue';
 import LockOpen from 'vue-material-design-icons/LockOpen.vue';
+import Share from 'vue-material-design-icons/Share.vue';
+import Chat from 'vue-material-design-icons/Chat.vue';
 
 // Full list https://materialdesignicons.com/
 
@@ -241,3 +243,7 @@ Vue.component('ok-arrow-expand-icon', ArrowExpand);
 Vue.component('ok-badge-icon', CheckIcon);
 
 Vue.component('ok-lock-open', LockOpen);
+
+Vue.component('ok-share-icon', Share);
+
+Vue.component('ok-share-chat-icon', Chat);

@@ -6,6 +6,7 @@ import { ILanguage } from '~/models/common/language/ILanguage';
 import { IPostComment } from '~/models/posts/post-comment/IPostComment';
 import { ICommunity } from '~/models/communities/community/ICommunity';
 import { UserVisibility } from '~/models/auth/user/lib/UserVisibility';
+import {IList} from "~/models/lists/list/IList";
 
 
 export interface IUser extends IDataModel<IUser> {
@@ -37,6 +38,7 @@ export interface IUser extends IDataModel<IUser> {
 
     connectedCircles: ICircle[];
     profile: IUserProfile;
+    followLists: IList[];
 
 
     incrementFollowersCount(): void;

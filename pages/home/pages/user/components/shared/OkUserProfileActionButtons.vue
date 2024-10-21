@@ -10,7 +10,9 @@
                 <ok-follow-button :user="user"></ok-follow-button>
             </div>
             <div class="column is-narrow is-flex justify-center align-items-center" v-if="!isProfileCard">
-                <ok-more-user-actions-button :user="user"></ok-more-user-actions-button>
+                <ok-more-user-actions-button
+                    @onUserActionsUpdated="$emit('onUserActionsUpdated')"
+                    :user="user"></ok-more-user-actions-button>
             </div>
         </div>
     </div>

@@ -7,6 +7,17 @@ import {
 import { FollowData } from '~/types/models-data/follows/FollowData';
 import { UserData } from '~/types/models-data/auth/UserData';
 import {List} from "~/models/lists/list/List";
+import {ListData} from "~/types/models-data/lists/ListData";
+import {IEmojiGroup} from "~/models/common/emoji-group/IEmojiGroup";
+import {EmojiGroupData} from "~/types/models-data/common/EmojiGroupData";
+import {
+    CreateUserInviteApiParams,
+    DeleteUserInviteApiParams,
+    GetUserInvitesApiParams,
+    SearchUserInvitesApiParams, SendUserInviteEmailApiParams, UpdateUserInviteApiParams
+} from "~/services/Apis/invites/InvitesApiServiceTypes";
+import {UserInviteData} from "~/types/models-data/user-invites/UserInviteData";
+import {UserInvite} from "~/models/invites/UserInvite";
 
 export interface IFollowsApiService {
 
@@ -26,12 +37,18 @@ export interface IFollowsApiService {
 
     getLists(): Promise<AxiosResponse<List[]>>;
 
-    createList(name: string, emojiId: number): Promise<AxiosResponse<List>>;
+    createList(name: string, emojiId: number): Promise<AxiosResponse<ListData>>;
 
-    updateList(listId: number, name: string, emojiId: number, usernames: string[]): Promise<AxiosResponse<List>>;
+    getListEmojiGroups(): Promise<AxiosResponse<EmojiGroupData[]>>;
+
+    updateList(listId: number, name: string, emojiId: number, usernames: string[]): Promise<AxiosResponse<ListData>>;
+
+    updateFollowList(username: string, listIds: number[]): Promise<AxiosResponse<any>>;
+
+    followFollowList(username: string, listIds: number[]): Promise<AxiosResponse<any>>;
 
     deleteList(listId: number): Promise<AxiosResponse<void>>;
 
-    getSingleList(listId: number): Promise<AxiosResponse<List>>;
+    getSingleList(listId: number): Promise<AxiosResponse<ListData>>;
 
 }
