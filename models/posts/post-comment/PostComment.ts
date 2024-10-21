@@ -27,6 +27,7 @@ import { reactionEmojiCountsUpdater } from '~/lib/reactionsEmojiCountsUpdater';
 export class PostComment extends DataModel<PostComment> implements IPostComment {
     created?: string;
     text?: string;
+    image?: string;
     language?: ILanguage;
     creatorId?: number;
     commenter?: IUser;
@@ -45,6 +46,10 @@ export class PostComment extends DataModel<PostComment> implements IPostComment 
         {
             dataKey: 'text',
             attributeKey: 'text',
+        },
+        {
+            dataKey: 'image',
+            attributeKey: 'image',
         },
         {
             dataKey: 'language',

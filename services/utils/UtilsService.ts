@@ -33,6 +33,16 @@ export class UtilsService implements IUtilsService {
     generateUuid() {
         return uuidv4();
     }
+    // create a file from a base64 string
+    async  dataURLtoFile(url: string): Promise<File> {
+        const response = await fetch(url);
+        const data = await response.blob();
+        const filename = url.substring(url.lastIndexOf('/') + 1);
+        const mime = data.type;
+        return new File([data], filename, { type: mime });
+    }
+    
+
 
     handleError(error: any): HandledError {
         let message;

@@ -45,13 +45,15 @@ export interface GetPostCommentRepliesApiParams {
 export interface CommentPostApiParams {
     postUuid: string;
     text: string;
+    image: File | null;
 }
 
 export interface EditPostCommentApiParams {
     postCommentId: number;
     postUuid: string;
     text: string;
-}
+    image?: File | null;
+    }
 
 export interface ReplyToPostCommentApiParams {
     postCommentId: number;

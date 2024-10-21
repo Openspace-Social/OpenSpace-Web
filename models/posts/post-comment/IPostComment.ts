@@ -10,6 +10,7 @@ import { IPostCommentReaction } from '~/models/posts/post-comment-reaction/IPost
 export interface IPostComment extends IDataModel<IPostComment> {
     created?: string;
     text?: string;
+    image?: string;
     language?: ILanguage;
     creatorId?: number;
     commenter?: IUser;

@@ -2,9 +2,9 @@
     <footer class="columns is-gapless ok-desktop-user-profile-header-bar">
         <div class="column is-narrow" style="width: 188px;">
             <ok-user-avatar
-                    class="ok-desktop-user-profile-header-avatar"
-                    :user="user"
-                    :avatar-size="OkAvatarSize.extraLarge"
+                class="ok-desktop-user-profile-header-avatar"
+                :user="user"
+                :avatar-size="OkAvatarSize.extraLarge"
             ></ok-user-avatar>
         </div>
         <div class="column is-flex align-items-center">
@@ -30,48 +30,48 @@
 
 <style lang="scss">
 
-    .ok-desktop-user-profile-header-bar {
-        height: 95px;
-    }
+.ok-desktop-user-profile-header-bar {
+    height: 95px;
+}
 
-    $header-avatar-padding: 25px;
+$header-avatar-padding: 25px;
 
-    .ok-desktop-user-profile-header-avatar {
-        position: absolute;
-        left: $header-avatar-padding;
-        bottom: $header-avatar-padding;
-    }
+.ok-desktop-user-profile-header-avatar {
+    position: absolute;
+    left: $header-avatar-padding;
+    bottom: $header-avatar-padding;
+}
 
 </style>
 
 
 <script lang="ts">
-    import { Component, Prop, Vue } from "nuxt-property-decorator"
-    import { IUser } from "~/models/auth/user/IUser";
-    import OkUserCover from "~/components/covers/user-cover/OkUserCover.vue";
-    import OkUserAvatar from "~/components/avatars/user-avatar/OkUserAvatar.vue";
-    import { OkAvatarSize } from "~/components/avatars/lib/OkAvatarSize";
-    import OkDesktopUserProfileHeaderBarStats
-        from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-header/components/desktop-user-profile-header-bar/components/OkDesktopUserProfileHeaderBarStats.vue";
-    import OkDesktopUserProfileHeaderBarIds
-        from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-header/components/desktop-user-profile-header-bar/components/OkDesktopUserProfileHeaderBarIds.vue";
-    import OkUserProfileActionButtons from "~/pages/home/pages/user/components/shared/OkUserProfileActionButtons.vue";
+import {Component, Prop, Vue} from "nuxt-property-decorator"
+import {IUser} from "~/models/auth/user/IUser";
+import OkUserCover from "~/components/covers/user-cover/OkUserCover.vue";
+import OkUserAvatar from "~/components/avatars/user-avatar/OkUserAvatar.vue";
+import {OkAvatarSize} from "~/components/avatars/lib/OkAvatarSize";
+import OkDesktopUserProfileHeaderBarStats
+    from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-header/components/desktop-user-profile-header-bar/components/OkDesktopUserProfileHeaderBarStats.vue";
+import OkDesktopUserProfileHeaderBarIds
+    from "~/pages/home/pages/user/components/desktop-user-profile/components/desktop-user-profile-header/components/desktop-user-profile-header-bar/components/OkDesktopUserProfileHeaderBarIds.vue";
+import OkUserProfileActionButtons from "~/pages/home/pages/user/components/shared/OkUserProfileActionButtons.vue";
 
-    @Component({
-        name: "OkDesktopUserProfileHeaderBar",
-        components: {
-            OkUserProfileActionButtons,
-            OkDesktopUserProfileHeaderBarIds,
-            OkDesktopUserProfileHeaderBarStats, OkUserAvatar, OkUserCover
-        },
-    })
-    export default class OkDesktopUserProfileHeaderBar extends Vue {
-        @Prop({
-            type: Object,
-            required: true
-        }) readonly user: IUser;
+@Component({
+    name: "OkDesktopUserProfileHeaderBar",
+    components: {
+        OkUserProfileActionButtons,
+        OkDesktopUserProfileHeaderBarIds,
+        OkDesktopUserProfileHeaderBarStats, OkUserAvatar, OkUserCover
+    },
+})
+export default class OkDesktopUserProfileHeaderBar extends Vue {
+    @Prop({
+        type: Object,
+        required: true
+    }) readonly user: IUser;
 
-        OkAvatarSize = OkAvatarSize;
+    OkAvatarSize = OkAvatarSize;
 
-    }
+}
 </script>

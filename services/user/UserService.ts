@@ -210,9 +210,9 @@ import { LinkPreviewData } from '~/types/models-data/link-previews/LinkPreviewDa
 import linkPreviewFactory from '~/models/link-previews/link-preview/factory';
 import { LinkIsPreviewableResponseData } from '~/services/Apis/posts/PostsApiServiceTypes';
 import { ILinkPreview } from '~/models/link-previews/link-preview/ILinkPreview';
-import {IGenericFile} from "~/models/common/generic/IGenericFile";
-import {IList} from "~/models/lists/list/IList";
-import {List} from "~/models/lists/list/List";
+import { IGenericFile } from "~/models/common/generic/IGenericFile";
+import { IList } from "~/models/lists/list/IList";
+import { List } from "~/models/lists/list/List";
 import listFactory from "~/models/lists/list/factory";
 import {ListData} from "~/types/models-data/lists/ListData";
 import {IUserInvite} from "~/models/invites/IUserInvite";
@@ -922,11 +922,14 @@ export class UserService implements IUserService {
     async commentPost(params: CommentPostParams): Promise<IPostComment> {
         const response: AxiosResponse<PostCommentData> = await this.postsApiService.commentPost({
             postUuid: params.post.uuid,
-            text: params.text
+            text: params.text,
+            image: params.image
         });
 
+        // Create a post comment object from the response data
         const postComment = postCommentFactory.make(response.data);
 
+        // Update the comments count on the post
         if (typeof params.post.commentsCount === 'number') {
             params.post.commentsCount++;
         } else {
@@ -935,6 +938,7 @@ export class UserService implements IUserService {
 
         return postComment;
     }
+
 
     async editPost(params: EditPostParams): Promise<IPost> {
         const response: AxiosResponse<PostData> = await this.postsApiService.editPost({
@@ -976,11 +980,15 @@ export class UserService implements IUserService {
     }
 
     async editPostComment(params: EditPostCommentParams): Promise<IPostComment> {
+        console.log("The edit post comment params : " + JSON.stringify(params.text+" , "+params.image));
+
         const response: AxiosResponse<PostCommentData> = await this.postsApiService.editPostComment({
             postUuid: params.post.uuid,
             postCommentId: params.postComment.id,
-            text: params.text
+            text: params.text,
+            image: params.image
         });
+        console.log("The edit post comment response : " + JSON.stringify(response.data));
 
         return postCommentFactory.make(response.data);
     }
@@ -1254,7 +1262,7 @@ export class UserService implements IUserService {
     }
 
     async translatePost(params: TranslatePostParams): Promise<String> {
-        const response: AxiosResponse<Object> = await this.postsApiService.translatePost({postUuid: params.post.uuid});
+        const response: AxiosResponse<Object> = await this.postsApiService.translatePost({ postUuid: params.post.uuid });
         return response.data['translated_text'];
     }
 
